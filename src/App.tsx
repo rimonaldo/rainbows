@@ -7,7 +7,7 @@ import { Alpha, Hue, ShadeSlider, Saturation, hsvaToHslaString } from '@uiw/reac
 import { Slider, Sketch, Material, Colorful, Compact, Circle, Block, Github, Chrome } from '@uiw/react-color'
 import { Color } from './services/color.class'
 import { ColorType } from './types/color'
-
+import ColorVals from './components/ColorVals'
 // type Color = {
 //    hex: string
 // }
@@ -51,33 +51,7 @@ function App() {
          <h1 style={titleStyle}>{harmony}</h1>
          <Tabs color="#FFFFFF" setTab={(scheme: string) => setHarmony(scheme)} />
          <Harmony type={harmony} color={color} />
-         <div className="color-vals">
-            <div className="hex">{color.hex}</div>
-
-            <br />
-
-            <div className="val rgb">
-               <div>r {color.rgb.r}</div>
-               <div>g {color.rgb.g.toFixed(0)}</div>
-               <div>b {color.rgb.b.toFixed(0)}</div>
-            </div>
-
-            <br />
-
-            <div className="val hsl">
-               <div>h {color.hsv.h}°</div>
-               <div>s {(color.hsv.s * 100).toFixed(0)}%</div>
-               <div>v {(color.hsv.v * 100).toFixed(0)}%</div>
-            </div>
-
-            <br />
-
-            <div className="val hsv">
-               <div>h {color.hsv.h}°</div>
-               <div>s {(color.hsv.s * 100).toFixed(0)}%</div>
-               <div>v {(color.hsv.v * 100).toFixed(0)}%</div>
-            </div>
-         </div>
+         <ColorVals color={color} />
       </div>
    )
 }
