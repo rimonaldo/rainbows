@@ -20,9 +20,10 @@ const useHarmony = (color: string, type: string) => {
          //    colors = getAnalogous(color)
          //    break
       }
+      console.log(colors)
 
       setHarmony(colors)
-   }, [color, type])
+   }, [type, color])
 
    return harmony
 }

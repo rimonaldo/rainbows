@@ -7,11 +7,11 @@ export class Color implements ColorType {
    hsl: hsl
    hsv: hsv
 
-   constructor(hex: hex) {
-      this.hex = hex
-      this.rgb = this.hexToRgb(hex)
-      this.hsl = this.rgbToHsl(this.rgb)
-      this.hsv = this.rgbToHsv(this.rgb)
+   public constructor(hex?: hex, rgb?: rgb, hsl?: hsl, hsv?: hsv) {
+      this.hex = hex || this.rgbToHex(rgb || { r: 255, g: 255, b: 255 }) || '#ffffff'
+      this.rgb = this.hexToRgb(hex || '') || rgb || { r: 255, g: 255, b: 255 }
+      this.hsl = hsl || this.rgbToHsl(this.rgb)
+      this.hsv = hsv || this.rgbToHsv(this.rgb)
    }
 
    hexToRgb(hex: hex): rgb {
@@ -46,7 +46,8 @@ export class Color implements ColorType {
       let s = 0
       let l = 0
 
-      // If the maximum and minimum values are the same, the color is gray
+      // If the maximum and minimum values are the same,
+      // the color is gray
       // and the hue, saturation, and lightness values are undefined
       if (max === min) {
          l = max
@@ -79,51 +80,40 @@ export class Color implements ColorType {
    }
 
    rgbToHsv({ r, g, b }: rgb): hsv {
-      // Normalize the RGB values to the range [0, 1]
-      r /= 255
-      g /= 255
-      b /= 255
+      const rabs = r / 255
+      const gabs = g / 255
+      const babs = b / 255
+      const v = Math.max(rabs, gabs, babs)
+      const diff = v - Math.min(rabs, gabs, babs)
+      const diffc = (c: number) => (v - c) / 6 / diff + 1 / 2
+      const percentRoundFn = (num: number) => Math.round(num * 100) / 100
 
-      // Find the maximum and minimum values of the RGB components
-      const max = Math.max(r, g, b)
-      const min = Math.min(r, g, b)
-
-      // Initialize the hue, saturation, and value variables to zero
       let h = 0
       let s = 0
-      let v = 0
 
-      // Calculate the value
-      v = max
+      if (diff !== 0) {
+         s = diff / v
+         const rr = diffc(rabs)
+         const gg = diffc(gabs)
+         const bb = diffc(babs)
 
-      // If the maximum and minimum values are the same, the color is gray
-      // and the hue and saturation values are undefined
-      if (max === min) {
-         h = 0
-         s = 0
-      } else {
-         // Calculate the saturation
-         s = (max - min) / max
-
-         // Calculate the hue
-         switch (max) {
-            case r:
-               h = (g - b) / (max - min)
-               break
-            case g:
-               h = 2 + (b - r) / (max - min)
-               break
-            case b:
-               h = 4 + (r - g) / (max - min)
-               break
+         if (rabs === v) {
+            h = bb - gg
+         } else if (gabs === v) {
+            h = 1 / 3 + rr - bb
+         } else if (babs === v) {
+            h = 2 / 3 + gg - rr
+         }
+         if (h < 0) {
+            h += 1
+         } else if (h > 1) {
+            h -= 1
          }
       }
-
-      // Scale the hue value to the range [0, 360] and return an HSV object
       return {
-         h: h * 60,
-         s: s,
-         v: v,
+         h: Math.round(h * 360),
+         s: percentRoundFn(s),
+         v: percentRoundFn(v),
       }
    }
 
@@ -212,6 +202,10 @@ export class Color implements ColorType {
          g: g * 255,
          b: b * 255,
       }
+   }
+
+   rgbToHex({ r, g, b }: rgb): hex {
+      return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)
    }
 
    // Helper functions

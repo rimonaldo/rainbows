@@ -1,5 +1,6 @@
 import React from 'react'
 import useHarmony from '../hooks/useHarmony'
+import { ColorType } from '../types/color'
 type HarmonyProps = {
    type: string
    color: string
