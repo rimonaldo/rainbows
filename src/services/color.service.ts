@@ -2,7 +2,6 @@ import { Nimble } from 'aws-sdk'
 
 export function getTriadic(hex: string) {
    const rgb: number[] | null = hexToRgb(hex)
-   if (!rgb) return []
 
    const r = rgb[0]
    const g = rgb[1]
@@ -56,9 +55,9 @@ export function getComplementary(color: string): string[] {
 
    // Then, we can use the RGB values to get the complementary color by subtracting
    // each value from 255
-   const compR = 255 - rgb[0] 
-   const compG = 255 - rgb[1] 
-   const compB = 255 - rgb[2] 
+   const compR = 255 - rgb[0]
+   const compG = 255 - rgb[1]
+   const compB = 255 - rgb[2]
    let compRgb: [r: number, g: number, b: number] = [compR, compG, compB]
    // Finally, we convert the complementary RGB values back to a hex color string
    // and return it
@@ -99,4 +98,9 @@ function rgbToHex(color: [r: number, g: number, b: number]): string {
    let g = color[1]
    let b = color[2]
    return '#' + ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0')
+}
+
+function componentToHex(c: number) {
+   var hex = c.toString(16)
+   return hex.length == 1 ? '0' + hex : hex
 }
