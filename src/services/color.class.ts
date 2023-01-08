@@ -8,7 +8,7 @@ export class Color implements ColorType {
    hsv: hsv
 
    public constructor(hex?: hex, rgb?: rgb, hsl?: hsl, hsv?: hsv) {
-      this.hex = hex || '#ffffff'
+      this.hex = hex || this.rgbToHex(rgb || { r: 255, g: 255, b: 255 }) || '#ffffff'
       this.rgb = this.hexToRgb(hex || '') || rgb || { r: 255, g: 255, b: 255 }
       this.hsl = hsl || this.rgbToHsl(this.rgb)
       this.hsv = hsv || this.rgbToHsv(this.rgb)
@@ -116,7 +116,7 @@ export class Color implements ColorType {
          v: percentRoundFn(v),
       }
    }
-   
+
    hslToRgb({ h, s, l }: hsl): rgb {
       // Initialize the red, green, and blue values to zero
       let r = 0
@@ -202,6 +202,10 @@ export class Color implements ColorType {
          g: g * 255,
          b: b * 255,
       }
+   }
+
+   rgbToHex({ r, g, b }: rgb): hex {
+      return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)
    }
 
    // Helper functions

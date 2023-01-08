@@ -14,9 +14,8 @@ export interface ColorType {
    rgbToHsv(rgb: rgb): hsv
    hslToRgb(hsl: hsl): rgb
    hsvToRgb(hsl: hsv): rgb
+   rgbToHex(rgb: rgb): hex
 
    _normalize(rgb: rgb): rgb
    _hueToRgbVal(p: number, q: number, t: number): number
 }
-
-
