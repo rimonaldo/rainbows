@@ -3,11 +3,11 @@ import useHarmony from '../hooks/useHarmony'
 import { ColorType } from '../types/color'
 type HarmonyProps = {
    type: string
-   color: ColorType
+   color: string
 }
 
 const Harmony: React.FC<HarmonyProps> = ({ type, color }) => {
-   const harmony = useHarmony(color.hex, type)
+   const harmony = useHarmony(color, type)
 
    return (
       <div className="harmony">
