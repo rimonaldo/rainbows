@@ -2,6 +2,10 @@ import { Nimble } from 'aws-sdk'
 
 export function getTriadic(hex: string) {
    const rgb: number[] | null = hexToRgb(hex)
+   if (!rgb) {
+      console.log('!rgb')
+      return []
+   }
 
    const r = rgb[0]
    const g = rgb[1]
@@ -100,7 +104,7 @@ function rgbToHex(color: [r: number, g: number, b: number]): string {
    return '#' + ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0')
 }
 
-function componentToHex(c: number) {
+function componentToHex(c:number) {
    var hex = c.toString(16)
    return hex.length == 1 ? '0' + hex : hex
 }
