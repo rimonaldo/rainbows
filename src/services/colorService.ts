@@ -1,5 +1,12 @@
 import { hex, rgb, hsl, hsv } from '../types/colorTypes'
 
+export const colorService = {
+   rgbToHsl,
+   rgbToHsv,
+   hslToRgb,
+   rgbToHex,
+}
+
 export function hexToRgb(hex: hex): rgb {
    // Parse the hex string into its individual parts
    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
@@ -95,34 +102,14 @@ export function rgbToHsv({ r, g, b }: rgb): hsv {
 }
 
 export function hslToRgb({ h, s, l }: hsl): rgb {
-   // Initialize the red, green, and blue values to zero
-   let r = 0
-   let g = 0
-   let b = 0
+   const k: (n: any) => number = n => (n + h / 30) % 12
+   const a = s * Math.min(l, 1 - l)
+   const f: (n: any) => number = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)))
 
-   // If the saturation is zero,
-   // the color is gray and all the color values
-   // are equal to the lightness
-   if (s === 0) {
-      r = g = b = l
-   } else {
-      // Calculate temporary values for
-      // red, green, and blue channels
-      const q = l < 0.5 ? l * (1 + s) : l + s - l * s
-      const p = 2 * l - q
-
-      // Calculate the red, green, and blue values
-      // using the hue value
-      r = _hueToRgbVal(p, q, h + 1 / 3)
-      g = _hueToRgbVal(p, q, h)
-      b = _hueToRgbVal(p, q, h - 1 / 3)
-   }
-
-   // Scale the red, green, and blue values to the range [0, 255] and return an RGB object
    return {
-      r: r * 255,
-      g: g * 255,
-      b: b * 255,
+      r: +(255 * f(0)).toFixed(0),
+      g: +(255 * f(8)).toFixed(0),
+      b: +(255 * f(4)).toFixed(0),
    }
 }
 
@@ -140,4 +127,3 @@ function _hueToRgbVal(p: number, q: number, t: number): number {
    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6
    return p
 }
-
