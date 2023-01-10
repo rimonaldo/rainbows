@@ -89,6 +89,40 @@ export class Color implements ColorType {
       return rgbToHex(rgb)
    }
 
+   getTriadHsls(): hsl[] {
+      const triadHues = [this.hsl.h, (this.hsl.h + 120) % 360, (this.hsl.h + 240) % 360]
+      return triadHues.map(hue => {
+         return { h: hue, s: this.hsl.s, l: this.hsl.l }
+      })
+   }
+
+   getCompHsls(): hsl[] {
+      const { h, s, l } = this.hsl
+      return [this.hsl, { h: (h + 180) % 360, s, l }]
+   }
+   getMonoHsls(): hsl[] {
+      const { h, s, l } = this.hsl
+      let color1 = { h, s, l: l >= 0.85 ? 1 : l + 0.1 }
+      let color2 = { h, s, l: l >= 0.95 ? 0.95 : l + 0.05 }
+      let color4 = { h, s, l: l <= 0.05 ? 0 : l - 0.05 }
+      let color5 = { h, s: s, l: l <= 0.1 ? 0 : l - 0.1 }
+      return [color1, color2, this.hsl, color4, color5]
+   }
+   getAnalogHsls(): hsl[] {
+      const { h, s, l } = this.hsl
+      const analogousColors = []
+      const angle = 30
+      // generate the three analogous colors by rotating the hue by +- 30 degrees
+      for (let i = -1; i <= 1; i++) {
+         analogousColors.push({ h: +(h + angle * i + 360) % 360, s, l })
+      }
+
+      return analogousColors
+   }
+   splitHsl(): hsl {
+      return { h: 0, s: 0, l: 0 }
+   }
+
    // Helper functions
    _normalize({ r, g, b }: rgb): rgb {
       return {
