@@ -5,46 +5,32 @@ import { Color } from './services/color.class'
 import { ColorType } from './types/color'
 import ColorVals from './components/ColorVals'
 import { HexColorPicker } from 'react-colorful'
-import ColorInput from './components/ColorInput'
-import { hexToRgb, rgbToHsv, rgbToHsl, hslToRgb, rgbToHex } from './services/colorService'
+import useHarmony from './hooks/useHarmony'
 function App() {
-   const [hex, setHex] = useState('#FFFFFF')
-   const [harmony, setHarmony] = useState('complementary')
-
-   const [color, setColor] = useState<ColorType>(new Color())
+   let [color, setColor] = useState<ColorType>(new Color('#ffffff'))
+   const [harmonyType, setHarmonyType] = useState('monochromatic')
+   const [harmonyColors, setHarmonyColors] = useState<string[]>([])
+   const harmony = useHarmony(color, harmonyType)
 
    const handleColorChange = (hex: string) => {
-      const newColor = new Color(hex)
-      setColor(newColor)
- 
+      color = new Color(hex)
+      setColor(color)
    }
 
-   const titleStyle = { color: hex }
+   useEffect(() => {
+      setHarmonyColors(harmony)
+   }, [harmony])
 
    const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const inputValue = +event.target.value
-      const hueValue = inputValue * 3.6 // Map input range (0-100) to hue range (0-360)
-      // color.hsl.h = hueValue
    }
-
-   const [hue, setHue] = useState(color.hsv.h)
-
-   useEffect(() => {
-      color.hsv.h = hue
-      // let newHex =
-      // setColor()
-   }, [hue])
-
-   // useEffect(() => {}, [color])
-
-   // const [color, setColor] = useState("#b32aa9");
    return (
       <div className="App" style={{ background: color?.hex }}>
          <div className="color-box">
-            <h1 style={titleStyle}>{harmony}</h1>
+            <h1>{harmonyType}</h1>
             <HexColorPicker color={color.hex} onChange={handleColorChange} />
-            <Tabs color="#FFFFFF" setTab={(scheme: string) => setHarmony(scheme)} />
-            <Harmony type={harmony} color={color.hex} />
+            <Tabs color="#FFFFFF" setTab={(scheme: string) => setHarmonyType(scheme)} />
+            <Harmony colors={harmonyColors} />
             <ColorVals color={color} onChange={ev => handleValueChange(ev)} />
             <input type="range" name="" id="" onChange={ev => handleValueChange(ev)} value={color.hsv.h / 3.6} />
          </div>
