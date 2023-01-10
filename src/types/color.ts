@@ -8,6 +8,7 @@ export interface ColorType {
    rgb: rgb
    hsl: hsl
    hsv: hsv
+   // hue: number
 
    hexToRgb(hex: hex): rgb
    rgbToHsl(rgb: rgb): hsl
@@ -18,4 +19,5 @@ export interface ColorType {
 
    _normalize(rgb: rgb): rgb
    _hueToRgbVal(p: number, q: number, t: number): number
+   // _getHueVal(): number
 }

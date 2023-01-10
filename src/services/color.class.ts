@@ -32,48 +32,39 @@ export class Color implements ColorType {
    }
 
    rgbToHsl({ r, g, b }: rgb): hsl {
-      // Normalize the RGB values to the range [0, 1]
-      r /= 255
-      g /= 255
-      b /= 255
+      ;(r /= 255), (g /= 255), (b /= 255)
 
-      // Find the maximum and minimum values of the RGB components
-      const max = Math.max(r, g, b)
-      const min = Math.min(r, g, b)
-
-      // Initialize the hue, saturation, and lightness values to zero
-      let h = 0
-      let s = 0
-      let l = 0
-
-      // If the maximum and minimum values are the same,
-      // the color is gray
-      // and the hue, saturation, and lightness values are undefined
-      if (max === min) {
-         l = max
-      } else {
-         // Calculate the lightness value
+      var max = Math.max(r, g, b),
+         min = Math.min(r, g, b)
+      var h,
+         s,
          l = (max + min) / 2
-         // Calculate the saturation value
-         s = l > 0.5 ? (max - min) / (2 - max - min) : (max - min) / (max + min)
-         // Calculate the hue value
+
+      if (max == min) {
+         h = s = 0 // achromatic
+      } else {
+         var d = max - min
+         s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+
          switch (max) {
             case r:
-               h = (g - b) / (max - min)
+               h = (g - b) / d + (g < b ? 6 : 0)
                break
             case g:
-               h = 2 + (b - r) / (max - min)
+               h = (b - r) / d + 2
                break
             case b:
-               h = 4 + (r - g) / (max - min)
+               h = (r - g) / d + 4
                break
          }
+         if (!h) return { h: 0, s, l }
+         // h /= 6
       }
 
       // Scale the hue value to the range [0, 360] and return an
       // HSL object
       return {
-         h: h * 60,
+         h: Math.round(h * 60),
          s: s,
          l: l,
       }

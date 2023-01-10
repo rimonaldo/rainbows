@@ -4,7 +4,7 @@ import Harmony from './components/Harmony'
 import { Color } from './services/color.class'
 import { ColorType } from './types/color'
 import ColorVals from './components/ColorVals'
-
+import { HexColorPicker } from 'react-colorful'
 import ColorInput from './components/ColorInput'
 
 function App() {
@@ -13,33 +13,39 @@ function App() {
 
    const [color, setColor] = useState<ColorType>(new Color())
 
-   let myColor: ColorType = new Color('#fffff')
-
    const handleColorChange = (hex: string) => {
       const newColor = new Color(hex)
       setColor(newColor)
    }
 
-   useEffect(() => {
-      // console.log(`R: ${color.rgb.r}, G: ${color.rgb.g}, B: ${color.rgb.b}`)
-      // console.log(`H: ${color.hsl.h}, S: ${color.hsl.s}, L: ${color.hsl.l}`)
-      // console.log(`H: ${color.hsv.h}, S: ${color.hsv.s}, V: ${color.hsv.v}`)
-   }, [color])
-
    const titleStyle = { color: hex }
 
    const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      console.log(event)
+      const inputValue = +event.target.value
+      const hueValue = inputValue * 3.6 // Map input range (0-100) to hue range (0-360)
+      // color.hsl.h = hueValue
    }
 
+   const [hue, setHue] = useState(color.hsv.h)
+
+   useEffect(() => {
+      color.hsv.h = hue
+      // let newHex = 
+      // setColor()
+   }, [hue])
+
+   // useEffect(() => {}, [color])
+
+   // const [color, setColor] = useState("#b32aa9");
    return (
       <div className="App" style={{ background: color?.hex }}>
          <div className="color-box">
             <h1 style={titleStyle}>{harmony}</h1>
-            <ColorInput value={color.hex} onChange={ev => handleColorChange(ev.target.value)} />
+            <HexColorPicker color={color.hex} onChange={handleColorChange} />
             <Tabs color="#FFFFFF" setTab={(scheme: string) => setHarmony(scheme)} />
             <Harmony type={harmony} color={color.hex} />
             <ColorVals color={color} onChange={ev => handleValueChange(ev)} />
+            <input type="range" name="" id="" onChange={ev => handleValueChange(ev)} value={color.hsv.h / 3.6} />
          </div>
       </div>
    )

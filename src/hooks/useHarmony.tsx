@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { Color } from '../services/color.class'
+import { ColorType } from '../types/color'
 import { getTriadic, getMonochromatic, getComplementary } from '../services/color.service'
 const useHarmony = (color: string, type: string) => {
    const [harmony, setHarmony] = useState<string[]>([])
@@ -20,7 +22,7 @@ const useHarmony = (color: string, type: string) => {
          //    colors = getAnalogous(color)
          //    break
       }
-      console.log(colors)
+      // console.log(colors)
 
       setHarmony(colors)
    }, [type, color])

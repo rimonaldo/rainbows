@@ -1,5 +1,6 @@
 import { Nimble } from 'aws-sdk'
-
+import { Color } from 'chart.js'
+import { ColorType } from '../types/color'
 export function getTriadic(hex: string) {
    const rgb: number[] | null = hexToRgb(hex)
    if (!rgb) {
@@ -46,10 +47,11 @@ export function getMonochromatic(hex: string): string[] {
          .padStart(2, '0')}`
 
       // Add the color to the array
+      
       monochromaticColors.push(colorHex)
    }
 
-   return [monochromaticColors[0], monochromaticColors[2], monochromaticColors[4]]
+   return monochromaticColors
 }
 
 export function getComplementary(color: string): string[] {
