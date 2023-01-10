@@ -6,7 +6,7 @@ import { ColorType } from './types/color'
 import ColorVals from './components/ColorVals'
 import { HexColorPicker } from 'react-colorful'
 import ColorInput from './components/ColorInput'
-
+import { hexToRgb, rgbToHsv, rgbToHsl, hslToRgb, rgbToHex } from './services/colorService'
 function App() {
    const [hex, setHex] = useState('#FFFFFF')
    const [harmony, setHarmony] = useState('complementary')
@@ -16,6 +16,7 @@ function App() {
    const handleColorChange = (hex: string) => {
       const newColor = new Color(hex)
       setColor(newColor)
+ 
    }
 
    const titleStyle = { color: hex }
@@ -30,7 +31,7 @@ function App() {
 
    useEffect(() => {
       color.hsv.h = hue
-      // let newHex = 
+      // let newHex =
       // setColor()
    }, [hue])
 
