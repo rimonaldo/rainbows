@@ -2,17 +2,15 @@ import React from 'react'
 import useHarmony from '../hooks/useHarmony'
 import { ColorType } from '../types/color'
 type HarmonyProps = {
-   type: string
-   color: string
+   colors: string[]
 }
 
-const Harmony: React.FC<HarmonyProps> = ({ type, color }) => {
-   const harmony = useHarmony(color, type)
+const Harmony: React.FC<HarmonyProps> = ({ colors }) => {
 
    return (
       <div className="harmony">
-         {harmony.map(color => (
-            <div className="color" style={{ backgroundColor: color }} />
+         {colors?.map(color => (
+            <div  className="color" style={{ backgroundColor: color }} />
          ))}
       </div>
    )
