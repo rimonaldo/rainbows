@@ -7,12 +7,13 @@ interface ColorInputProps {
 
 const ColorVals: React.FunctionComponent<ColorInputProps> = ({ color, onChange }) => {
    return (
-      <div className="color-vals" style={{ margin: '10rem auto' }}>
+      <div className="color-vals">
          <div className="hex">
+            <div className="ball" style={{ backgroundColor: color.hex }}></div>
             <input type="text" value={color.hex} onChange={onChange} name="" />
          </div>
 
-         <div className="val rgb">
+         {/* <div className="val rgb">
             <div>
                <label>r</label>
                <input type="number" value={color.rgb.r} onChange={onChange} />
@@ -61,7 +62,7 @@ const ColorVals: React.FunctionComponent<ColorInputProps> = ({ color, onChange }
                <input type="number" value={color.hsv.v * 100} onChange={onChange} />
                <label>%</label>
             </div>
-         </div>
+         </div> */}
       </div>
    )
 }

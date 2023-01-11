@@ -1,6 +1,7 @@
 import { ColorType } from '../types/color'
 import { hex, rgb, hsl, hsv } from '../types/colorTypes'
 import { hexToRgb, rgbToHsv, rgbToHsl, hslToRgb, rgbToHex } from '.././services/colorService'
+
 export class Color implements ColorType {
    hex: string
    rgb: rgb
@@ -100,14 +101,18 @@ export class Color implements ColorType {
       const { h, s, l } = this.hsl
       return [this.hsl, { h: (h + 180) % 360, s, l }]
    }
+
    getMonoHsls(): hsl[] {
       const { h, s, l } = this.hsl
-      let color1 = { h, s, l: l >= 0.85 ? 1 : l + 0.1 }
-      let color2 = { h, s, l: l >= 0.95 ? 0.95 : l + 0.05 }
-      let color4 = { h, s, l: l <= 0.05 ? 0 : l - 0.05 }
-      let color5 = { h, s: s, l: l <= 0.1 ? 0 : l - 0.1 }
-      return [color1, color2, this.hsl, color4, color5]
+      let color1 = { h, s, l: l >= 0.9 ? 1 : l + 0.1 }
+      let color2 = { h, s, l: l >= 0.9 ? 1 : l + 0.05 }
+      let color3 = { h, s, l: l >= 0.95 ? 1 : l + 0.025 }
+      let color5 = { h, s, l: l <= 0.02 ? 0 : l - 0.025 }
+      let color6 = { h, s: s, l: l <= 0.02 ? 0 : l - 0.05 }
+      let color7 = { h, s: s, l: l <= 0.1 ? 0 : l - 0.1 }
+      return [color1, color2, color3, this.hsl, color5, color6, color7]
    }
+
    getAnalogHsls(): hsl[] {
       const { h, s, l } = this.hsl
       const analogousColors = []
@@ -117,12 +122,12 @@ export class Color implements ColorType {
          analogousColors.push({ h: +(h + angle * i + 360) % 360, s, l })
       }
 
-      return analogousColors
+      return [analogousColors[1], analogousColors[2], analogousColors[0]]
    }
+
    splitHsl(): hsl {
       return { h: 0, s: 0, l: 0 }
    }
-
    // Helper functions
    _normalize({ r, g, b }: rgb): rgb {
       return {

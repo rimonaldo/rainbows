@@ -24,16 +24,20 @@ function App() {
    const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const inputValue = +event.target.value
    }
+
    return (
-      <div className="App" style={{ background: color?.hex }}>
-         <div className="color-box">
-            <h1>{harmonyType}</h1>
-            <HexColorPicker color={color.hex} onChange={handleColorChange} />
-            <Tabs color="#FFFFFF" setTab={(scheme: string) => setHarmonyType(scheme)} />
-            <Harmony colors={harmonyColors} />
-            <ColorVals color={color} onChange={ev => handleValueChange(ev)} />
-            <input type="range" name="" id="" onChange={ev => handleValueChange(ev)} value={color.hsv.h / 3.6} />
+      <div className="App">
+         <h1 style={{ color: harmonyType === 'complementary' ? harmonyColors[1] : harmonyColors[2] }}>Rainbows</h1>
+         <div className="color-box" style={{ background: color?.hex }}>
+            <div className="color-container">
+               <HexColorPicker color={color.hex} onChange={handleColorChange} />
+            </div>
+            <h2>{harmonyType}</h2>
+            {/* <input type="range" name="" id="" onChange={ev => handleValueChange(ev)} value={color.hsv.h / 3.6} /> */}
          </div>
+         <ColorVals color={color} onChange={ev => handleValueChange(ev)} />
+         <Tabs color="#FFFFFF" setTab={(scheme: string) => setHarmonyType(scheme)} />
+         <Harmony colors={harmonyColors} />
       </div>
    )
 }
