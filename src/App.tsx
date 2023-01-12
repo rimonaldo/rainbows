@@ -26,9 +26,10 @@ function App() {
    }
 
    return (
-      <div className="App">
+      <div className="App" >
          <h1 style={{ color: harmonyType === 'monochromatic' ? harmonyColors[0] : harmonyColors[1] }}>Rainbows</h1>
-         <div className="color-box" style={{ background: color?.hex }}>
+         {/* <div className="color-box" style={{ background: color?.hex }}> */}
+         <div className="color-box">
             <div className="color-container">
                <HexColorPicker color={color.hex} onChange={handleColorChange} />
             </div>
