@@ -8,14 +8,20 @@ export interface ColorType {
    rgb: rgb
    hsl: hsl
    hsv: hsv
+   // hue: number
 
    hexToRgb(hex: hex): rgb
    rgbToHsl(rgb: rgb): hsl
    rgbToHsv(rgb: rgb): hsv
    hslToRgb(hsl: hsl): rgb
-   hsvToRgb(hsl: hsv): rgb
+   hsvToRgb(hsv: hsv): rgb
    rgbToHex(rgb: rgb): hex
-
+   getTriadHsls(): hsl[]
+   getCompHsls(): hsl[]
+   getMonoHsls(): hsl[]
+   getAnalogHsls(): hsl[]
+   splitHsl(): hsl
    _normalize(rgb: rgb): rgb
    _hueToRgbVal(p: number, q: number, t: number): number
+   // _getHueVal(): number
 }

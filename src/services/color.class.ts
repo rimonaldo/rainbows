@@ -1,5 +1,6 @@
 import { ColorType } from '../types/color'
 import { hex, rgb, hsl, hsv } from '../types/colorTypes'
+import { hexToRgb, rgbToHsv, rgbToHsl, hslToRgb, rgbToHex } from '.././services/colorService'
 
 export class Color implements ColorType {
    hex: string
@@ -15,138 +16,19 @@ export class Color implements ColorType {
    }
 
    hexToRgb(hex: hex): rgb {
-      // Parse the hex string into its individual parts
-      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-      // If the hex string is invalid, return an empty object
-      if (!result) {
-         return { r: 0, g: 0, b: 0 }
-      }
-
-      // Convert the hex parts to decimal values and
-      // return an RGB object
-      return {
-         r: parseInt(result[1], 16),
-         g: parseInt(result[2], 16),
-         b: parseInt(result[3], 16),
-      }
+      return hexToRgb(hex)
    }
 
-   rgbToHsl({ r, g, b }: rgb): hsl {
-      // Normalize the RGB values to the range [0, 1]
-      r /= 255
-      g /= 255
-      b /= 255
-
-      // Find the maximum and minimum values of the RGB components
-      const max = Math.max(r, g, b)
-      const min = Math.min(r, g, b)
-
-      // Initialize the hue, saturation, and lightness values to zero
-      let h = 0
-      let s = 0
-      let l = 0
-
-      // If the maximum and minimum values are the same,
-      // the color is gray
-      // and the hue, saturation, and lightness values are undefined
-      if (max === min) {
-         l = max
-      } else {
-         // Calculate the lightness value
-         l = (max + min) / 2
-         // Calculate the saturation value
-         s = l > 0.5 ? (max - min) / (2 - max - min) : (max - min) / (max + min)
-         // Calculate the hue value
-         switch (max) {
-            case r:
-               h = (g - b) / (max - min)
-               break
-            case g:
-               h = 2 + (b - r) / (max - min)
-               break
-            case b:
-               h = 4 + (r - g) / (max - min)
-               break
-         }
-      }
-
-      // Scale the hue value to the range [0, 360] and return an
-      // HSL object
-      return {
-         h: h * 60,
-         s: s,
-         l: l,
-      }
+   rgbToHsl(rgb: rgb): hsl {
+      return rgbToHsl(rgb)
    }
 
-   rgbToHsv({ r, g, b }: rgb): hsv {
-      const rabs = r / 255
-      const gabs = g / 255
-      const babs = b / 255
-      const v = Math.max(rabs, gabs, babs)
-      const diff = v - Math.min(rabs, gabs, babs)
-      const diffc = (c: number) => (v - c) / 6 / diff + 1 / 2
-      const percentRoundFn = (num: number) => Math.round(num * 100) / 100
-
-      let h = 0
-      let s = 0
-
-      if (diff !== 0) {
-         s = diff / v
-         const rr = diffc(rabs)
-         const gg = diffc(gabs)
-         const bb = diffc(babs)
-
-         if (rabs === v) {
-            h = bb - gg
-         } else if (gabs === v) {
-            h = 1 / 3 + rr - bb
-         } else if (babs === v) {
-            h = 2 / 3 + gg - rr
-         }
-         if (h < 0) {
-            h += 1
-         } else if (h > 1) {
-            h -= 1
-         }
-      }
-      return {
-         h: Math.round(h * 360),
-         s: percentRoundFn(s),
-         v: percentRoundFn(v),
-      }
+   rgbToHsv(rgb: rgb): hsv {
+      return rgbToHsv(rgb)
    }
 
-   hslToRgb({ h, s, l }: hsl): rgb {
-      // Initialize the red, green, and blue values to zero
-      let r = 0
-      let g = 0
-      let b = 0
-
-      // If the saturation is zero,
-      // the color is gray and all the color values
-      // are equal to the lightness
-      if (s === 0) {
-         r = g = b = l
-      } else {
-         // Calculate temporary values for
-         // red, green, and blue channels
-         const q = l < 0.5 ? l * (1 + s) : l + s - l * s
-         const p = 2 * l - q
-
-         // Calculate the red, green, and blue values
-         // using the hue value
-         r = this._hueToRgbVal(p, q, h + 1 / 3)
-         g = this._hueToRgbVal(p, q, h)
-         b = this._hueToRgbVal(p, q, h - 1 / 3)
-      }
-
-      // Scale the red, green, and blue values to the range [0, 255] and return an RGB object
-      return {
-         r: r * 255,
-         g: g * 255,
-         b: b * 255,
-      }
+   hslToRgb(hsl: hsl): rgb {
+      return hslToRgb(hsl)
    }
 
    hsvToRgb({ h, s, v }: hsv): rgb {
@@ -204,10 +86,48 @@ export class Color implements ColorType {
       }
    }
 
-   rgbToHex({ r, g, b }: rgb): hex {
-      return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)
+   rgbToHex(rgb: rgb): hex {
+      return rgbToHex(rgb)
    }
 
+   getTriadHsls(): hsl[] {
+      const triadHues = [this.hsl.h, (this.hsl.h + 120) % 360, (this.hsl.h + 240) % 360]
+      return triadHues.map(hue => {
+         return { h: hue, s: this.hsl.s, l: this.hsl.l }
+      })
+   }
+
+   getCompHsls(): hsl[] {
+      const { h, s, l } = this.hsl
+      return [this.hsl, { h: (h + 180) % 360, s, l }]
+   }
+
+   getMonoHsls(): hsl[] {
+      const { h, s, l } = this.hsl
+      let color1 = { h, s, l: l >= 0.9 ? 1 : l + 0.1 }
+      let color2 = { h, s, l: l >= 0.9 ? 1 : l + 0.05 }
+      let color3 = { h, s, l: l >= 0.95 ? 1 : l + 0.025 }
+      let color5 = { h, s, l: l <= 0.02 ? 0 : l - 0.025 }
+      let color6 = { h, s: s, l: l <= 0.02 ? 0 : l - 0.05 }
+      let color7 = { h, s: s, l: l <= 0.1 ? 0 : l - 0.1 }
+      return [color1, color2, color3, this.hsl, color5, color6, color7]
+   }
+
+   getAnalogHsls(): hsl[] {
+      const { h, s, l } = this.hsl
+      const analogousColors = []
+      const angle = 30
+      // generate the three analogous colors by rotating the hue by +- 30 degrees
+      for (let i = -1; i <= 1; i++) {
+         analogousColors.push({ h: +(h + angle * i + 360) % 360, s, l })
+      }
+
+      return [analogousColors[1], analogousColors[2], analogousColors[0]]
+   }
+
+   splitHsl(): hsl {
+      return { h: 0, s: 0, l: 0 }
+   }
    // Helper functions
    _normalize({ r, g, b }: rgb): rgb {
       return {

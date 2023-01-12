@@ -1,8 +1,19 @@
 @import 'color-box';
-
-
+@import './components/color-vals';
 
 /* @import './main.scss'; */
+html {
+   // background-image: url(https://cdn.discordapp.com/attachments/1008571091616276541/1063030520281321562/rimonaldo_hq_night_sky_background_with_a_rainbow__realistic_3192ad7a-a546-40a5-b484-1f6865dd51e8.png);
+   background-size: cover;
+   background: hsla(210, 13%, 88%, 1);
+
+   background: linear-gradient(45deg, hsla(210, 13%, 88%, 1) 0%, hsla(0, 0%, 100%, 1) 100%);
+
+   background: -moz-linear-gradient(45deg, hsla(210, 13%, 88%, 1) 0%, hsla(0, 0%, 100%, 1) 100%);
+   
+   background: -webkit-linear-gradient(45deg, hsla(210, 13%, 88%, 1) 0%, hsla(0, 0%, 100%, 1) 100%);
+
+}
 
 #root {
    max-width: 1280px;

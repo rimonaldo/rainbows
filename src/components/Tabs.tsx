@@ -30,12 +30,12 @@ const Tabs: React.FC<{ color: string; setTab: (scheme: string) => void }> = ({ c
          >
             Complementary
          </button>
-         <button
+         {/* <button
             className={`tab ${activeTab === 'compound' ? 'active' : ''}`}
             onClick={() => handleTabClick('compound')}
          >
             Compound
-         </button>
+         </button> */}
          <button className={`tab ${activeTab === 'triadic' ? 'active' : ''}`} onClick={() => handleTabClick('triadic')}>
             Triadic
          </button>
