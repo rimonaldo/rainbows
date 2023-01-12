@@ -7,18 +7,23 @@ $text-color: #262833;
       display: flex;
       justify-content: center;
       padding: 3rem 0;
-      border-bottom: 1px rgb(202, 202, 202) solid;
+    //   border-bottom: 1px rgb(202, 202, 202) solid;
    }
 
    h2 {
       padding: 0;
       margin: 0;
       line-height: 3rem;
+      -webkit-text-stroke: 0.2px rgb(32, 32, 32); /* width and color */
+      font-family: Trebuchet MS (sans-serif);
+      font-size: 2rem;
+      background-color: black;
    }
 }
 
 .color-vals {
    display: flex;
+   flex-direction: column;
    margin-bottom: 1rem;
 
    .val {
@@ -67,10 +72,8 @@ $text-color: #262833;
 }
 
 .harmony {
-
-    .color-container{
-        
-    }
+   .color-container {
+   }
    height: 5rem;
    display: flex;
    align-items: center;
@@ -78,8 +81,8 @@ $text-color: #262833;
    .color {
       border-radius: 7px;
       margin: 0 -0.5em;
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 1.5rem;
+      height: 3rem;
       transition: 1s;
       &:first-child {
          //  margin: 0;
@@ -87,7 +90,7 @@ $text-color: #262833;
    }
    &:hover {
       > * {
-         margin: 0 2px;
+         margin: 0 5px;
          width: 4rem;
       }
    }

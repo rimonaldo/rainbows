@@ -27,12 +27,18 @@ function App() {
 
    return (
       <div className="App">
-         <h1 style={{ color: harmonyType === 'complementary' ? harmonyColors[1] : harmonyColors[2] }}>Rainbows</h1>
+         <h1 style={{ color: harmonyType === 'monochromatic' ? harmonyColors[0] : harmonyColors[1] }}>Rainbows</h1>
          <div className="color-box" style={{ background: color?.hex }}>
             <div className="color-container">
                <HexColorPicker color={color.hex} onChange={handleColorChange} />
             </div>
-            <h2>{harmonyType}</h2>
+            <h2
+               style={{
+                  color: harmonyType === 'monochromatic' ? harmonyColors[0] : harmonyColors[2] || harmonyColors[1],
+               }}
+            >
+               {harmonyType}
+            </h2>
             {/* <input type="range" name="" id="" onChange={ev => handleValueChange(ev)} value={color.hsv.h / 3.6} /> */}
          </div>
          <ColorVals color={color} onChange={ev => handleValueChange(ev)} />

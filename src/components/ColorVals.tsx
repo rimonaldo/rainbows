@@ -13,7 +13,7 @@ const ColorVals: React.FunctionComponent<ColorInputProps> = ({ color, onChange }
             <input type="text" value={color.hex} onChange={onChange} name="" />
          </div>
 
-         {/* <div className="val rgb">
+         <div className="val rgb">
             <div>
                <label>r</label>
                <input type="number" value={color.rgb.r} onChange={onChange} />
@@ -31,22 +31,22 @@ const ColorVals: React.FunctionComponent<ColorInputProps> = ({ color, onChange }
          <div className="val hsl">
             <div>
                <label>h</label>
-               <input type="number" value={color.hsl.h} onChange={onChange} />
+               <input type="number" value={color.hsl.h.toFixed(0)} onChange={onChange} />
                <label>°</label>
             </div>
             <div>
                <label>s</label>
-               <input type="number" value={color.hsl.s * 100} onChange={onChange} />
+               <input type="number" value={(color.hsl.s * 100).toFixed(0)} onChange={onChange} />
                <label>%</label>
             </div>
             <div>
                <label>l</label>
-               <input type="number" value={color.hsl.l * 100} onChange={onChange} />
+               <input type="number" value={(color.hsl.l * 100).toFixed(0)} onChange={onChange} />
                <label>%</label>
             </div>
          </div>
 
-         <div className="val hsl">
+         {/* <div className="val hsl">
             <div>
                <label>h</label>
                <input type="number" value={color.hsv.h} onChange={onChange} />
@@ -54,12 +54,12 @@ const ColorVals: React.FunctionComponent<ColorInputProps> = ({ color, onChange }
             </div>
             <div>
                <label>s</label>
-               <input type="number" value={color.hsv.s * 100} onChange={onChange} />
+               <input type="number" value={(color.hsv.s * 100).toFixed(0)} onChange={onChange} />
                <label>%</label>
             </div>
             <div>
                <label>v</label>
-               <input type="number" value={color.hsv.v * 100} onChange={onChange} />
+               <input type="number" value={(color.hsv.v * 100).toFixed(0)} onChange={onChange} />
                <label>%</label>
             </div>
          </div> */}
