@@ -2,7 +2,7 @@ import React from 'react'
 
 function Pallete() {
   return (
-    <div>Pallete</div>
+    <section className='pallete'>Pallete</section>
   )
 }
 

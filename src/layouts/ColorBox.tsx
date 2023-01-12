@@ -2,7 +2,7 @@ import React from 'react'
 
 function ColorBox() {
   return (
-    <div>ColorBox</div>
+    <section className='color-box'>ColorBox</section>
   )
 }
 
