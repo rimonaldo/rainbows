@@ -32,7 +32,7 @@ function App() {
    }
 
    return (
-      <div className="App main-layout-grid">
+      <div className="App main-layout">
          <header className="header">header</header>
          <HarmonyMenu setTab={(scheme: string) => setHarmonyType(scheme)} />
          <ColorBox
