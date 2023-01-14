@@ -1,9 +1,15 @@
 // Base
 @import './base/base';
 
+// Mixins
+@import './mixins/devices';
+@import './mixins/breakpoints';
+
 // components
 @import 'color-box';
 @import './components/color-vals';
+@import './components/harmony-list';
+@import './components/palette';
 
 // Layouts
 @import './layouts/grid';

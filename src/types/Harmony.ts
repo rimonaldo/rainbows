@@ -3,12 +3,8 @@ type rgb = { r: number; g: number; b: number }
 type hsl = { h: number; s: number; l: number }
 type hsv = { h: number; s: number; v: number }
 
-export interface ColorType {
-  
-   hex: hex
-   rgb: rgb
-   hsl: hsl
-   hsv: hsv
+export interface HaromnyType {
+   title: string
    // hue: number
 
    hexToRgb(hex: hex): rgb

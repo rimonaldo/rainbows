@@ -1,25 +1,7 @@
 $background-color: #fff;
 $text-color: #262833;
 
-.color-box {
-   margin-bottom: 1rem;
-   .color-container {
-      display: flex;
-      justify-content: center;
-      padding: 3rem 0;
-    //   border-bottom: 1px rgb(202, 202, 202) solid;
-   }
 
-   h2 {
-      padding: 0;
-      margin: 0;
-      line-height: 3rem;
-      -webkit-text-stroke: 0.2px rgb(32, 32, 32); /* width and color */
-      font-family: Trebuchet MS (sans-serif);
-      font-size: 2rem;
-      background-color: black;
-   }
-}
 
 .color-vals {
    display: flex;
