@@ -3,6 +3,7 @@ import { Color } from '../services/color.class'
 import { ColorType } from '../types/color'
 import { hslToRgb, rgbToHex } from '../services/colorService'
 import { getTriadic, getMonochromatic, getComplementary } from '../services/color.service'
+import axios from 'axios';
 const useHarmony = (color: ColorType = new Color('#ffffff'), type: string = 'complementary') => {
    const [harmony, setHarmony] = useState<string[]>([])
    const [colors, setColors] = useState<string[]>([])
@@ -13,6 +14,8 @@ const useHarmony = (color: ColorType = new Color('#ffffff'), type: string = 'com
          case 'monochromatic':
             let monoHsls = color.getMonoHsls()
             let MonoRgbs = monoHsls.map(hsl => hslToRgb(hsl))
+            // const data = fetch(`https://www.thecolorapi.com/id?format=svg&hex=935C5C`)
+            // const res = data.data
             colors = MonoRgbs.map(rgb => rgbToHex(rgb))
             break
          case 'triadic':

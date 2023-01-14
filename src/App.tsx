@@ -8,7 +8,7 @@ import { HexColorPicker } from 'react-colorful'
 import useHarmony from './hooks/useHarmony'
 
 import HarmonyMenu from './layouts/Harmony-menu'
-import ColorBox from './layouts/ColorBox'
+import ColorContainer from './layouts/ColorBox'
 import Palette from './layouts/palette'
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
    const [harmonyType, setHarmonyType] = useState('monochromatic')
    const [harmonyColors, setHarmonyColors] = useState<string[]>([])
    const harmony = useHarmony(color, harmonyType)
-
+   const [usedHarmony, setUsedHarmony] = useState<object | null>(null)
    const handleColorChange = (hex: string) => {
       color = new Color(hex)
       setColor(color)
@@ -25,21 +25,17 @@ function App() {
    useEffect(() => {
       setHarmonyColors(harmony)
       // console.log(color);
+      setUsedHarmony({ title: harmonyType, colors: harmonyColors || [] })
    }, [harmony])
 
    const handleValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const inputValue = +event.target.value
    }
-
    return (
       <div className="App main-layout">
          <header className="header">header</header>
          <HarmonyMenu setTab={(scheme: string) => setHarmonyType(scheme)} />
-         <ColorBox
-            harmony={{ title: harmonyType, colors: harmonyColors || [] }}
-            color={color}
-            handleColorChange={handleColorChange}
-         />
+         <ColorContainer harmony={usedHarmony} color={color} handleColorChange={handleColorChange} />
          <div className="harmony-container">
             <h2
                className="title "
@@ -51,7 +47,7 @@ function App() {
             </h2>
             <div className="base-colors"></div>
          </div>
-         <Palette palette={harmonyColors}/>
+         <Palette palette={harmonyColors} />
       </div>
    )
 }
@@ -61,7 +57,7 @@ export default App
 // return (
 //    <div className="App" >
 //       <h1 style={{ color: harmonyType === 'monochromatic' ? harmonyColors[0] : harmonyColors[1] }}>Rainbows</h1>
-//       {/* <div className="color-box" style={{ background: color?.hex }}> */}
+      // {/* <div className="color-box" style={{ background: color?.hex }}> */}
 //       <div className="color-box">
 //          <div className="color-container">
 //             <HexColorPicker color={color.hex} onChange={handleColorChange} />
