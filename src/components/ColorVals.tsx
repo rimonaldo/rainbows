@@ -13,6 +13,11 @@ const ColorVals: React.FunctionComponent<ColorInputProps> = ({ color, onChange }
             <input type="text" value={color.hex} onChange={onChange} name="" />
          </div>
 
+
+            <div className="box"></div>
+
+  
+
          <div className="val rgb">
             <div>
                <label>r</label>

@@ -1,3 +1,84 @@
+.color-container-main {
+   border: 2px black solid;
+   min-height: 600px;
+   // margin: 0 10vw;
+   width: 700px;
+   margin: 0 auto;
+   .harmony-menu {
+      display: flex;
+      justify-content: space-evenly;
+      li {
+         border: 1px rgba(173, 216, 230, 0.082) solid;
+         flex: 1;
+         text-align: center;
+         line-height: 3rem;
+         color: white;
+         background-color: rgb(49, 49, 49);
+         cursor: pointer;
+         &.active {
+            color: rgb(196, 215, 255);
+         }
+      }
+   }
+}
+
+
+
+// .color-box {
+//    position: relative;
+
+//    // border: 1px green solid;
+//    .color-picker {
+//       display: flex;
+//       justify-content: center;
+//       align-items: flex-end;
+
+//       // border: 1px green solid;
+//       position: absolute;
+//       margin: 0 auto;
+//       width: clamp(25vw, 200px, 100%);
+//    }
+// }
+
+@include tablet-desktop {
+   .color-box {
+      // border: 1px blue solid;
+   }
+
+   .color-container {
+      // margin-top: 6rem;
+      // width: clamp(150px, 30vw, 100%);
+      // margin-bottom: 3rem;
+      .color-picker {
+      }
+   }
+}
+
+.harmony-container {
+   // border: 1px red solid;
+
+   .title {
+      position: relative;
+      bottom: 2rem;
+      -webkit-text-stroke: 0.2px rgb(32, 32, 32); /* width and color */
+      font-family: Trebuchet MS (sans-serif);
+      font-size: 2rem;
+      background-color: black;
+      text-align: center;
+      width: 50%;
+      margin: 0 auto;
+      height: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 7px;
+   }
+}
+
+.base-colors {
+   // border: 1px black solid;
+}
+
 // .color-box {
 //    .color-vals {
 //       display: flex;
@@ -44,58 +125,3 @@
 //       background-color: black;
 //    }
 // }
-
-.color-box {
-   position: relative;
-
-   // border: 1px green solid;
-   .color-picker {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-
-      // border: 1px green solid;
-      position: absolute;
-      margin: 0 auto;
-      width: clamp(25vw, 200px, 100%);
-   }
-}
-
-@include tablet-desktop {
-   .color-box {
-      // border: 1px blue solid;
-   }
-
-   .color-container {
-      // margin-top: 6rem;
-      // width: clamp(150px, 30vw, 100%);
-      // margin-bottom: 3rem;
-      .color-picker {
-      }
-   }
-}
-
-.harmony-container {
-   // border: 1px red solid;
-
-   .title {
-      position: relative;
-      bottom: 2rem;
-      -webkit-text-stroke: 0.2px rgb(32, 32, 32); /* width and color */
-      font-family: Trebuchet MS (sans-serif);
-      font-size: 2rem;
-      background-color: black;
-      text-align: center;
-      width: 50%;
-      margin: 0 auto;
-      height: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 7px;
-   }
-}
-
-.base-colors{
-   // border: 1px black solid;
-}

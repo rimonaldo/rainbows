@@ -2,18 +2,23 @@ $background-color: #fff;
 $text-color: #262833;
 
 
-
 .color-vals {
    display: flex;
    flex-direction: column;
    margin-bottom: 1rem;
-
+   width: 50%;
+   border: 1px navy solid;
    .val {
       margin-bottom: 1rem;
       display: flex;
       > * {
          flex: 1;
+         input {
+            background-color: cadetblue;
+            width: 100%;
+         }
       }
+      border: 1px red solid;
    }
    .hex {
       width: 100%;
@@ -28,13 +33,13 @@ $text-color: #262833;
       }
       input {
          flex: 1;
-         width: 80%;
+         // width: 80%;
          text-align: center;
          font-size: 20px;
          transition: 0.2s;
          border: 1px rgb(235, 235, 235) solid;
          outline: none;
-
+         // width: min-content;
          &:hover {
             border: 1px rgb(205, 205, 205) solid;
          }
@@ -42,9 +47,6 @@ $text-color: #262833;
             border: 1px purple solid;
          }
       }
-   }
-
-   .rgb {
    }
 }
 
@@ -65,7 +67,7 @@ $text-color: #262833;
       // margin: 0 -0.5em;
       width: 4rem;
       height: 4rem;
-      transition: .2s;
+      transition: 0.2s;
       &:first-child {
          //  margin: 0;
       }

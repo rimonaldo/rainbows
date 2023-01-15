@@ -5,24 +5,36 @@ import { ColorType } from '.././types/color'
 type ColorBoxProps = {
    handleColorChange: (hex: string) => void
    color: ColorType
-   harmony: object | null
+   harmony: object | null | any
 }
 
-const ColorContainer: React.FC<ColorBoxProps> = ({ color, handleColorChange, harmony }) => {
+const ColorBox: React.FC<ColorBoxProps> = ({ color, handleColorChange, harmony }) => {
    return (
-      <div className="color-container">
-         <div className="color-picker">
+      <div className="">
+         <div className="color-picker-container">
             <HexColorPicker
                color={color.hex}
                onChange={handleColorChange}
-               style={{ minWidth: '100%', height: 'clamp(200px,30vw, 250px)' }}
+               style={{ minWidth: '35%', height: '17.5vw' }}
             />
+            <div className="color-settings">
+               <input type="range"  />
+               <input type="range" />
+            </div>
          </div>
+
+         <h2
+            style={{
+               color: harmony?.title === 'monochromatic' ? harmony.colors[0] : harmony.colors[2] || harmony.colors[1],
+            }}
+         >
+            {harmony.title}
+         </h2>
       </div>
    )
 }
 
-export default ColorContainer
+export default ColorBox
 
 // draft h2 harmony type title
 

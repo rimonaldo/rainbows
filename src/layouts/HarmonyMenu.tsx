@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
-type HarmoniesProps = {
+type MenuProps = {
    setTab: (scheme: string) => void
 }
-const Harmonies: React.FC<HarmoniesProps> = ({ setTab }) => {
+const HarmonyMenu: React.FC<MenuProps> = ({ setTab }) => {
    const [activeTab, setActiveTab] = useState<string>('monochromatic')
+   const tabs = ['triadic', 'analogous', 'complementary', 'monochromatic']
+   // const tabs = ['triadic',  'analogous', 'complementary', 'monochromatic']
 
    const handleTabClick = (tab: string) => {
       setActiveTab(tab)
       setTab(tab)
    }
-   const tabs = ['triadic', 'analogous', 'analogous', 'analogous', 'complementary', 'monochromatic']
-   // const tabs = ['triadic',  'analogous', 'complementary', 'monochromatic']
    return (
       <ul className="harmony-menu layout">
+         
          {tabs?.map((tab, i) => {
             return (
                <li
@@ -27,4 +28,4 @@ const Harmonies: React.FC<HarmoniesProps> = ({ setTab }) => {
    )
 }
 
-export default Harmonies
+export default HarmonyMenu
