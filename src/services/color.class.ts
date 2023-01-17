@@ -128,6 +128,23 @@ export class Color implements ColorType {
    splitHsl(): hsl {
       return { h: 0, s: 0, l: 0 }
    }
+
+   getTriadHsvs(): hsv[] {
+      const triadHues = [this.hsl.h, (this.hsl.h + 120) % 360, (this.hsl.h + 240) % 360]
+      return triadHues.map(hue => {
+         return { h: hue, s: this.hsv.s, v: this.hsv.v }
+      })
+      // return [this.hsv]
+   }
+   getCompHsvs(): hsv[] {
+      return [this.hsv]
+   }
+   getMonoHsvs(): hsv[] {
+      return [this.hsv]
+   }
+   getAnalogHsvs(): hsv[] {
+      return [this.hsv]
+   }
    // Helper functions
    _normalize({ r, g, b }: rgb): rgb {
       return {

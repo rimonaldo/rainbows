@@ -1,0 +1,16 @@
+.color-container-main {
+   .main-content {
+      padding: .5rem;
+      display: flex;
+      
+      .left-container {
+        flex: 1;
+        padding: .5rem;
+      }
+      
+      .right-container {
+        flex: 1;
+        padding: .5rem;
+      }
+   }
+}
