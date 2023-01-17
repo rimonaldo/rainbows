@@ -2,38 +2,30 @@ import { useState, useEffect } from 'react'
 import { Color } from '../services/color.class'
 import { ColorType } from '../types/color'
 import { hslToRgb, rgbToHex } from '../services/colorService'
-import { HarmonyType } from '../types/HarmonyType'
-const useHarmony = (color: ColorType = new Color('#ffffff'), type: string = 'complementary') => {
-   const [harmony, setHarmony] = useState<HarmonyType>({ type: 'complementary', mainColor: new Color('#ffffff'),colors:[] })
+import { HarmonyTitle, HarmonyType } from '../types/HarmonyType'
 
-   useEffect(() => {
-      let colors: string[] = []
-      switch (type) {
-         case 'monochromatic':
-            let monoHsls = color.getMonoHsls()
-            let monoRgbs = monoHsls.map(hsl => hslToRgb(hsl))
-            colors = monoRgbs.map(rgb => rgbToHex(rgb))
-            break
-         case 'triadic':
-            let triadHsls = color.getTriadHsls()
-            let triadRgbs = triadHsls.map(hsl => hslToRgb(hsl))
-            colors = triadRgbs.map(rgb => rgbToHex(rgb))
-            break
-         case 'complementary':
-            let compHsls = color.getCompHsls()
-            let compRgbs = compHsls.map(hsl => hslToRgb(hsl))
-            colors = compRgbs.map(rgb => rgbToHex(rgb))
-            break
-         case 'analogous':
-            let analogHsls = color.getAnalogHsls()
-            let analogRgbs = analogHsls.map(hsl => hslToRgb(hsl))
-            colors = analogRgbs.map(rgb => rgbToHex(rgb))
-            break
-      }
-      setHarmony({ type: harmony.type, mainColor: harmony.mainColor, colors })
-   }, [type, color])
+const ColorsToHslsDic = {
+   [HarmonyTitle.Monochromatic]: (color: ColorType) => color.getMonoHsls(),
+   [HarmonyTitle.Triadic]: (color: ColorType) => color.getTriadHsls(),
+   [HarmonyTitle.Complementary]: (color: ColorType) => color.getCompHsls(),
+   [HarmonyTitle.Analogous]: (color: ColorType) => color.getAnalogHsls(),
+}
 
-   return [harmony]
+const useHarmony = () => {
+   const [harmony, setHarmony] = useState<HarmonyType>({
+      title: HarmonyTitle.Complementary,
+      mainColor: new Color('#ffffff'),
+      colors: ['#ffffff'],
+   })
+
+   const handleHarmonyChange = (harmony: HarmonyType) => {
+      const hexColors = ColorsToHslsDic[harmony.title](harmony.mainColor).map(hsl => rgbToHex(hslToRgb(hsl)))
+      // console.log('harmony:', harmony)
+      harmony.colors = hexColors
+      setHarmony({ ...harmony })
+   }
+
+   return [harmony, handleHarmonyChange] as const
 }
 
 export default useHarmony
