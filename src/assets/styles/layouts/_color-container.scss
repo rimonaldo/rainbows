@@ -1,16 +1,29 @@
 .color-container-main {
+   border: 2px black solid;
+   width: 700px;
+   margin: 0 auto;
+
    .main-content {
-      padding: .5rem;
+      gap: 8px;
+      padding: 0.5rem;
       display: flex;
-      
+
       .left-container {
-        flex: 1;
-        padding: .5rem;
+         flex: 1;
+         padding: 0.5rem;
       }
-      
+
       .right-container {
-        flex: 1;
-        padding: .5rem;
+         flex: 1;
+         padding: 0.5rem;
+      }
+   }
+
+   > * {
+      border: 1px white solid;
+      > * {
+         background-color: rgba(219, 219, 219, 0.233);
+         
       }
    }
 }
