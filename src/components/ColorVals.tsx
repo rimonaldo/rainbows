@@ -37,37 +37,31 @@ const ColorVals: React.FunctionComponent<ColorInputProps> = ({ color, onChange }
             <div>
                <label>h</label>
                <input type="number" value={color.hsl.h.toFixed(0)} onChange={onChange} />
-               <label>°</label>
             </div>
             <div>
                <label>s</label>
                <input type="number" value={(color.hsl.s * 100).toFixed(0)} onChange={onChange} />
-               <label>%</label>
             </div>
             <div>
                <label>l</label>
                <input type="number" value={(color.hsl.l * 100).toFixed(0)} onChange={onChange} />
-               <label>%</label>
             </div>
          </div>
 
-         {/* <div className="val hsl">
+         <div className="val hsv">
             <div>
                <label>h</label>
                <input type="number" value={color.hsv.h} onChange={onChange} />
-               <label>°</label>
             </div>
             <div>
                <label>s</label>
                <input type="number" value={(color.hsv.s * 100).toFixed(0)} onChange={onChange} />
-               <label>%</label>
             </div>
             <div>
                <label>v</label>
                <input type="number" value={(color.hsv.v * 100).toFixed(0)} onChange={onChange} />
-               <label>%</label>
             </div>
-         </div> */}
+         </div>
       </div>
    )
 }
