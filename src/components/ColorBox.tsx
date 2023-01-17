@@ -5,25 +5,16 @@ import { ColorType } from '../types/color'
 type ColorBoxProps = {
    handleColorChange: (hex: string) => void
    color: ColorType
-   hex:string
+   hex: string
    harmony: object | null | any
 }
 
-const ColorBox: React.FC<ColorBoxProps> = ({ color, handleColorChange, harmony,hex }) => {
+const ColorBox: React.FC<ColorBoxProps> = ({ color, handleColorChange, harmony, hex }) => {
    return (
       <>
          <div className="color-picker-container">
-            <HexColorPicker
-               color={hex}
-               onChange={handleColorChange}
-               style={{ minWidth: '100%', height: '35vw' }}
-            />
-            <div className="color-settings">
-               <input type="range" />
-               <input type="range" />
-            </div>
+            <HexColorPicker color={hex} onChange={handleColorChange} style={{ minWidth: '100%' }} />
          </div>
-       
       </>
    )
 }

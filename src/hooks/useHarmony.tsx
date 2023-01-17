@@ -13,14 +13,13 @@ const ColorsToHslsDic = {
 
 const useHarmony = () => {
    const [harmony, setHarmony] = useState<HarmonyType>({
-      title: HarmonyTitle.Complementary,
+      title: HarmonyTitle.Analogous,
       mainColor: new Color('#ffffff'),
       colors: ['#ffffff'],
    })
 
    const handleHarmonyChange = (harmony: HarmonyType) => {
       const hexColors = ColorsToHslsDic[harmony.title](harmony.mainColor).map(hsl => rgbToHex(hslToRgb(hsl)))
-      // console.log('harmony:', harmony)
       harmony.colors = hexColors
       setHarmony({ ...harmony })
    }
