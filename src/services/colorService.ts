@@ -1,10 +1,13 @@
 import { hex, rgb, hsl, hsv } from '../types/colorTypes'
-
 export const colorService = {
    rgbToHsl,
    rgbToHsv,
    hslToRgb,
    rgbToHex,
+}
+
+export function rgbToHex({ r, g, b }: rgb): hex {
+   return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)
 }
 
 export function hexToRgb(hex: hex): rgb {
@@ -63,6 +66,18 @@ export function rgbToHsl({ r, g, b }: rgb): hsl {
    }
 }
 
+export function hslToRgb({ h, s, l }: hsl): rgb {
+   const k: (n: any) => number = n => (n + h / 30) % 12
+   const a = s * Math.min(l, 1 - l)
+   const f: (n: any) => number = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)))
+
+   return {
+      r: +(255 * f(0)).toFixed(0),
+      g: +(255 * f(8)).toFixed(0),
+      b: +(255 * f(4)).toFixed(0),
+   }
+}
+
 export function rgbToHsv({ r, g, b }: rgb): hsv {
    const rabs = r / 255
    const gabs = g / 255
@@ -99,22 +114,6 @@ export function rgbToHsv({ r, g, b }: rgb): hsv {
       s: percentRoundFn(s),
       v: percentRoundFn(v),
    }
-}
-
-export function hslToRgb({ h, s, l }: hsl): rgb {
-   const k: (n: any) => number = n => (n + h / 30) % 12
-   const a = s * Math.min(l, 1 - l)
-   const f: (n: any) => number = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)))
-
-   return {
-      r: +(255 * f(0)).toFixed(0),
-      g: +(255 * f(8)).toFixed(0),
-      b: +(255 * f(4)).toFixed(0),
-   }
-}
-
-export function rgbToHex({ r, g, b }: rgb): hex {
-   return '#' + ((1 << 24) | (r << 16) | (g << 8) | b).toString(16).slice(1)
 }
 
 function _hueToRgbVal(p: number, q: number, t: number): number {
