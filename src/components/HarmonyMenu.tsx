@@ -5,7 +5,7 @@ type MenuProps = {
    setTab: (scheme: HarmonyTitle) => void
 }
 const HarmonyMenu: React.FC<MenuProps> = ({ setTab }) => {
-   const [activeTab, setActiveTab] = useState<string>('monochromatic')
+   const [activeTab, setActiveTab] = useState<string>('analogous')
    const tabs = [HarmonyTitle.Analogous, HarmonyTitle.Triadic, HarmonyTitle.Complementary, HarmonyTitle.Monochromatic]
 
    const handleTabClick = (tab: HarmonyTitle) => {
