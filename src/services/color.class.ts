@@ -122,7 +122,7 @@ export class Color implements ColorType {
          analogousColors.push({ h: +(h + angle * i + 360) % 360, s, l })
       }
 
-      return [analogousColors[0], analogousColors[1], analogousColors[2]]
+      return [analogousColors[1], analogousColors[0], analogousColors[2]]
    }
 
    splitHsl(): hsl {
