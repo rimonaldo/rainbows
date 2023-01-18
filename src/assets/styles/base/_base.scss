@@ -1,0 +1,165 @@
+html {
+   // background-image: url(https://cdn.discordapp.com/attachments/1008571091616276541/1063030520281321562/rimonaldo_hq_night_sky_background_with_a_rainbow__realistic_3192ad7a-a546-40a5-b484-1f6865dd51e8.png);
+}
+
+body {
+
+   background-size: cover;
+   background: hsla(210, 13%, 88%, 1);
+   background: white;
+   background: linear-gradient(45deg, hsla(210, 12%, 80%, 1) 0%, hsla(0, 0%, 100%, 1) 100%);
+   background: -moz-linear-gradient(45deg, hsla(210, 12%, 30%, 1) 0%, hsla(0, 0%, 100%, 1) 100%);
+   background: -webkit-linear-gradient(45deg, rgb(126, 132, 138) 0%, hsla(210, 106, 122, 0.459) 70%);
+   width: 100%;
+   margin: 0;
+   border: 1px red solid;
+   min-height: 100vh;
+
+   .App {
+      width: 100%;
+      min-height: 100vh;
+   }
+   *,
+   *:after,
+   *:before {
+      box-sizing: border-box;
+   }
+}
+
+// Reset
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+   margin: 0;
+   padding: 0;
+   border: 0;
+   font-size: 100%;
+   font: inherit;
+   vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+   display: block;
+}
+body {
+   line-height: 1;
+}
+ol,
+ul {
+   list-style: none;
+}
+blockquote,
+q {
+   quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+   content: '';
+   content: none;
+}
+table {
+   border-collapse: collapse;
+   border-spacing: 0;
+}
+
+.App{
+   // max-width: 1400px;
+   border: 1px black solid;
+   margin: 0 auto;
+}

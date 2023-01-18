@@ -1,0 +1,357 @@
+// Mobile first
+.main-layout-grid {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   grid-template-rows: 1fr 1fr 2fr;
+   grid-auto-rows: 1fr;
+   gap: 0px 0px;
+   grid-auto-flow: row;
+   grid-template-areas:
+      'color-box color-box'
+      'color-box color-box'
+      'harmonies palette';
+   width: 70%;
+
+   .color-box {
+      grid-area: color-box;
+   }
+
+   .harmonies {
+      grid-area: harmonies;
+   }
+
+   .palette {
+      grid-area: palette;
+   }
+}
+
+// @include tablet-desktop {
+//    .main-layout-grid {
+//       // placment
+//       max-width: 1600px;
+//       margin: 0 auto;
+//       padding: 0 clamp(2vw, 1rem, 200px) 0;
+//       border-collapse: collapse;
+
+//       // grid
+//       display: grid;
+//       grid-auto-rows: 1fr;
+//       grid-template-columns: 1fr 2fr 1fr;
+//       grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+//       gap: 0px 1rem;
+//       width: 100%;
+
+//       // template areas
+//       // .header {
+//       //    grid-area: 1 / 1 / 2 / 4;
+//       //    background-color: red;
+//       // }
+
+//       // .harmonies {
+//       //    grid-area: 2 / 1 / 8 / 2;
+//       // }
+
+//       // .color-box {
+//       //    grid-area: 2 / 2 / 8 / 3;
+//       // }
+
+//       // .palette {
+//       //    grid-area: 2 / 3 / 8 / 4;
+//       // }
+
+//       .header {
+//          background-color: red;
+//          grid-area: 1 / 1/ 2 / 4;
+//       }
+//       .harmonies {
+//          grid-area: 2 / 1 / 8 / 2;
+//       }
+//       .color-box {
+//          grid-area: 2 / 2 / 8 / 3;
+//       }
+//       .color-container {
+//          grid-area: 2 / 2 / 4 / 3;
+//       }
+//       .harmony-title {
+//          border: 1px red solid;
+//          grid-area: 4 / 2 / 5 / 3;
+//       }
+//       .base-colors {
+//          grid-area: 5 / 2 / 6 / 3;
+//       }
+//       .palette {
+//          grid-area: 2 / 3 / 8 / 4;
+//       }
+
+//       .line-1 {
+//          grid-area: 2 / 1 / 3 / 4;
+//          border: 1px rgb(228, 228, 228) solid;
+//       }
+
+//       .line-2 {
+//          grid-area: 3 / 1 / 4 / 4;
+//          border: 1px rgb(197, 197, 197) solid;
+//       }
+
+//       .line-3 {
+//          grid-area: 4 / 1 / 5 / 4;
+//          border: 1px rgb(197, 197, 197) solid;
+//       }
+
+//       .line-4 {
+//          grid-area: 5 / 1 / 6 / 4;
+//          border: 1px rgb(197, 197, 197) solid;
+//       }
+
+//       .line-5 {
+//          grid-area: 6 / 1 / 7 / 4;
+//          border: 1px rgb(197, 197, 197) solid;
+//       }
+
+//       .line-6 {
+//          grid-area: 7 / 1 / 8 / 4;
+//          border: 1px rgb(197, 197, 197) solid;
+//       }
+//    }
+// }
+
+// @include desktop {
+//    .main-layout-grid {
+//       display: grid;
+//       grid-auto-rows: 1fr;
+//       grid-template-columns: 1fr 2fr 1fr;
+//       grid-template-rows: 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
+//       gap: 0px 0px;
+//       width: 100%;
+//    }
+//    .header {
+//       grid-area: 1 / 1 / 2 / 4;
+//    }
+//    .color-box {
+//       grid-area: 2 / 2 / 8 / 3;
+//    }
+//    .color-container {
+//       display: grid;
+//       grid-template-columns: 1fr 2fr 1fr;
+//       grid-template-rows: 1fr 1fr 1fr;
+//       gap: 0px 0px;
+//       grid-template-areas:
+//          '. color-picker .'
+//          '. color-picker .'
+//          '. color-picker .';
+//       grid-area: 2 / 2 / 4 / 3;
+//    }
+//    .color-picker {
+//       grid-area: color-picker;
+//    }
+//    .base-colors {
+//       grid-area: 5 / 2 / 6 / 3;
+//    }
+//    .palette {
+//       grid-area: 2 / 3 / 8 / 4;
+//    }
+//    .harmonies {
+//       display: grid;
+//       grid-template-columns: 1fr;
+//       grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+//       gap: 0px 0px;
+//       grid-template-areas:
+//          'left-1'
+//          'left-2'
+//          'left-3'
+//          'left-4'
+//          'left-5'
+//          'left-6';
+//       grid-area: 2 / 1 / 5 / 2;
+//    }
+//    .left-1 {
+//       grid-area: left-1;
+//    }
+//    .left-2 {
+//       grid-area: left-2;
+//    }
+//    .left-3 {
+//       grid-area: left-3;
+//    }
+//    .left-4 {
+//       grid-area: left-4;
+//    }
+//    .left-5 {
+//       grid-area: left-5;
+//    }
+//    .left-6 {
+//       grid-area: left-6;
+//    }
+//    .right-1 {
+//       grid-area: 2 / 3 / 3 / 4;
+//    }
+//    .right-2 {
+//       grid-area: 3 / 3 / 4 / 4;
+//    }
+//    .right-3 {
+//       grid-area: 4 / 3 / 5 / 4;
+//    }
+//    .right-4 {
+//       grid-area: 5 / 3 / 6 / 4;
+//    }
+//    .harmony-type {
+//       display: grid;
+//       grid-template-columns: 1fr 1fr 1fr;
+//       grid-template-rows: 1fr 1fr 1fr;
+//       gap: 0px 0px;
+//       grid-template-areas:
+//          '. . .'
+//          'title title title'
+//          '. . .';
+//       grid-area: 4 / 2 / 5 / 3;
+//    }
+//    .title {
+//       grid-area: title;
+//    }
+// }
+
+@include tablet-desktop {
+   .main-layout-grid {
+      // padding-left: 300px;
+      padding: 0   5vw;
+      // padding-left: 500px;
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      grid-template-rows: 0.75fr 1fr 1fr 1fr 1fr 1fr 0.75fr;
+      grid-auto-rows: 1fr;
+      gap: 0px 3rem;
+      grid-auto-flow: row;
+      grid-template-areas:
+         'header header header'
+         'harmony-menu color-container palette'
+         'harmony-menu color-container palette'
+         'harmony-menu harmony-container palette'
+         'harmony-menu harmony-container palette'
+         '. . palette'
+         '. . .';
+      width: 100%;
+      > * {
+         // border: 1px black solid;
+         > * {
+            // border: 1px black solid;
+         }
+      }
+   }
+
+   .header {
+      grid-area: header;
+   }
+
+   .color-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 2fr 1fr;
+      gap: 0px 0px;
+      grid-auto-flow: row;
+      grid-template-areas:
+         '. color-picker .'
+         '. color-picker .'
+         '. . .';
+      grid-area: color-container;
+   }
+
+   .color-picker {
+      grid-area: color-picker;
+   }
+
+   .harmony-menu {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+      gap: 0px 0px;
+      grid-auto-flow: row;
+      grid-template-areas:
+         'option-1'
+         'option-2'
+         'option-3'
+         'option-4'
+         'option-5'
+         'option-6';
+      grid-area: harmony-menu;
+   }
+
+   .option-1 {
+      grid-area: option-1;
+   }
+
+   .option-2 {
+      grid-area: option-2;
+   }
+
+   .option-3 {
+      grid-area: option-3;
+   }
+
+   .option-4 {
+      grid-area: option-4;
+   }
+
+   .option-5 {
+      grid-area: option-5;
+   }
+
+   .option-6 {
+      grid-area: option-6;
+   }
+
+   .palette {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+      gap: 0px 0px;
+      grid-auto-flow: row;
+      grid-template-areas:
+         'primary primary primary'
+         'accent-1 accent-1 accent-1'
+         'accent-2 accent-2 accent-2'
+         'accent-3 accent-3 accent-3'
+         'typo typo typo';
+      grid-area: palette;
+   }
+
+   .primary {
+      grid-area: primary;
+   }
+
+   .accent-1 {
+      grid-area: accent-1;
+   }
+
+   .accent-2 {
+      grid-area: accent-2;
+   }
+
+   .accent-3 {
+      grid-area: accent-3;
+   }
+
+   .typo {
+      grid-area: typo;
+   }
+
+   .harmony-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      gap: 0px 0px;
+      grid-auto-flow: row;
+      grid-template-areas:
+         'title title title'
+         'base-colors base-colors base-colors'
+         '. . .';
+      grid-area: harmony-container;
+   }
+
+   .title {
+      grid-area: title;
+   }
+
+   .base-colors {
+      grid-area: base-colors;
+   }
+}

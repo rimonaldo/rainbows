@@ -1,0 +1,31 @@
+.harmony-colors {
+   display: flex;
+   align-items: center;
+   border-radius: 7px;
+   .color {
+      position: relative;
+      height: 2.5rem;
+      flex: 1;
+      transition: 0.1s;
+      &:hover {
+         transition: .2s;
+         flex: 2;
+      }
+      .hex {
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         color: rgba(255, 255, 255, 0);
+         transition: 0.05s;
+         z-index: 2;
+         &:hover {
+            color: white;
+         }
+         span {
+         }
+      }
+   }
+}

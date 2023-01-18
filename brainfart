@@ -1,0 +1,33 @@
+// window header
+    // active tab
+
+// color picker
+    // main color 
+    // color setting -> s,l  
+
+// harmony container
+    // [harmony,setHarmony] -> useHarmony
+        // type
+        // colors (1-3)
+        
+// palette
+        // shade -> light bg | dark text
+        // accent -> contrast
+        // light
+    // main color -> eye-catching but not harsh
+        // dark
+        // accent -> optional accent
+        // shade -> dark bg | light text
+        
+
+// functuinal missions 
+// * leave clean code and commits
+
+// color setting (saturation and luminance)
+
+// state managment -> apply color class for each color 
+
+// [harmony,setHarmony] -> useHarmony (type and colors)
+
+// palette handling (to be continued...)
+

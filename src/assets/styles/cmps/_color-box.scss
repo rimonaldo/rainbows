@@ -1,0 +1,31 @@
+.color-container-main {
+ 
+   .harmony-menu {
+      display: flex;
+      justify-content: space-evenly;
+      li {
+         border: 1px rgba(173, 216, 230, 0.082) solid;
+         flex: 1;
+         text-align: center;
+         line-height: 3rem;
+         color: white;
+         background-color: rgb(49, 49, 49);
+         cursor: pointer;
+         &.active {
+            color: rgb(253, 89, 204);
+         }
+      }
+   }
+}
+
+.title {
+   -webkit-text-stroke: 0.2px rgb(32, 32, 32); /* width and color */
+   font-family: Trebuchet MS (sans-serif);
+   font-size: 2rem;
+   background-color: black;
+   text-align: center;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   // border-radius: 7px;
+}
