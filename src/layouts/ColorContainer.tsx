@@ -7,18 +7,23 @@ import ColorVals from '../components/ColorVals'
 import { HarmonyType, HarmonyTitle } from '../types/HarmonyType'
 import useHarmony from '../hooks/useHarmony'
 import HarmonyColors from '../components/HarmonyColors'
-import { ColorSlider } from '@react-spectrum/color'
 import { hsl } from '../types/colorTypes'
 import Title from '../components/HarmonyTitle'
-
+import ColorName from '../components/ColorName'
+import Picker from '../components/Picker'
+import { hslToRgb, rgbToHex } from '../services/colorService'
 const ColorContainer: React.FC = () => {
    const [color, setColor] = useState<ColorType>(new Color('#ffffff')),
       [selectedHarmony, setSelectedHarmony] = useState<HarmonyTitle>(HarmonyTitle.Analogous),
       [harmony, setHarmony] = useHarmony(),
-      [hex, setHex] = useState<string>(color.hex)
+      [hex, setHex] = useState<string>(color.hex),
+      [satVal, setSatVal] = useState<number>(harmony.mainColor.hsl.s * 100),
+      [lumVal, setLumVal] = useState<number>(harmony.mainColor.hsl.l * 100)
 
    const handleHexInput = (hex: string) => {
       setHex(hex)
+      setSatVal(color.hsl.s * 100)
+      setLumVal(color.hsl.l * 100)
    }
 
    const handleTabClick = (tab: HarmonyTitle) => {
@@ -34,37 +39,43 @@ const ColorContainer: React.FC = () => {
       setHarmony(newHarmony)
    }, [color, selectedHarmony])
 
-   const isHexValid = (hex: string) => {
-      const cleanHex = hex.substring(2, hex.length)
-      const thisRegex = /#(([0-9a-fA-F]{2}){3,4}|([0-9a-fA-F]){3,4})/g
+   const handleSatChange = (value: string) => {
+      setSatVal(+value)
+      const hsl = { ...harmony.mainColor.hsl, s: +value / 100 }
+      const rgb = hslToRgb(hsl)
+      const newHex = rgbToHex(rgb)
+      setHex(newHex)
+   }
 
-      if (thisRegex.test(hex) || hex === '') {
-         console.log('valid')
-
-         return hex
-      } else if (/^[0-9a-f]+$/.test(cleanHex) || cleanHex === '') {
-         return hex
-      }
-      console.log('unvalid')
-      return false
+   const handleLumChange = (value: string) => {
+      setLumVal(+value)
+      const hsl = { ...harmony.mainColor.hsl, l: +value / 100 }
+      const rgb = hslToRgb(hsl)
+      const newHex = rgbToHex(rgb)
+      setHex(newHex)
    }
 
    return (
       <div className="color-container-main">
          <HarmonyMenu setTab={(title: HarmonyTitle) => handleTabClick(title)} />
+         <Title harmony={harmony} />
          <section className="main-content">
             <div className="left-container">
                <ColorBox handleColorChange={handleHexInput} color={harmony.mainColor} harmony={harmony} hex={hex} />
+               <ColorName hex={color.hex} />
                <ColorVals hex={color.hex} onChange={handleHexInput} />
-               <Title harmony={harmony} />
                <HarmonyColors colors={harmony.colors} />
+               <input type="range" value={+satVal} onChange={ev => handleSatChange(ev.target.value)} />
+               <input type="text" value={satVal.toFixed(0)} onChange={ev => handleSatChange(ev.target.value)} />
+               <input type="range" value={+lumVal} onChange={ev => handleLumChange(ev.target.value)} />
+               <input type="text" value={lumVal.toFixed(0)} onChange={ev => handleLumChange(ev.target.value)} />
             </div>
 
             <div className="right-container">
-               {harmony.colors.slice(0, harmony.colors.length).map(color => {
+               {harmony.colors.slice(1, harmony.colors.length).map(color => {
                   return (
                      <>
-                        <Title harmony={harmony} />
+                        <ColorName hex={color} />
                         <ColorVals hex={color} onChange={handleHexInput} />
                      </>
                   )
