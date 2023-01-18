@@ -1,7 +1,7 @@
 # rainbows
 a colourful react-typescript app to provide color harmonies and hex,rgb,hsl and hsv values  
 
-![](https://github.com/rimonaldo/rainbows/src/assets/images/v_2-gif.gif)
+![](https://github.com/rainbows/src/assets/images/v_2-gif.gif)
 
 **Features**
 
