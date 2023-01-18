@@ -1,5 +1,5 @@
-import { ColorType } from '../types/color'
-import { Color } from '../services/color.class'
+import { ColorType } from '../../types/ColorType'
+import { Color } from '../../services/color.class'
 import { useState, useEffect } from 'react'
 import { HexColorInput } from 'react-colorful'
 interface ColorInputProps {
@@ -28,7 +28,7 @@ const ColorVals: React.FunctionComponent<ColorInputProps> = ({ onChange, hex }) 
 
          <div className="box"></div>
 
-         {/* <div className="val rgb">
+         <div className="val rgb">
             <div>
                <label>r</label>
                <input type="number" value={color.rgb.r}  />
@@ -71,7 +71,7 @@ const ColorVals: React.FunctionComponent<ColorInputProps> = ({ onChange, hex }) 
                <label>v</label>
                <input type="number" value={(color.hsv.v * 100).toFixed(0)}  />
             </div>
-         </div> */}
+         </div>
       </div>
    )
 }

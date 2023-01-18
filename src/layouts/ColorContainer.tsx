@@ -1,29 +1,27 @@
 import React, { useState, useEffect } from 'react'
-import HarmonyMenu from '../components/HarmonyMenu'
-import ColorPicker from '../components/ColorPicker'
+import HarmonyMenu from '../components/harmony/HarmonyMenu'
+import ColorPicker from '../components/color/ColorPicker'
 import { Color } from '../services/color.class'
-import { ColorType } from '../types/color'
-import ColorVals from '../components/ColorVals'
+import { ColorType } from '../types/ColorType'
+import ColorVals from '../components/color/ColorVals'
 import { HarmonyType, HarmonyTitle } from '../types/HarmonyType'
 import useHarmony from '../hooks/useHarmony'
-import HarmonyColors from '../components/HarmonyColors'
-import Title from '../components/HarmonyTitle'
-import ColorName from '../components/ColorName'
+import HarmonyColors from '../components/harmony/HarmonyColors'
+import Title from '../components/harmony/HarmonyTitle'
+import ColorName from '../components/color/ColorName'
 import { hslToRgb, rgbToHex } from '../services/colorService'
-import { hsl } from '../types/colorTypes'
-// import useColor from '../hooks/useColor'
+import { hsl } from '../types/ColorType'
+
 const ColorContainer: React.FC = () => {
    const [color, setColor] = useState<ColorType>(new Color('#ffffff')),
       [hex, setHex] = useState<string>(color.hex),
       [selectedHarmony, setSelectedHarmony] = useState<HarmonyTitle>(HarmonyTitle.Analogous),
       [harmony, setHarmony] = useHarmony(),
       [hslVal, setHslVal] = useState<hsl>(color.hsl)
-   // [col,setCol] = useColor()
    let newHarmony: HarmonyType = { title: selectedHarmony, mainColor: color, colors: [] }
 
    const handleTabClick = (tab: HarmonyTitle) => {
       setSelectedHarmony(tab)
-      // setCol(hex)
       setHarmony(newHarmony)
    }
 

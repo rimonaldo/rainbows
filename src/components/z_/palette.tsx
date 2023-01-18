@@ -1,5 +1,5 @@
 import React from 'react'
-import PaletteColor from '../components/PaletteColor'
+import PaletteColor from './PaletteColor'
 type PaletteProps = {
    palette: string[]
 }

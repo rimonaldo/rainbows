@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { HarmonyTitle } from '../types/HarmonyType'
-import useHarmony from '../hooks/useHarmony'
+import { HarmonyTitle } from '../../types/HarmonyType'
+import useHarmony from '../../hooks/useHarmony'
 type MenuProps = {
    setTab: (scheme: HarmonyTitle) => void
 }

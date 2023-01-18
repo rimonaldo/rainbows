@@ -1,4 +1,4 @@
-import { hex, rgb, hsl, hsv } from '../types/colorTypes'
+import { hex, rgb, hsl, hsv } from '../types/ColorType'
 export const colorService = {
    rgbToHsl,
    rgbToHsv,

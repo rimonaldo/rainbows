@@ -1,6 +1,11 @@
-import { ColorType } from '../types/color'
-import { hex, rgb, hsl, hsv } from '../types/colorTypes'
+import { ColorType } from '../types/ColorType'
 import { hexToRgb, rgbToHsv, rgbToHsl, hslToRgb, rgbToHex } from '.././services/colorService'
+
+export type hex = string
+export type rgb = { r: number; g: number; b: number; a?: number }
+export type hsl = { h: number; s: number; l: number; a?: number }
+export type hsv = { h: number; s: number; v: number; a?: number }
+
 
 export class Color implements ColorType {
    hex: string

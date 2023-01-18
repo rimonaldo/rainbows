@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { HexColorPicker } from 'react-colorful'
-import { ColorType } from '../types/color'
+import { ColorType } from '../../types/ColorType'
 
 type ColorPickerProps = {
    handleColorChange: (hex: string) => void
