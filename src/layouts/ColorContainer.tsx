@@ -30,8 +30,8 @@ const ColorContainer: React.FC = () => {
 
    const handleHslChange = (ev: any) => {
       const formatKey = ev.target.name
-      const formatVal = ev.target.value
-      setHslVal({ ...color.hsl, [formatKey]: +formatVal / 100 })
+      const formatVal =  ev.target.value
+      setHslVal({ ...color.hsl, [formatKey]: formatVal / 100 })
       const newHex = rgbToHex(hslToRgb(hslVal))
       setHex(newHex)
    }
