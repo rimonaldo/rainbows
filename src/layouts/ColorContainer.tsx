@@ -18,23 +18,20 @@ const ColorContainer: React.FC = () => {
       [selectedHarmony, setSelectedHarmony] = useState<HarmonyTitle>(HarmonyTitle.Analogous),
       [harmony, setHarmony] = useHarmony(),
       [hslVal, setHslVal] = useState<hsl>(color.hsl)
-   let newHarmony: HarmonyType = { title: selectedHarmony, mainColor: color, colors: [] }
 
    const handleTabClick = (tab: HarmonyTitle) => {
       setSelectedHarmony(tab)
-      setHarmony(newHarmony)
    }
 
    const handleHexChange = (hex: string) => {
       setHex(hex)
-      setHarmony(newHarmony)
       setHslVal(color.hsl)
    }
 
    const handleHslChange = (ev: any) => {
-      const name = ev.target.name
-      const value = ev.target.value
-      setHslVal({ ...color.hsl, [name]: +value / 100 })
+      const formatKey = ev.target.name
+      const formatVal = ev.target.value
+      setHslVal({ ...color.hsl, [formatKey]: +formatVal / 100 })
       const newHex = rgbToHex(hslToRgb(hslVal))
       setHex(newHex)
    }
@@ -42,6 +39,11 @@ const ColorContainer: React.FC = () => {
    useEffect(() => {
       setColor(new Color(hex))
    }, [hex])
+
+   useEffect(() => {
+      let newHarmony: HarmonyType = { title: selectedHarmony, mainColor: color, colors: [] }
+      setHarmony(newHarmony)
+   }, [color, selectedHarmony])
 
    return (
       <div className="color-container-main">
