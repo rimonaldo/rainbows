@@ -1,7 +1,9 @@
-type hex = string
-type rgb = { r: number; g: number; b: number }
-type hsl = { h: number; s: number; l: number }
-type hsv = { h: number; s: number; v: number }
+export type hex = string
+export type rgb = { r: number; g: number; b: number; a?: number }
+export type hsl = { h: number; s: number; l: number; a?: number }
+export type hsv = { h: number; s: number; v: number; a?: number }
+
+
 
 export interface ColorType {
    hex: hex
@@ -19,7 +21,7 @@ export interface ColorType {
    getCompHsls(): hsl[]
    getMonoHsls(): hsl[]
    getAnalogHsls(): hsl[]
-   
+
    getTriadHsvs(): hsv[]
    getCompHsvs(): hsv[]
    getMonoHsvs(): hsv[]
