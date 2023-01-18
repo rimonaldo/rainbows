@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from 'react'
 import { HexColorPicker } from 'react-colorful'
-import { ColorType } from '../types/color'
+import { ColorType } from '../../types/ColorType'
 
-type ColorBoxProps = {
+type ColorPickerProps = {
    handleColorChange: (hex: string) => void
    color: ColorType
    hex: string
    harmony: object | null | any
 }
 
-const ColorBox: React.FC<ColorBoxProps> = ({ color, handleColorChange, harmony, hex }) => {
+const ColorPicker: React.FC<ColorPickerProps> = ({ color, handleColorChange, harmony, hex }) => {
    return (
       <>
          <div className="color-picker-container">
@@ -19,7 +19,7 @@ const ColorBox: React.FC<ColorBoxProps> = ({ color, handleColorChange, harmony, 
    )
 }
 
-export default ColorBox
+export default ColorPicker
 
 // draft h2 harmony type title
 

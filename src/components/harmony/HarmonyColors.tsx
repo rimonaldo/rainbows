@@ -1,5 +1,5 @@
 import React from 'react'
-import { ColorType } from '../types/color'
+import { ColorType } from '../../types/ColorType'
 type HarmonyProps = {
    colors: string[]
 }
