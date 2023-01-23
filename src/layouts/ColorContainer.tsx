@@ -1,49 +1,46 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import HarmonyMenu from '../components/harmony/HarmonyMenu'
 import ColorPicker from '../components/color/ColorPicker'
-import { Color } from '../services/color.class'
-import { ColorType } from '../types/ColorType'
 import ColorVals from '../components/color/ColorVals'
 import { HarmonyType, HarmonyTitle } from '../types/HarmonyType'
 import useHarmony from '../hooks/useHarmony'
 import HarmonyColors from '../components/harmony/HarmonyColors'
 import Title from '../components/harmony/HarmonyTitle'
 import ColorName from '../components/color/ColorName'
-import { hslToRgb, rgbToHex } from '../services/colorService'
-import { hsl } from '../types/ColorType'
+import { useColorContext } from '../hooks/useColorContext'
+import ColorSliders from '../components/color/ColorSliders'
 
 const ColorContainer: React.FC = () => {
-   const [color, setColor] = useState<ColorType>(new Color('#ffffff')),
-      [hex, setHex] = useState<string>(color.hex),
-      [selectedHarmony, setSelectedHarmony] = useState<HarmonyTitle>(HarmonyTitle.Analogous),
-      [harmony, setHarmony] = useHarmony(),
-      [hslVal, setHslVal] = useState<hsl>(color.hsl)
+   const [harmony, setHarmony] = useHarmony()
+   const { color, setColor, setFromHsl } = useColorContext()
+   let newHarmony: HarmonyType = { title: harmony.title || HarmonyTitle.Analogous, mainColor: color, colors: [] }
 
    const handleTabClick = (tab: HarmonyTitle) => {
-      setSelectedHarmony(tab)
+      setHarmony({ ...newHarmony, title: tab })
    }
 
-   const handleHexChange = (hex: string) => {
-      setHex(hex)
-      setHslVal(color.hsl)
+   const handleHexChange = (newHex: string) => {
+      setColor(newHex)
    }
 
    const handleHslChange = (ev: any) => {
       const formatKey = ev.target.name
-      const formatVal =  ev.target.value
-      setHslVal({ ...color.hsl, [formatKey]: formatVal / 100 })
-      const newHex = rgbToHex(hslToRgb(hslVal))
-      setHex(newHex)
+      const formatVal = ev.target.value
+      setFromHsl({ ...color.hsl, [formatKey]: formatVal / 100 })
    }
 
    useEffect(() => {
-      setColor(new Color(hex))
-   }, [hex])
+      setHarmony({ ...newHarmony, mainColor: color })
+   }, [color])
 
-   useEffect(() => {
-      let newHarmony: HarmonyType = { title: selectedHarmony, mainColor: color, colors: [] }
-      setHarmony(newHarmony)
-   }, [color, selectedHarmony])
+   let guid = () => {
+      let s4 = () => {
+         return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1)
+      }
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
+   }
 
    return (
       <div className="color-container-main">
@@ -51,25 +48,20 @@ const ColorContainer: React.FC = () => {
          <Title harmony={harmony} />
          <section className="main-content">
             <div className="left-container">
-               <ColorPicker handleColorChange={handleHexChange} color={color} harmony={harmony} hex={hex} />
+               <ColorPicker handleColorChange={handleHexChange} hex={color.hex} />
+               <ColorSliders onChange={handleHslChange} />
                <ColorName hex={color.hex} />
                <ColorVals hex={color.hex} onChange={handleHexChange} />
                <HarmonyColors colors={harmony.colors} />
-               <form action="" onChange={ev => handleHslChange(ev)}>
-                  <input type="range" name="s" value={(hslVal.s * 100).toFixed(0)} />
-                  <input type="text" name="s" value={(hslVal.s * 100).toFixed(0)} />
-                  <input type="range" name="l" value={(hslVal.l * 100).toFixed(0)} />
-                  <input type="text" name="l" value={(hslVal.l * 100).toFixed(0)} />
-               </form>
             </div>
 
             <div className="right-container">
-               {harmony.colors.slice(1, harmony.colors.length).map(color => {
+               {harmony.colors.slice(1, harmony.colors.length).map((harHex, idx) => {
                   return (
-                     <>
-                        <ColorName hex={color} />
-                        <ColorVals hex={color} onChange={handleHexChange} />
-                     </>
+                     <div key={guid()}>
+                        <ColorName hex={harHex} />
+                        <ColorVals hex={harmony.colors[idx + 1]} onChange={handleHexChange} />
+                     </div>
                   )
                })}
             </div>
