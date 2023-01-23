@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Color } from '../services/color.class'
-import { ColorType, hex, FormatTitle, hsl, rgb, hsv } from '../types/ColorType'
+import { ColorType, hex, hsl, rgb, hsv } from '../types/ColorType'
 import { hslToRgb, hsvToRgb, rgbToHex } from '../services/colorService'
 import { colorService } from '../services/colorService'
 
