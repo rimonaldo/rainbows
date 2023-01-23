@@ -6,13 +6,12 @@ type NameProps = {
    hex: string
 }
 const ColorName: React.FC<NameProps> = ({ hex }) => {
-   const [colorName, setColorName] = useState<string>('ffffff')
+   const [colorName, setColorName] = useState<string>(GetColorName(hex))
 
    useEffect(() => {
-      let newColorName = GetColorName(hex)
-      setColorName(newColorName)
+      setColorName(GetColorName(hex))
    }, [hex])
-   
+
    return (
       <h2 className="title" style={{ color: hex }}>
          {colorName}
