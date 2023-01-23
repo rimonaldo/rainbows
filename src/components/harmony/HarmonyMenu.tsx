@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { HarmonyTitle } from '../../types/HarmonyType'
-import useHarmony from '../../hooks/useHarmony'
 import uuid from 'react-uuid'
+
 type MenuProps = {
    setTab: (scheme: HarmonyTitle) => void
 }
@@ -18,7 +18,8 @@ const HarmonyMenu: React.FC<MenuProps> = ({ setTab }) => {
       <ul className="harmony-menu layout">
          {tabs?.map((tab, i) => {
             return (
-               <li key={uuid()}
+               <li
+                  key={uuid()}
                   className={`option-${i + 1} tab ${activeTab === tab ? 'active' : ''}`}
                   onClick={() => handleTabClick(tab)}
                >

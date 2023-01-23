@@ -8,8 +8,6 @@ interface ColorInputProps {
 }
 
 const ColorVals: React.FunctionComponent<ColorInputProps> = ({ onChange, hex }) => {
-
-
    return (
       <div className="color-vals">
          <div className="hex">

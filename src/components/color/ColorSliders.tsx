@@ -5,7 +5,7 @@ type Props = {
 }
 
 const ColorSliders: React.FC<Props> = ({ onChange }) => {
-   const { color,hslVal } = useColorContext()
+   const { color, hslVal } = useColorContext()
    return (
       <>
          <input onChange={ev => onChange(ev)} type="range" name="s" value={(color.hsl.s * 100).toFixed(0)} />

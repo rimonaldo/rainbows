@@ -1,8 +1,7 @@
 import React from 'react'
-import { ColorType } from '../../types/ColorType'
 import { usePaletteContext } from '../../hooks/usePaletteContext'
 import { Color } from '../../services/color.class'
-import { hex } from '../../services/color.class'
+
 type HarmonyProps = {
    colors: string[]
 }

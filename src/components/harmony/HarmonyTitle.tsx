@@ -1,5 +1,6 @@
 import React from 'react'
 import { HarmonyType } from '../../types/HarmonyType'
+
 type TitleProps = {
    harmony: HarmonyType
 }

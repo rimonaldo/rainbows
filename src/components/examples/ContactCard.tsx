@@ -15,7 +15,7 @@ export interface PaletteColors {
 const ContactCard = () => {
    const { palette } = usePaletteContext()
    const { color } = useColorContext()
-   
+
    let css = `
     @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
@@ -146,7 +146,10 @@ footer a {
    return (
       <div>
          <style>{css}</style>
-         <div className="card-container" style={{ background: color.hex,boxShadow: '0px 10px 20px -10px rgba(0,0,0,0.75)' }}>
+         <div
+            className="card-container"
+            style={{ background: color.hex, boxShadow: '0px 10px 20px -10px rgba(0,0,0,0.75)' }}
+         >
             <span className="pro">PRO</span>
             <img className="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
             <h3>Ricky Park</h3>
