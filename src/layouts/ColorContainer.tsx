@@ -2,21 +2,25 @@ import React, { useEffect } from 'react'
 import HarmonyMenu from '../components/harmony/HarmonyMenu'
 import ColorPicker from '../components/color/ColorPicker'
 import ColorVals from '../components/color/ColorVals'
-import { HarmonyType, HarmonyTitle } from '../types/HarmonyType'
-import useHarmony from '../hooks/useHarmony'
+import { HarmonyTitle } from '../types/HarmonyType'
 import HarmonyColors from '../components/harmony/HarmonyColors'
 import Title from '../components/harmony/HarmonyTitle'
 import ColorName from '../components/color/ColorName'
 import { useColorContext } from '../hooks/useColorContext'
 import ColorSliders from '../components/color/ColorSliders'
-
+import { useHarmonyContext } from '../hooks/useHarmonyContext'
+import { randomPrimaryHsl } from '../services/paletteService'
 const ColorContainer: React.FC = () => {
-   const [harmony, setHarmony] = useHarmony()
-   const { color, setColor, setFromHsl } = useColorContext()
-   let newHarmony: HarmonyType = { title: harmony.title || HarmonyTitle.Analogous, mainColor: color, colors: [] }
+   const { color, setColor, setColorFromHsl } = useColorContext()
+   const { setHarmony, scheme, setScheme } = useHarmonyContext()
+
+   useEffect(() => {
+      setColor(getRandomHex())
+   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
    const handleTabClick = (tab: HarmonyTitle) => {
-      setHarmony({ ...newHarmony, title: tab })
+      setHarmony(color)
+      setScheme({ ...scheme, title: tab })
    }
 
    const handleHexChange = (newHex: string) => {
@@ -26,11 +30,11 @@ const ColorContainer: React.FC = () => {
    const handleHslChange = (ev: any) => {
       const formatKey = ev.target.name
       const formatVal = ev.target.value
-      setFromHsl({ ...color.hsl, [formatKey]: formatVal / 100 })
+      setColorFromHsl({ ...color.hsl, [formatKey]: formatVal / 100 })
    }
 
    useEffect(() => {
-      setHarmony({ ...newHarmony, mainColor: color })
+      setHarmony(color)
    }, [color])
 
    let guid = () => {
@@ -42,25 +46,34 @@ const ColorContainer: React.FC = () => {
       return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
    }
 
+   function getRandomHex() {
+      var letters = '0123456789ABCDEF'
+      var color = '#'
+      for (var i = 0; i < 6; i++) {
+         color += letters[Math.floor(Math.random() * 16)]
+      }
+      return color
+   }
+
    return (
       <div className="color-container-main">
          <HarmonyMenu setTab={(title: HarmonyTitle) => handleTabClick(title)} />
-         <Title harmony={harmony} />
+         <Title scheme={scheme} />
          <section className="main-content">
             <div className="left-container">
                <ColorPicker handleColorChange={handleHexChange} hex={color.hex} />
-               <ColorSliders onChange={handleHslChange} />
+               <ColorSliders color={color} onChange={handleHslChange} />
                <ColorName hex={color.hex} />
                <ColorVals hex={color.hex} onChange={handleHexChange} />
-               <HarmonyColors colors={harmony.colors} />
+               <HarmonyColors scheme={scheme} />
             </div>
 
             <div className="right-container">
-               {harmony.colors.slice(1, harmony.colors.length).map((harHex, idx) => {
+               {scheme.colors.slice(1, scheme.colors.length).map((color, idx) => {
                   return (
                      <div key={guid()}>
-                        <ColorName hex={harHex} />
-                        <ColorVals hex={harmony.colors[idx + 1]} onChange={handleHexChange} />
+                        <ColorName hex={color.hex} />
+                        <ColorVals hex={color.hex} onChange={handleHexChange} />
                      </div>
                   )
                })}
