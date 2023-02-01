@@ -10,10 +10,9 @@
 
    .content {
       display: flex;
-      flex-direction: column;
+      border: 1px black solid;
       .palette-color {
          flex: 1;
-         // width: 20%;
          .hex {
             text-align: center;
          }
