@@ -4,14 +4,9 @@ import { Color } from '../services/color.class'
 import { useHarmonyContext } from './useHarmonyContext'
 import ratio, { RgbColor } from 'contrast-ratio'
 import { getRandomAAColor } from 'accessible-colors'
-// map tones to array of colors with same hue and saturation but different lightness
 
-const enum PaletteModel {
-   Jewl = 'jewl',
-   Earth = 'earth',
-   Pastel = 'pastel',
-   Neon = 'neon',
-}
+import { PaletteModel, PaletteType, PaletteColorTitle, Palette } from '../types/PaletteType'
+// map tones to array of colors with same hue and saturation but different lightness
 
 const ranges = {
    [PaletteModel.Jewl]: { s: { min: 0.57, max: 0.71 }, l: { min: 0.33, max: 0.44 } },
@@ -85,47 +80,6 @@ const generateTones = (color: ColorType, isLimited: boolean = false) => {
 
 // set color roles - color | onColor | container | onContainer
 // const setRoles = (color: ColorType) => {
-
-export interface PaletteType {
-   title: string
-   colors: ColorType[]
-   primary: ColorType
-   secondary: ColorType
-   neutral: ColorType
-   info: ColorType
-   warning: ColorType
-   error: ColorType
-   success: ColorType
-}
-
-export enum PaletteColorTitle {
-   Primary = 'primary',
-   Secondary = 'secondary',
-   Neutral = 'neutral',
-   Info = 'info',
-   Warning = 'warning',
-   Error = 'error',
-   Success = 'success',
-}
-
-export class Palette implements PaletteType {
-   title: string
-   colors: ColorType[]
-   primary: ColorType = new Color({})
-   secondary: ColorType = new Color({})
-   neutral: ColorType = new Color({})
-   info: ColorType = new Color({})
-   warning: ColorType = new Color({})
-   error: ColorType = new Color({})
-   success: ColorType = new Color({})
-
-   constructor({ title, colors, primary }: { title?: string; colors?: ColorType[]; primary?: ColorType }) {
-      this.title = title || 'Untitled'
-      this.colors = colors || []
-      this.primary = primary || new Color({})
-      this.secondary = new Color({})
-   }
-}
 
 export const addColor = (palette: PaletteType, color: ColorType) => {
    const index = palette.colors.findIndex(c => c.hex === color.hex)
