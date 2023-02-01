@@ -1,18 +1,18 @@
 import React from 'react'
-import { HarmonyType } from '../../types/HarmonyType'
+import { SchemeType } from '../../types/HarmonyType'
 
 type TitleProps = {
-   harmony: HarmonyType
+   scheme: SchemeType
 }
-const Title: React.FC<TitleProps> = ({ harmony }) => {
+const Title: React.FC<TitleProps> = ({ scheme }) => {
    return (
       <h2
-         className="title"
-         style={{
-            color: harmony?.title === 'monochromatic' ? harmony.colors[0] : harmony.colors[2] || harmony.colors[1],
-         }}
+         // className="title"
+         // style={{
+         //    color: scheme?.title === 'monochromatic' ? scheme.colors[0] : scheme.colors[2] || scheme.colors[1],
+         // }}
       >
-         {harmony.title}
+         {scheme.title}
       </h2>
    )
 }

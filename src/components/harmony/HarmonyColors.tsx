@@ -1,12 +1,12 @@
 import React from 'react'
 import { usePaletteContext } from '../../hooks/usePaletteContext'
 import { Color } from '../../services/color.class'
-
+import { SchemeType } from '../../types/HarmonyType'
 type HarmonyProps = {
-   colors: string[]
+   scheme: SchemeType
 }
 
-const Harmony: React.FC<HarmonyProps> = ({ colors }) => {
+const Harmony: React.FC<HarmonyProps> = ({ scheme }) => {
    const { palette, addColor } = usePaletteContext()
 
    let guid = () => {
@@ -20,10 +20,10 @@ const Harmony: React.FC<HarmonyProps> = ({ colors }) => {
 
    return (
       <div className="harmony-colors">
-         {colors?.map(color => (
-            <div key={guid()} className="color" style={{ background: color }}>
+         {scheme.colors?.map(color => (
+            <div key={guid()} className="color" style={{ background: color.hex }}>
                <div className="hex">
-                  <span onClick={() => addColor(new Color(color))}>{color}</span>
+                  <span onClick={() => addColor(color)}>{color.hex}</span>
                </div>
             </div>
          ))}

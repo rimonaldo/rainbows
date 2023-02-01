@@ -1,12 +1,13 @@
 import React from 'react'
 import { useColorContext } from '../../hooks/useColorContext'
 import Slider from '../../features/Slider'
+import { ColorType } from '../../types/ColorType'
 type Props = {
    onChange: (ev: React.ChangeEvent<HTMLInputElement>) => void
+   color: ColorType
 }
 
-const ColorSliders: React.FC<Props> = ({ onChange }) => {
-   const { color, hslVal } = useColorContext()
+const ColorSliders: React.FC<Props> = ({ onChange, color }) => {
    const hue = +color.hsl.h.toFixed(0)
    const saturation = +(color.hsl.s * 100).toFixed(0)
    const luminance = +(color.hsl.l * 100).toFixed(0)

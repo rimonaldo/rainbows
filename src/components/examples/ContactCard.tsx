@@ -148,18 +148,25 @@ footer a {
          <style>{css}</style>
          <div
             className="card-container"
-            style={{ background: color.hex, boxShadow: '0px 10px 20px -10px rgba(0,0,0,0.75)' }}
+            style={{ background: palette.neutral.hex, boxShadow: '0px 10px 20px -10px rgba(0,0,0,0.75)' }}
          >
-            <span className="pro">PRO</span>
-            <img className="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
+            <span className="pro" style={{background:palette.secondary.hex}}>PRO</span>
+            <img style={{ border: `1px ${palette.primary.hex} solid` }} className="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
             <h3>Ricky Park</h3>
             <h6>New York</h6>
             <p>
                User interface designer and <br /> front-end developer
             </p>
             <div className="buttons">
-               <button className="primary">Message</button>
-               <button className="primary ghost">Following</button>
+               <button
+                  className="primary"
+                  style={{ backgroundColor: palette.primary.hex, border: `1px ${palette.primary.hex} solid` }}
+               >
+                  Message
+               </button>
+               <button style={{ border: `1px ${palette.primary.hex} solid` }} className="primary ghost">
+                  Following
+               </button>
             </div>
             <div className="skills">
                <h6>Skills</h6>
