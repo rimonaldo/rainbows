@@ -1,4 +1,4 @@
-import { ColorType } from '../types/ColorType'
+import { ColorType, MiniColorType } from '../types/ColorType'
 import { hexToRgb, rgbToHsv, rgbToHsl, hslToRgb, rgbToHex } from '.././services/colorService'
 
 export type hex = string
@@ -6,20 +6,55 @@ export type rgb = { r: number; g: number; b: number; a?: number }
 export type hsl = { h: number; s: number; l: number; a?: number }
 export type hsv = { h: number; s: number; v: number; a?: number }
 
+// hsls to minicolortype array dictionary
+
+
+
+
 export class Color implements ColorType {
    hex: string
    rgb: rgb
    hsl: hsl
    hsv: hsv
 
-   public constructor(hex?: hex, rgb?: rgb, hsl?: hsl, hsv?: hsv) {
-      this.hex = hex || this.rgbToHex(rgb || { r: 255, g: 255, b: 255 }) || '#ffffff'
-      this.rgb = this.hexToRgb(hex || '') || rgb || { r: 255, g: 255, b: 255 }
-      this.hsl = hsl || this.rgbToHsl(this.rgb)
-      this.hsv = hsv || this.rgbToHsv(this.rgb)
+
+   public constructor({ hex, rgb, hsl, hsv }: { hex?: hex; rgb?: rgb; hsl?: hsl; hsv?: hsv }) {
+      // initialize the color
+
+      if (hex) {
+         this.hex = hex
+         this.rgb = this.hexToRgb(hex)
+         this.hsl = this.rgbToHsl(this.rgb)
+         this.hsv = this.rgbToHsv(this.rgb)
+      } else if (rgb) {
+         this.rgb = rgb
+         this.hex = this.rgbToHex(rgb)
+         this.hsl = this.rgbToHsl(rgb)
+         this.hsv = this.rgbToHsv(rgb)
+      } else if (hsl) {
+         this.hsl = hsl
+         this.rgb = this.hslToRgb(hsl)
+         this.hex = this.rgbToHex(this.rgb)
+         this.hsv = this.rgbToHsv(this.rgb)
+      } else if (hsv) {
+         this.hsv = hsv
+         this.rgb = this.hsvToRgb(hsv)
+         this.hsl = this.rgbToHsl(this.rgb)
+         this.hex = this.rgbToHex(this.rgb)
+      } else {
+         this.hex = '#ffffff'
+         this.rgb = { r: 255, g: 255, b: 255 }
+         this.hsl = { h: 0, s: 0, l: 1 }
+         this.hsv = { h: 0, s: 0, v: 1 }
+      }
    }
 
-   hexToRgb(hex: hex): rgb {
+   complement(): Color {
+      const { h, s, l } = this.hsl
+      return new Color({ hsl: { h: (h + 180) % 360, s, l } })
+   }
+
+   hexToRgb(hex: hex ): rgb {
       return hexToRgb(hex)
    }
 
@@ -129,8 +164,19 @@ export class Color implements ColorType {
       return [analogousColors[1], analogousColors[0], analogousColors[2]]
    }
 
-   splitHsl(): hsl {
-      return { h: 0, s: 0, l: 0 }
+   splitHsl(): hsl
+   splitHsl(hsl: hsl): hsl[]
+   splitHsl(hsl?: unknown): import('../types/ColorType').hsl | import('../types/ColorType').hsl[] {
+      if (hsl) {
+         const { h, s, l } = hsl as hsl
+         return [
+            { h: (h + 30) % 360, s, l },
+            { h: (h + 180) % 360, s, l },
+            { h: (h + 210) % 360, s, l },
+         ]
+      } else {
+         return this.splitHsl(this.hsl)
+      }
    }
 
    getTriadHsvs(): hsv[] {
@@ -167,5 +213,118 @@ export class Color implements ColorType {
       if (t < 1 / 2) return q
       if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6
       return p
+   }
+}
+
+export class MiniColor implements MiniColorType {
+   hex: hex
+   rgb: rgb
+   hsl: hsl
+   hsv: hsv
+
+   public constructor({ hex, rgb, hsl, hsv }: { hex?: hex; rgb?: rgb; hsl?: hsl; hsv?: hsv }) {
+      // initialize the color
+
+      if (hex) {
+         this.hex = hex
+         this.rgb = this.hexToRgb(hex)
+         this.hsl = this.rgbToHsl(this.rgb)
+         this.hsv = this.rgbToHsv(this.rgb)
+      } else if (rgb) {
+         this.rgb = rgb
+         this.hex = this.rgbToHex(rgb)
+         this.hsl = this.rgbToHsl(rgb)
+         this.hsv = this.rgbToHsv(rgb)
+      } else if (hsl) {
+         this.hsl = hsl
+         this.rgb = this.hslToRgb(hsl)
+         this.hex = this.rgbToHex(this.rgb)
+         this.hsv = this.rgbToHsv(this.rgb)
+      } else if (hsv) {
+         this.hsv = hsv
+         this.rgb = this.hsvToRgb(hsv)
+         this.hsl = this.rgbToHsl(this.rgb)
+         this.hex = this.rgbToHex(this.rgb)
+      } else {
+         this.hex = '#ffffff'
+         this.rgb = { r: 255, g: 255, b: 255 }
+         this.hsl = { h: 0, s: 0, l: 1 }
+         this.hsv = { h: 0, s: 0, v: 1 }
+      }
+   }
+
+   hexToRgb(hex: hex): rgb {
+      return hexToRgb(hex)
+   }
+
+   rgbToHsl(rgb: rgb): hsl {
+      return rgbToHsl(rgb)
+   }
+
+   rgbToHsv(rgb: rgb): hsv {
+      return rgbToHsv(rgb)
+   }
+
+   hslToRgb(hsl: hsl): rgb {
+      return hslToRgb(hsl)
+   }
+
+   hsvToRgb({ h, s, v }: hsv): rgb {
+      // Initialize the red, green, and blue values to zero
+      let r = 0
+      let g = 0
+      let b = 0
+
+      // Calculate the temporary values for the red, green, and blue channels
+      const i = Math.floor(h * 6)
+      const f = h * 6 - i
+      const p = v * (1 - s)
+      const q = v * (1 - f * s)
+      const t = v * (1 - (1 - f) * s)
+
+      // Calculate the red, green, and blue values using the hue value
+      switch (i % 6) {
+         case 0:
+            r = v
+            g = t
+            b = p
+            break
+         case 1:
+            r = q
+            g = v
+            b = p
+            break
+         case 2:
+            r = p
+            g = v
+            b = t
+            break
+         case 3:
+            r = p
+            g = q
+            b = v
+            break
+         case 4:
+            r = t
+            g = p
+            b = v
+            break
+         case 5:
+            r = v
+            g = p
+            b = q
+            break
+      }
+
+      // Scale the red, green, and blue values to the range [0, 255] and return an RGB object
+      return {
+         r: r * 255,
+         g: g * 255,
+         b: b * 255,
+      }
+   }
+
+   rgbToHex(rgb: rgb): hex {
+      return rgbToHex(rgb)
    }
 }
