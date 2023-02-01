@@ -12,8 +12,24 @@ export enum HarmonyTitle {
    Analogous = 'analogous',
 }
 
-export type HarmonyType = {
+export type SchemeType = {
    title: HarmonyTitle
    mainColor: ColorType
-   colors: string[]
+   colors: ColorType[]
+
+}
+
+export interface Harmony {
+   mainColor: ColorType
+   monocromatic: SchemeType
+   triadic: SchemeType
+   complementary: SchemeType
+   analogous: SchemeType
+
+   getMonocromatic(): SchemeType
+   getTriadic(): SchemeType
+   getComplementary(): SchemeType
+   getAnalogous(): SchemeType
+   getHarmonyByTitle(title: HarmonyTitle): SchemeType
+   getHarmonies(): SchemeType[]
 }
