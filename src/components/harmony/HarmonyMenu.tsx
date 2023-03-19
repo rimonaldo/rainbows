@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { HarmonyTitle } from '../../types/HarmonyType'
+import { HarmonyTitle } from '../../services/harmony/type'
 import uuid from 'react-uuid'
+import { usePaletteContext } from '../../hooks/usePaletteContext'
 
 type MenuProps = {
    setTab: (scheme: HarmonyTitle) => void
@@ -8,6 +9,7 @@ type MenuProps = {
 const HarmonyMenu: React.FC<MenuProps> = ({ setTab }) => {
    const [activeTab, setActiveTab] = useState<string>('analogous')
    const tabs = [HarmonyTitle.Analogous, HarmonyTitle.Triadic, HarmonyTitle.Complementary, HarmonyTitle.Monochromatic]
+   const { palette } = usePaletteContext()
 
    const handleTabClick = (tab: HarmonyTitle) => {
       setActiveTab(tab)
@@ -22,6 +24,7 @@ const HarmonyMenu: React.FC<MenuProps> = ({ setTab }) => {
                   key={uuid()}
                   className={`option-${i + 1} tab ${activeTab === tab ? 'active' : ''}`}
                   onClick={() => handleTabClick(tab)}
+                  style={{ color: activeTab === tab ? palette.primary.shade[300].hex : 'white', }}
                >
                   <span> {tab}</span>
                </li>

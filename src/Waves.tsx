@@ -67,6 +67,8 @@ p {
   margin-bottom:-7px; /*Fix for safari gap*/
   min-height:100px;
   max-height:150px;
+  opacity:0.25;
+
 }
 
 

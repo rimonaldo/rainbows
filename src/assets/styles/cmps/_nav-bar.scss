@@ -1,0 +1,41 @@
+.nav-bar-container {
+   grid-column-start: 1;
+   grid-column-end: -1;
+   background: rgb(255, 251, 251);
+   @include mainLayoutGrid();
+   margin-bottom: $marginBottom4;
+   color: var(--primary300);
+}
+.nav-bar {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   height: 5rem;
+   font-size: large;
+   .logo {
+      span {
+         color: var(--secondary500);
+      }
+   }
+
+   .right-container {
+      width: max-content;
+      gap: 2rem;
+      display: flex;
+      justify-content: space-between;
+   }
+}
+
+.btn-blank {
+   background-color: transparent;
+   border: 1px solid black;
+   padding: 0.5rem 1rem;
+   border-radius: 0.5rem;
+   font-size: 1rem;
+   font-weight: 600;
+   cursor: pointer;
+   transition: all 0.2s ease-in-out;
+   &:hover {
+      // color: $neutral;
+   }
+}

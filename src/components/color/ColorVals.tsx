@@ -1,5 +1,5 @@
-import { ColorType } from '../../types/ColorType'
-import { Color } from '../../services/color.class'
+import { ColorType } from '../../services/color/type'
+import { Color } from '../../services/color/color'
 import { useState, useEffect } from 'react'
 import { HexColorInput } from 'react-colorful'
 interface ColorInputProps {

@@ -1,29 +1,23 @@
 import { ColorType } from '../color/type'
-import { PaletteColorType } from './type'
+import { PaletteColorType } from './PaletteType'
 import { Color, hsl } from '../color'
-import { PaletteType, PaletteMetaDataType } from './type'
+import { PaletteType, PaletteMetaDataType } from './PaletteType'
 import { getRandomAAColor } from 'accessible-colors'
 import { RgbColor } from 'contrast-ratio'
 import ratio from 'contrast-ratio'
 import { guid } from '../utils'
-import { ColorShadeType } from './type'
+import { ColorShadeType } from './PaletteType'
 import { HarmonyTitle } from '../harmony'
 import { paletteUtils as utils } from './paletteUtils'
-const randomInRange = (min: number, max: number) => {
-   return Math.random() * (max - min) + min
-}
+import { GetColorName } from 'hex-color-to-color-name'
 
-const randomHue = () => {
-   return Math.floor(Math.random() * 360)
-}
-
-type colorStyle = 'jewel' | 'pastel' | 'vibrant' | 'neutral' | 'monochrome' | 'random'
 
 export class PaletteColor implements PaletteColorType {
    hue: number = 0
    _id: string
-   role: 'primary' | 'secondary' | 'tertiary' | 'neutral' | 'info' | 'warning' | 'danger' | 'success' 
+   role: string
    color: ColorType
+   name: string = ''
    shade: ColorShadeType = {
       100: new Color({}),
       200: new Color({}),
@@ -35,52 +29,44 @@ export class PaletteColor implements PaletteColorType {
       800: new Color({}),
       900: new Color({}),
    }
+   isLocked: boolean = false
 
-   constructor({
-      role,
-      color,
-      hex,
-      _id,
-   }: {
-      role?: 'primary' | 'secondary' | 'tertiary' | 'neutral' | 'info' | 'warning' | 'danger' | 'success'
-      color?: ColorType
-      hex?: string
-      _id?: string
-      
-   }) {
+   constructor({ role, color, hex, _id }: { role?: string; color?: ColorType; hex?: string; _id?: string }) {
       this.role = role || 'primary'
       this.color = color || new Color({ hex: hex })
       this._id = _id || guid()
       this.shade[500] = this.color
+      this.genShades()
+      this.isLocked = this.role === 'primary' ? true : false
+      this.name = GetColorName(this.color.hex)
+   }
 
+   genShades = () => {
       this.shade[100] = this.genShade100()
       this.shade[900] = this.genShade900()
+
       this.shade[300] = this.genMidShade(this.shade[100], this.shade[500])
       this.shade[200] = this.genMidShade(this.shade[100], this.shade[300])
       this.shade[400] = this.genMidShade(this.shade[300], this.shade[500])
+
       this.shade[700] = this.genMidShade(this.shade[500], this.shade[900])
       this.shade[800] = this.genMidShade(this.shade[700], this.shade[900])
       this.shade[600] = this.genMidShade(this.shade[500], this.shade[700])
-
-   }
-
-   randomNumInRange = (min: number, max: number) => {
-      return Math.random() * (max - min) + min
    }
 
    genShade100 = () => {
       const initialHue = this.color.hsl.h
-      const randomSat = this.randomNumInRange(0.01, 0.1)
-      const randomLum = this.randomNumInRange(0.95, 0.97)
+      const randomSat = this._randomNumInRange(0.1, 0.2)
+      const randomLum = this._randomNumInRange(0.95, 0.97)
       const shade100Hsl = { h: initialHue, s: randomSat, l: randomLum }
       return new Color({ hsl: shade100Hsl })
    }
 
    genShade900 = () => {
       const initialHue = this.color.hsl.h
-      const randomSat = this.randomNumInRange(0.7, 1)
-      const randomLum = this.randomNumInRange(0.2, 0.3)
-      const shade900Hsl = { h: initialHue, s: randomSat, l: randomLum }
+      const sat = Math.min(0.9, this.color.hsl.s * 1.25)
+      const lum = Math.max(   0.1, this.color.hsl.l * 0.75)
+      const shade900Hsl = { h: initialHue, s: sat, l: lum }
       return new Color({ hsl: shade900Hsl })
    }
 
@@ -93,71 +79,19 @@ export class PaletteColor implements PaletteColorType {
       const newHsl = { h: initialHue, s: midS, l: midL }
       return new Color({ hsl: newHsl })
    }
-}
 
-const h = randomHue()
-const s = randomInRange(0.5, 1)
-const l = randomInRange(0.4, 0.7 - (1 - s))
-const randColor = randomColor() || 'red'
-
-function randomColor() {
-   const colorProbabilities = {
-      blue: 0.3,
-      pink: 0.15,
-      green: 0.1,
-      yellow: 0.2,
-      orange: 0.15,
-      red: 0.15,
-      cyan: 0.15,
-      chartreuse: 0.01,
-      magenta: 0.1,
-      teal: 0.03,
-      violet: 0.1,
-      vermillion: 0.05,
-      amber: 0.07,
-      brightRed: 0.05,
+   _randomNumInRange = (min: number, max: number) => {
+      return Math.random() * (max - min) + min
    }
 
-   const colorNames = Object.keys(colorProbabilities)
-   const colorProbabilityValues = Object.values(colorProbabilities)
+   setLock = (isLocked: boolean) => {
+      this.isLocked = isLocked
+   }
 
-   let randomNum = Math.random()
-   let colorProbSum = 0
-
-   for (let i = 0; i < colorNames.length; i++) {
-      colorProbSum += colorProbabilityValues[i]
-      if (randomNum <= colorProbSum) {
-         return colorNames[i]
-      }
+   getShade = (shade: number) => {
+      return this.shade[shade]
    }
 }
-
-const hueMap: { [color: string]: number } = {
-   red: 0,
-   vermillion: 15,
-   orange: 30,
-   amber: 45,
-   yellow: 60,
-   chartreuse: 85,
-   green: 120,
-   teal: 150,
-   cyan: 180,
-   blue: 240,
-   violet: 270,
-   magenta: 300,
-   pink: 330,
-   pinkRed: 345,
-   brightRed: 355,
-}
-
-function getHueAngle(color: string): number {
-   return hueMap[color.toLowerCase()]
-}
-
-const maxOffset = 10
-const minOffset = -10
-const offset = Math.floor(Math.random() * (maxOffset - minOffset + 1)) + minOffset
-export const randomPrimaryHsl = { h: getHueAngle(randColor) + offset, s: 0.7, l: 0.7 }
 
 interface PaletteConstructorType {
    title?: string
@@ -193,6 +127,7 @@ export class Palette implements PaletteType {
       tags: [], // passional, calm, energetic, feminane , modern , etc
    }
 
+   private tag = 'tag'
    constructor({
       metaData,
       title,
@@ -213,7 +148,7 @@ export class Palette implements PaletteType {
       this.neutral = neutral || this.setNeutral(theme)
 
       this.temp = this.setTempByColor(this.primary.shade[500])
-      // this.setSemanticColors()
+      this.setSemanticColors()
       this.info = info || this.info
       this.success = success || this.success
       this.warning = warning || this.warning
@@ -228,26 +163,32 @@ export class Palette implements PaletteType {
       return temp as 'cool' | 'warm'
    }
 
-   getAccentHsls = () => {
+   getColorTemp(color: ColorType) {
+      const { h } = color.hsl
+      return (h >= 0 && h <= 60) || (h >= 270 && h <= 360) ? 'cool' : 'warm'
+   }
+
+   _getAccentHsls = () => {
       const randomHarmony = utils.getRandomHarmonyTitle()
       const angle = utils.getHarmonyAngle(randomHarmony)
-      const isFullHarmony = Math.random() > 0.5 ? true : false
+      const isRealHarmony = Math.random() > 0.5 ? true : false
       const isOffset = Math.random() > 0.5 ? true : false
       let offset = isOffset ? this.randomInRange(-7.5, 7.5) : 0
 
       let secondaryHsl = this.primary.shade[500].hsl
       let tertiaryHsl = this.primary.shade[500].hsl
 
-      if (isFullHarmony) {
+      if (isRealHarmony) {
+         let anglesDiff = Math.abs(angle - this.primary.color.hsl.h)
          if (randomHarmony === 'complementary') {
             let isSplit = Math.random() > 0.5 ? true : false
             if (isSplit) {
-               let newAngle = 30
+               let newAngle = angle - anglesDiff
                secondaryHsl.h += newAngle + offset
                tertiaryHsl.h += this.secondary.shade[500].hsl.h + 30 - offset
             } else {
                const randTertiaryHarmony = utils.getRandomHarmonyTitle()
-               secondaryHsl.h += angle + offset
+               secondaryHsl.h += angle - anglesDiff + offset
                tertiaryHsl.h += utils.getHarmonyAngle('analogous' as typeof randomHarmony) - offset
             }
          } else {
@@ -269,42 +210,45 @@ export class Palette implements PaletteType {
    }
 
    setTertiary = () => {
-      const { secondaryHsl, tertiaryHsl } = this.getAccentHsls()
+      const { secondaryHsl, tertiaryHsl } = this._getAccentHsls()
       const tertiary = new Color({ hsl: tertiaryHsl })
-      return new PaletteColor({ color: tertiary, role: 'tertiary' })
+      return this.setSecondary()
+      // return new PaletteColor({ color: tertiary, role: 'tertiary' })
    }
 
    setSecondary = () => {
       let AAhex
-      let secondary = new Color({ hex: AAhex })
-      const secondaryValidRanges = [30, -30, 210, 150, 120, -120, 180]
+      let accentColor = new Color({ hex: AAhex })
+      const validHueAngles = [30, -30, 210, 150, 120, -120, 180]
       const maxOffset = 10
       const randAdjacent = Math.floor(Math.random() * 2) === 0 ? -30 : 30
-
+      const primaryHue = this.primary.shade[500].hsl.h
       let inRange = false
       let nonce = 0
+      const offset = Math.floor(Math.random() * maxOffset)
+      const secondaryHueDirection = Math.floor(Math.random() * 2) === 0 ? -1 : 1
       while (!inRange) {
          nonce++
          AAhex = getRandomAAColor(this.primary.shade[500].hex)
-         secondary = new Color({ hex: AAhex })
-         const offset = Math.floor(Math.random() * maxOffset)
-         const randomRange = Math.floor(Math.random() * secondaryValidRanges.length)
-         const hue = this.primary.shade[500].hsl.h + secondaryValidRanges[randomRange]
-         if (secondary.hsl.h > hue - offset && secondary.hsl.h < hue + offset) {
+         accentColor = new Color({ hex: AAhex })
+         const randomHueRange = Math.floor(Math.random() * validHueAngles.length)
+         const hue = secondaryHueDirection > 0 ? primaryHue + validHueAngles[randomHueRange] : primaryHue - validHueAngles[randomHueRange]
+         if (accentColor.hsl.h > hue - offset && accentColor.hsl.h < hue + offset) {
             inRange = true
          }
          if (nonce === 500) {
-            secondary = new Color({ hsl: { h: this.primary.shade[500].hsl.h + randAdjacent, s: 0.5, l: 0.5 } })
+            accentColor = new Color({ hsl: { h: this.primary.shade[500].hsl.h + randAdjacent, s: 0.5, l: 0.5 } })
             inRange = true
          }
       }
 
-      let secondaryColor = new PaletteColor({ color: secondary })
+      let secondaryColor = new PaletteColor({ color: accentColor })
       let { h, s } = secondaryColor.shade[500].hsl
       let primaryLum = this.primary.shade[500].hsl.l
       let primarySat = this.primary.shade[500].hsl.s
-      let newColor = new Color({ hsl: { h, s, l: primaryLum } })
+      let newColor = new Color({ hsl: { h, s: primarySat, l: primaryLum } })
       secondaryColor = new PaletteColor({ color: newColor, role: 'secondary' })
+
       return secondaryColor
    }
 

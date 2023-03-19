@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { ColorType } from '../types/ColorType'
-import { Color } from '../services/color.class'
-import { Harmony, HarmonyType } from '../services/harmony.class'
-import { SchemeType } from '../types/HarmonyType'
-import { HarmonyTitle } from '../types/HarmonyType'
+import { ColorType } from '../services/color/type'
+import { Color } from '../services/color/color'
+import { Harmony, HarmonyType } from '../services/harmony'
+import { SchemeType } from '../services/harmony/type'
+import { HarmonyTitle } from '../services/harmony/type'
 const TitlesToSchemeDic = {
    [HarmonyTitle.Monochromatic]: (harmony: HarmonyType) => harmony.getMonoColors(),
    [HarmonyTitle.Triadic]: (harmony: HarmonyType) => harmony.getTriadColors(),

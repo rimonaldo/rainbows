@@ -1,5 +1,5 @@
 import React from 'react'
-import { PaletteColorType } from '../../services/palette/type'
+import { PaletteColorType } from '../../services/palette/PaletteType'
 type Props = {
    paletteColor: PaletteColorType
 }

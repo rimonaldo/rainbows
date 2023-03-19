@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Color } from '../services/color.class'
-import { ColorType, hex, hsl, rgb, hsv } from '../types/ColorType'
+import { Color } from '../services/color'
+import { ColorType, hex, hsl, rgb, hsv } from '../services/color'
 
 export const setColor = (hex: string) => {
    return new Color({ hex })

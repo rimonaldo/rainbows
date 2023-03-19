@@ -1,5 +1,5 @@
 import React from 'react'
-import { SchemeType } from '../../types/HarmonyType'
+import { SchemeType } from '../../services/harmony/type'
 
 type TitleProps = {
    scheme: SchemeType

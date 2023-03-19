@@ -67,7 +67,7 @@ function Header({ isSticky }: Props) {
    }, [palette.neutral])
 
    return (
-      <div className={isSticky ? 'header' : 'header'}>
+      <div className={'header'}>
          <div className="logo">Rainbows</div>
 
          <div className="brand-colors-wrapper ">
@@ -86,7 +86,7 @@ function Header({ isSticky }: Props) {
             <div className="options-wrapper">
                <select name="" id="" onChange={handleOptionsChange}>
                   <option value="pastel">Pastel</option>
-                  <option value="jewl">Jewl</option>
+                  <option value="jewel">Jewl</option>
                   <option value="neon">Neon</option>
                   <option value="earth">Earth</option>
                </select>

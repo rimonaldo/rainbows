@@ -53,7 +53,7 @@ const paletteStyle: { [key: string]: ColorStyleRangeType } = {
    neutral: { sat: { min: 0.05, max: 0.15 }, lum: { min: 0.75, max: 0.9 } },
    neon: { sat: { min: 0.95, max: 1 }, lum: { min: 0.6, max: 0.7 } },
    earth: { sat: { min: 0.2, max: 0.35 }, lum: { min: 0.2, max: 0.4 } },
-   jewl: { sat: { min: 0.6, max: 0.7 }, lum: { min: 0.5, max: 0.7 } },
+   jewel: { sat: { min: 0.6, max: 0.7 }, lum: { min: 0.5, max: 0.7 } },
 }
 
 const getClosestColorStyleByHsl = ({ h, s, l }: { h: number; s: number; l: number }) => {

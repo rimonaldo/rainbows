@@ -1,19 +1,34 @@
+// import tailwind to sass
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 // Base
 @import './base/base';
+@import './base/vars';
 
 // Mixins
 @import './mixins/devices';
 @import './mixins/breakpoints';
 
+@import './layouts/main-layout';
+
 // components
+@import './cmps/header';
+@import './cmps/hero';
+@import './cmps/models';
+@import './cmps/buttons';
+@import './cmps/second-page';
+@import './cmps/swatch-list';
+@import './cmps/nav-bar';
+@import './cmps/nav';
 @import './cmps/palette-container';
 @import './cmps/color-box';
 @import './cmps/color-vals';
 @import './cmps/harmony-colors';
 @import './cmps/harmony-tabs';
-@import './cmps/palette';
 
 // Layouts
 @import './layouts/grid';
-@import './layouts/main-layout';
 @import './layouts/color-container';
+@import './layouts/sticky-example';
+

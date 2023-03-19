@@ -1,7 +1,7 @@
 import React from 'react'
 import { usePaletteContext } from '../../hooks/usePaletteContext'
-import { Color } from '../../services/color.class'
-import { SchemeType } from '../../types/HarmonyType'
+import { Color } from '../../services/color/color'
+import { SchemeType } from '../../services/harmony/type'
 type HarmonyProps = {
    scheme: SchemeType
 }

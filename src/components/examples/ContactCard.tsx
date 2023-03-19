@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { usePaletteContext } from '../../hooks/usePaletteContext'
-import { ColorType } from '../../types/ColorType'
+import { ColorType } from '../../services/color/type'
 import { useColorContext } from '../../hooks/useColorContext'
+import './contact-card.scss'
 type Props = {}
 
 export interface PaletteColors {
@@ -16,159 +17,45 @@ const ContactCard = () => {
    const { palette } = usePaletteContext()
    const { color } = useColorContext()
 
-   let css = `
-    @import url('https://fonts.googleapis.com/css?family=Montserrat');
-
-* {
-	box-sizing: border-box;
-}
-
-body {
-	background-color: #28223F;
-	font-family: Montserrat, sans-serif;
-	
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-
-	min-height: 100vh;
-	margin: 0;
-}
-
-h3 {
-	margin: 10px 0;
-}
-
-h6 {
-	margin: 5px 0;
-	text-transform: uppercase;
-}
-
-p {
-	font-size: 14px;
-	line-height: 21px;
-}
-
-.card-container {
-	background-color: #231E39;
-	border-radius: 5px;
-	box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.75);
-	color: #B3B8CD;
-	padding-top: 30px;
-	position: relative;
-	width: 350px;
-	max-width: 100%;
-	text-align: center;
-}
-
-.card-container .pro {
-	color: #231E39;
-	background-color: #FEBB0B;
-	border-radius: 3px;
-	font-size: 14px;
-	font-weight: bold;
-	padding: 3px 7px;
-	position: absolute;
-	top: 30px;
-	left: 30px;
-}
-
-.card-container .round {
-	border: 1px solid #03BFCB;
-	border-radius: 50%;
-	padding: 7px;
-}
-
-button.primary {
-	background-color: #03BFCB;
-	border: 1px solid #03BFCB;
-	border-radius: 3px;
-	color: #231E39;
-	font-family: Montserrat, sans-serif;
-	font-weight: 500;
-	padding: 10px 25px;
-}
-
-button.primary.ghost {
-	background-color: transparent;
-	color: #02899C;
-}
-
-.skills {
-	background-color: #1F1A36;
-	text-align: left;
-	padding: 15px;
-	margin-top: 30px;
-}
-
-.skills ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-}
-
-.skills ul li {
-	border: 1px solid #2D2747;
-	border-radius: 2px;
-	display: inline-block;
-	font-size: 12px;
-	margin: 0 7px 7px 0;
-	padding: 7px;
-}
-
-footer {
-    background-color: #222;
-    color: #fff;
-    font-size: 14px;
-    bottom: 0;
-    position: fixed;
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 999;
-}
-
-footer p {
-    margin: 10px 0;
-}
-
-footer i {
-    color: red;
-}
-
-footer a {
-    color: #3c97bf;
-    text-decoration: none;
-}
-    `
-
    return (
       <div>
-         <style>{css}</style>
-         <div
-            className="card-container"
-            style={{ background: palette.neutral.hex, boxShadow: '0px 10px 20px -10px rgba(0,0,0,0.75)' }}
-         >
-            <span className="pro" style={{background:palette.secondary.hex}}>PRO</span>
-            <img style={{ border: `1px ${palette.primary.hex} solid` }} className="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
-            <h3>Ricky Park</h3>
-            <h6>New York</h6>
-            <p>
+         <div className="card-container" style={{background:palette.neutral.shade[500].hex}}>
+            <span
+               className="pro"
+               style={{ background: palette.secondary.shade[100].hex, color: palette.secondary.shade[600].hex }}
+            >
+               PRO
+            </span>
+            <img
+               style={{ border: `1px ${palette.primary.shade[500].hex} solid` }}
+               className="round"
+               src="https://randomuser.me/api/portraits/women/79.jpg"
+               alt="user"
+            />
+            <h3 style={{ color: palette.primary.shade[900].hex }}>Ricky Park</h3>
+            <h6 style={{ color: palette.neutral.shade[900].hex }}>New York</h6>
+            <p style={{ color: palette.neutral.shade[900].hex }}>
                User interface designer and <br /> front-end developer
             </p>
             <div className="buttons">
                <button
                   className="primary"
-                  style={{ backgroundColor: palette.primary.hex, border: `1px ${palette.primary.hex} solid` }}
+                  style={{
+                     backgroundColor: palette.primary.shade[500].hex,
+                     border: `none`,
+                     color: palette.secondary.shade[100].hex,
+                  }}
                >
                   Message
                </button>
-               <button style={{ border: `1px ${palette.primary.hex} solid` }} className="primary ghost">
+               <button style={{ border: `1px ${palette.primary.shade[100].hex} solid` }} className="primary ghost">
                   Following
                </button>
             </div>
-            <div className="skills">
+            <div
+               className="skills"
+               style={{ backgroundColor: palette.primary.shade[100].hex, color: palette.primary.shade[900].hex }}
+            >
                <h6>Skills</h6>
                <ul>
                   <li>UI / UX</li>

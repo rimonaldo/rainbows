@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { HarmonyType } from '../../types/HarmonyType'
+import { HarmonyType } from '../../services/harmony/type'
 import { GetColorName } from 'hex-color-to-color-name'
 
 type NameProps = {

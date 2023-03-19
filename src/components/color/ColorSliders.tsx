@@ -1,7 +1,7 @@
 import React from 'react'
 import { useColorContext } from '../../hooks/useColorContext'
-import Slider from '../../features/Slider'
-import { ColorType } from '../../types/ColorType'
+import Slider from '../slider'
+import { ColorType } from '../../services/color/type'
 type Props = {
    onChange: (ev: React.ChangeEvent<HTMLInputElement>) => void
    color: ColorType

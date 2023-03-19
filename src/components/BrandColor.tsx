@@ -1,5 +1,5 @@
 import React from 'react'
-import { PaletteColorRole, PaletteColorType } from '../services/palette/type'
+import { PaletteColorRole, PaletteColorType } from '../services/palette/PaletteType'
 type Props = {
    paletteColor: PaletteColorType
    onColorChange: (ev: React.ChangeEvent<HTMLInputElement>,role:string) => void
@@ -11,7 +11,7 @@ const BrandColor = ({ paletteColor, onColorChange }: Props) => {
       return yiq >= 128 ? 'black' : 'white'
    }
    return (
-      <div className="brand-color-container">
+      <div className="brand-color">
          <div
             className="bg"
             style={{

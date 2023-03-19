@@ -1,10 +1,8 @@
-import { useState, useEffect } from 'react'
-import { Color } from '../services/color.class'
-import { ColorType } from '../types/ColorType'
-import { hslToRgb, rgbToHex } from '../services/colorService'
-import { HarmonyTitle, SchemeType } from '../types/HarmonyType'
-import { Harmony, HarmonyType } from '../services/harmony.class'
-import { colorService } from '../services/colorService'
+import { useState } from 'react'
+import { Color } from '../services/color/color'
+import { ColorType } from '../services/color/type'
+import { HarmonyTitle, SchemeType } from '../services/harmony'
+import { Harmony, HarmonyType } from '../services/harmony'
 
 const TitlesToSchemeDic = {
    [HarmonyTitle.Monochromatic]: (harmony: HarmonyType) => harmony.getMonoColors(),

@@ -7,16 +7,19 @@ export interface ColorShadeType {
 }
 
 export interface PaletteColorType {
-   _id: string
    role: string
    shade: ColorShadeType
-   hue: number   
+   hue: number
+   isLocked: boolean
+   name: string
+   color: ColorType
+   setLock: (lock: boolean) => void
 }
 
 export interface PaletteMetaDataType {
    creationTimeStamp: number
    temp: 'warm' | 'cool'
-   paletteStyle: 'pastel' | 'earth' | 'jewl' | 'neon' | 'neutral'
+   paletteStyle: 'earth' | 'neon' | 'pastel' | 'jewel'
    theme: 'light' | 'dark'
    tags: string[]
 }
@@ -35,4 +38,12 @@ export interface PaletteType {
    theme: 'light' | 'dark'
 }
 
-export type PaletteColorRole  = 'primary' | 'secondary' | 'tertiary' | 'neutral' | 'info' | 'warning' | 'danger' | 'success'
+export type PaletteColorRole =
+   | 'primary'
+   | 'secondary'
+   | 'tertiary'
+   | 'neutral'
+   | 'info'
+   | 'warning'
+   | 'danger'
+   | 'success'
