@@ -53,14 +53,7 @@ const paletteStyle: { [key: string]: ColorStyleRangeType } = {
    neutral: { sat: { min: 0.05, max: 0.15 }, lum: { min: 0.75, max: 0.9 } },
    neon: { sat: { min: 0.95, max: 1 }, lum: { min: 0.6, max: 0.7 } },
    earth: { sat: { min: 0.2, max: 0.35 }, lum: { min: 0.2, max: 0.4 } },
-   jewel: { sat: { min: 0.5, max: 0.65 }, lum: { min: 0.5, max: 0.7 } },
-}
-
-type StyleRulesType = { sat: { min: number; max: number }; lum: { min: number; max: number } }
-
-interface PaletteRulesType {
-   [key: string]: StyleRulesType
-   
+   jewel: { sat: { min: 0.6, max: 0.7 }, lum: { min: 0.5, max: 0.7 } },
 }
 
 const getClosestColorStyleByHsl = ({ h, s, l }: { h: number; s: number; l: number }) => {
@@ -97,7 +90,7 @@ const getHslRangeByColorStyle = (colorStyleKey: keyof typeof paletteStyle): Colo
 }
 
 const getRandomHslByPaletteStyle = (colorStyleKey: keyof typeof paletteStyle) => {
-   const { sat, lum } = paletteStyle[colorStyleKey]
+   const { sat, lum } = getHslRangeByColorStyle(colorStyleKey)
    const h = +(Math.random() * 360).toFixed(0)
    const s = +(Math.random() * (sat.max - sat.min) + sat.min).toFixed(2)
    const l = +(Math.random() * (lum.max - lum.min) + lum.min).toFixed(2)
