@@ -1,6 +1,6 @@
 import React from 'react'
-import { usePaletteContext } from './hooks/usePaletteContext'
-import PaletteColorShades from './components/palette/PaletteColorShades'
+import { usePaletteContext } from '../../hooks/usePaletteContext'
+import PaletteColorShades from '../palette/PaletteColorShades'
 import './sunset.scss'
 
 type Props = {}

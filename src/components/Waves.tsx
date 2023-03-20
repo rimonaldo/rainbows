@@ -1,5 +1,5 @@
 import React from 'react'
-import { usePaletteContext } from './hooks/usePaletteContext'
+import { usePaletteContext } from '../hooks/usePaletteContext'
 type Props = {}
 
 const Waves = (props: Props) => {

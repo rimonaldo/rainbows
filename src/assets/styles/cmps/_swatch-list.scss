@@ -1,33 +1,20 @@
 .swatch-list-container {
-   //    border: 1px solid black;
    background: rgb(255, 255, 255);
-   height: 350px;
-   border-radius: 25px 25px 0 0 ;
-   grid-column: 2;
+   border-radius: 25px 25px 0 0;
+   // grid-column: 2;
    padding: 2rem;
    display: flex;
    flex-direction: column;
+   height: 30%;
    gap: 1rem;
    justify-content: space-between;
-   .desc{
+   .desc {
       display: flex;
-      // @include mainLayoutGrid();
-      >*{
-         grid-row: 1;
-
-      }
-      button{
-         // flex: 3;
-         grid-column: 1;
+      height: 2rem;
+      button {
          border: 1px black solid;
-         margin-inline-end: 5%;
-         width: 40%;
+         width: clamp(2rem, 100%, 30rem);
          border-radius: 25px;
-      }
-      p{
-         grid-column: 2;
-         margin-inline-end: 20%;
-         // flex: 7;
       }
    }
    .swatch-list {
@@ -36,20 +23,20 @@
       display: flex;
       .swatch {
          flex: 1;
-         // border: 1px black solid;
-         .bottom-line{
-            margin-top: .5rem;
+         margin-bottom: 1em;
+         .bottom-line {
+            margin-top: .5em;
             display: flex;
             justify-content: space-between;
             font-size: 1.2rem;
             width: 80%;
          }
-         .color{
-            height: 90%;
+         .color {
+            height: 100%;
             width: 100%;
          }
 
-         .lock{
+         .lock {
             width: 1em;
             cursor: pointer;
          }

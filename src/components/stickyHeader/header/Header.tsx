@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './style/header.scss'
 import BrandColor from './BrandColor'
 // import BrandColors from './BrandColorList'
-import { usePaletteContext } from '../../hooks/usePaletteContext'
+import { usePaletteContext } from '../../../hooks/usePaletteContext'
 type Props = {
    isSticky: boolean
    openMenu: () => void

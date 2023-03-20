@@ -27,7 +27,7 @@ const SideMenu = ({ isOpen }: Props) => {
    return (
       <div className="mobile-menu" style={{ left: isOpen ? '0' : '-100%' }}>
          <div className="logo">Rainbows</div>
-         <BrandColors colorHexs={colorHexs} colorRoles={colorRoles} onColorChange={() => handleColorChange} />
+         {/* <BrandColors colorHexs={colorHexs} colorRoles={colorRoles} onColorChange={() => handleColorChange} /> */}
       </div>
    )
 }

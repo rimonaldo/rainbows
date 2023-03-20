@@ -1,10 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { ColorType } from '../services/color/type'
-import { Color } from '../services/color/color'
-import { Palette } from '../services/palette/palette'
-import { PaletteMetaDataType, PaletteType, PaletteColorRole, PaletteColorType } from '../services/palette/PaletteType'
-import { PaletteColor } from '../services/palette'
-import { paletteUtils as utils } from '../services/palette/paletteUtils'
+import { ColorType } from '../../services/color/type'
+import { Color } from '../../services/color/color'
+import { Palette } from '../../services/palette/palette'
+import {
+   PaletteMetaDataType,
+   PaletteType,
+   PaletteColorRole,
+   PaletteColorType,
+} from '../../services/palette/PaletteType'
+import { PaletteColor } from '../../services/palette'
+import { paletteUtils as utils } from '../../services/palette/paletteUtils'
 
 const usePalette = (
    initial: PaletteType = new Palette({

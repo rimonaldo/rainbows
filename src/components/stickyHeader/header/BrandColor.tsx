@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './style/brand-colors.scss'
-import { usePaletteContext } from '../../hooks/usePaletteContext'
-import { PaletteColorType } from '../../services/palette'
+import { usePaletteContext } from '../../../hooks/usePaletteContext'
+import { PaletteColorType } from '../../../services/palette'
 
 type Props = {
    // paletteColor.shade[500].hex: string
