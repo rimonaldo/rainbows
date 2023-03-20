@@ -7,7 +7,7 @@ type Props = {
    scrollPosition: number
 }
 
-function Showcase({ scrollPosition }: Props) {
+function Hero({ scrollPosition }: Props) {
    const { palette, paletteColors, generatePaletteByStyle, generatePaletteColor } = usePaletteContext()
    const [colorStyle, setColorStyle] = React.useState<'neon' | 'pastel' | 'earth' | 'jewel'>('pastel')
    const setSassVariable = (variable: string, value: string) => {
@@ -72,11 +72,7 @@ function Showcase({ scrollPosition }: Props) {
    }
 
    return (
-      <section
-         className="showcase-container "
-         // style={{ position: 'relative', background: getShadeHex(palette.neutral, 500) }}
-         style={{ position: 'relative' }}
-      >
+      <section className="hero-container ">
          <div className="scroll " style={{ position: 'sticky', top: '2rem', left: '2rem', color: 'black' }}>
             {scrollPosition}
          </div>
@@ -89,7 +85,7 @@ function Showcase({ scrollPosition }: Props) {
                   </h1>
                </div>
 
-               <div className="flex">
+               <div className="action-container">
                   <div className="btn btn-primary " onClick={handleGenerate}>
                      Generate
                   </div>
@@ -109,4 +105,4 @@ function Showcase({ scrollPosition }: Props) {
    )
 }
 
-export default Showcase
+export default Hero

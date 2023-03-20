@@ -1,45 +1,67 @@
 .swatch-list-container {
    background: rgb(255, 255, 255);
    border-radius: 25px 25px 0 0;
-   // grid-column: 2;
    padding: 2rem;
    display: flex;
    flex-direction: column;
-   height: 30%;
    gap: 1rem;
    justify-content: space-between;
+   border: 1px black solid;
    .desc {
       display: flex;
       height: 2rem;
       button {
          border: 1px black solid;
-         width: clamp(2rem, 100%, 30rem);
+         width: 50%;
+         @media screen and (max-width: 768px) {
+            width: 100%;
+         }
          border-radius: 25px;
       }
    }
    .swatch-list {
+      display: flex;
+      // gap: .1rem;
+      // border: 1px red solid;
+      height: 15vh;
+      // height: 300px;
+      .hex {
+      }
+   }
+}
+
+.swatch {
+   height: 100%;
+   flex: 1;
+   margin-bottom: 1em;
+   display: flex;
+   flex-direction: column;
+   .color {
+      border-right: 1px rgba(255, 255, 255, 0.137) solid;
+      // height: 100%;
       width: 100%;
+      flex: 3;
+   }
+
+   .bottom-line {
+      // padding: 10px;
       flex: 1;
       display: flex;
-      .swatch {
-         flex: 1;
-         margin-bottom: 1em;
-         .bottom-line {
-            margin-top: .5em;
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.2rem;
-            width: 80%;
-         }
-         .color {
-            height: 100%;
-            width: 100%;
-         }
-
-         .lock {
-            width: 1em;
-            cursor: pointer;
-         }
+      justify-content: space-around;
+      font-size: clamp(0.7rem, 2.5vw, 1rem);
+      // width: 80%;
+      .hex{
+         // flex: 1;
       }
+      border: 1px black solid;
+      
+   }
+
+   .lock {
+      width: 1em;
+      cursor: pointer;
+   }
+
+   .generate {
    }
 }

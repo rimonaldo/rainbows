@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
          <PaletteProvider>
             <SassProvider>
                <React.StrictMode>
-                  <App />
+               <App />
                </React.StrictMode>
             </SassProvider>
          </PaletteProvider>

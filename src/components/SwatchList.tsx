@@ -52,14 +52,14 @@ const SwatchList = ({}: Props) => {
    }, [position])
 
    return (
-      <div ref={swatchListRef} className="swatch-list-container ">
+      <div ref={swatchListRef} className="swatch-list-container " >
          <ul className="swatch-list rounded-2xl">
             {colors.slice(0, itemsToShow).map((color, index) => {
                return <Swatch key={index} color={color} />
             })}
          </ul>
          <div className="desc">
-            <button>Generate</button>
+            <button className='generate'>Generate</button>
          </div>
       </div>
    )

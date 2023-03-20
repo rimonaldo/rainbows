@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Showcase from './layouts/Hero'
+import Hero from './layouts/Hero'
 import { usePaletteContext } from './hooks/usePaletteContext'
 import NavBar from './layouts/NavBar'
 import Models from './layouts/Models'
@@ -23,7 +23,7 @@ function App() {
    return (
       <div className="App main-layout" style={{ background: palette.primary.shade[100].hex }}>
          <NavBar></NavBar>
-         <Showcase scrollPosition={prevScrollPos} />
+         <Hero scrollPosition={prevScrollPos} />
          <Models isScrolledDown={isScrolledDown} scrollPosition={prevScrollPos} />
       </div>
    )
