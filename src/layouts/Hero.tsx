@@ -86,7 +86,7 @@ function Hero({ scrollPosition }: Props) {
                </div>
 
                <div className="action-container">
-                  <div className="btn btn-primary " onClick={handleGenerate}>
+                  <div className=" btn-primary " onClick={handleGenerate}>
                      Generate
                   </div>
                   <select onChange={ev => setColorStyle(ev.target.value as 'neon' | 'pastel' | 'earth' | 'jewel')}>

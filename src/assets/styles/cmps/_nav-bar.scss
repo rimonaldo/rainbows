@@ -4,9 +4,10 @@
    background: rgb(255, 251, 251);
    @include mainLayoutGrid();
    margin-bottom: $marginBottom4;
-   color: var(--primary300);
+   color: var(--neutral900);
 }
 .nav-bar {
+   // border: 1px black solid;
    display: flex;
    align-items: center;
    justify-content: space-between;
@@ -28,7 +29,7 @@
 
 .btn-blank {
    background-color: transparent;
-   border: 1px solid black;
+   border: 1px solid var(--neutral600);
    padding: 0.5rem 1rem;
    border-radius: 0.5rem;
    font-size: 1rem;
