@@ -8,8 +8,8 @@ type Props = {
 
 const Models = ({ isScrolledDown, scrollPosition }: Props) => {
    const { palette } = usePaletteContext()
-   const { primary, info, success, warning, danger } = palette
-   const colors = [primary, info, success, warning, danger]
+   const {  info, success, warning, danger } = palette
+   const colors = [ info, success, warning, danger]
    const [isBtnsAnimated, setIsBtnsAnimated] = useState(false)
    const [isRowShown, setIsRowShown] = useState(false)
    //  add event on scroll down
@@ -21,7 +21,7 @@ const Models = ({ isScrolledDown, scrollPosition }: Props) => {
          setIsRowShown(false)
       }
    }, [isScrolledDown])
-   
+
    return (
       <section className="models-container">
          <div className="scroll " style={{ position: 'sticky', top: '2rem', left: '2rem', color: 'black' }}>
@@ -32,8 +32,8 @@ const Models = ({ isScrolledDown, scrollPosition }: Props) => {
             <h4>Lorem ipsum dolor sit amet, consectetur!</h4>
          </header>
 
-         <div className="model-cards">
-            <div className="row1">
+         <div className="model-cards-container">
+            <div className="row1 semantics-row">
                <div className="semantics">
                   <header>
                      <h3>Color Semantics</h3>
@@ -60,7 +60,7 @@ const Models = ({ isScrolledDown, scrollPosition }: Props) => {
                   </ul>
                </div>
             </div>
-            <div className="row2">
+            <div className="row2 nav-buttons-row">
                <div className="box1 box">
                   <header>
                      <h3>Nav Bar</h3>

@@ -2,7 +2,6 @@
    .btn {
       border-radius: 0;
       border: 0;
-      font-size: 1rem;
       font-weight: 400;
       line-height: 1.5;
       text-align: center;
@@ -45,9 +44,10 @@
 .buttons-box {
    display: flex;
    flex-direction: column;
-   justify-content: space-between;
    align-items: center;
+
    header {
+
       h3 {
          opacity: 0;
       }
@@ -64,7 +64,6 @@
    grid-template-rows: repeat(3, 1fr);
    place-items: center;
    //    border: 1px red solid;
-   transition: 0.2s;
    //    height: 2.6em;
    overflow-y: hidden;
    opacity: 0;
@@ -75,8 +74,9 @@
    transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); /* easeOutQuint */
 
    &.shown {
-      height: 60%;
+      height: 100%;
       opacity: 1;
+      gap: 0.5rem;
    }
 
    > * {

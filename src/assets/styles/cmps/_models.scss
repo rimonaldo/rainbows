@@ -1,33 +1,47 @@
 .models-container {
-   grid-column: 1/-1;
-   @include layoutPadding();
+   // grid-column: 1/-1;
+   // @include layoutPadding();
+   padding:  1rem;
    background: var(--primary900);
-   background: var(--primary900);
-   height: 120vh;
-
+   // height:max-content;
    .main-models-header {
-      padding: 1rem 0;
-      color: var(--primary200);
+      // padding: 1rem 0;
+      color: var(--primary300);
       text-align: center;
       h2 {
-         font-size: 3rem;
+         font-size: 2rem;
          color: #fff;
       }
       margin-bottom: 2rem;
-      margin-top: 1rem;
    }
 
-   .model-cards {
+   .row1,
+   .row2,
+   .row3 {
+      gap: 1rem;
+      .box {
+         padding: 0.5rem;
+         h3 {
+            color: red;
+            font-size: 1.25rem;
+            padding: 0.5rem 0;
+         }
+      }
+   }
+
+   .model-cards-container {
+      margin: 0 auto;
+      // border: 1px black solid;
+      height: max-content;
+      // height: 500px;
       header {
          display: flex;
          flex-direction: column;
          align-items: center;
          justify-content: space-around;
          flex: 0.75;
-         h3 {
-            font-size: 1.5rem;
-         }
       }
+
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 1rem;
@@ -35,20 +49,18 @@
       //   display: flex;
       //   gap: 1rem;
       //   justify-content: space-between;
-      height: 35%;
+      // height: 35%;
       header {
          text-align: center;
       }
       @media screen and (max-width: $tabletWidth) {
          //  flex-direction: column;
-         border: 1px red solid;
-         height: 50%;
          grid-template-columns: repeat(2, 1fr);
          grid-gap: 0.5rem;
          .desc {
             display: none;
          }
-         div.row2 {
+         div.row2.nav-buttons-row {
             gap: 0.5rem;
             .box1 {
                flex: 1;
@@ -78,7 +90,7 @@
       @media screen and (max-width: $mobileWidth) {
          grid-template-columns: repeat(1, 1fr);
          grid-gap: 0.5rem;
-         height: 70%;
+         // height: 70%;
          .row1 {
             grid-column: 1/-1;
             .rest {
@@ -92,7 +104,7 @@
          div.row2 {
             gap: 0.5rem;
             .box1 {
-               flex: 1;
+               flex: 0.5;
                background: white;
             }
             .box2 {
@@ -123,10 +135,8 @@
       }
 
       .row2 {
-         background: rgba(255, 255, 255, 0);
          display: flex;
          flex-direction: column;
-         gap: 1em;
          .box1 {
             flex: 2;
             background: white;
@@ -160,7 +170,7 @@
    }
 }
 
-.model-cards {
+.model-cards-container {
    .semantics {
       background-color: white;
       display: flex;
@@ -217,7 +227,7 @@
 }
 
 .row2 {
-   .box1{
+   .box1 {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -257,7 +267,6 @@
       }
    }
 
-   .buttons-box{
-    
+   .buttons-box {
    }
 }
