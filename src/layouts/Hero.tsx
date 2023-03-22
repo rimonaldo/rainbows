@@ -3,6 +3,7 @@ import { usePaletteContext } from '../hooks/usePaletteContext'
 import { PaletteColorType } from '../services/palette/PaletteType'
 import { PaletteColorRole } from '../services/palette/PaletteType'
 import SwatchList from '../components/SwatchList'
+import Waves from '../components/Waves'
 type Props = {
    scrollPosition: number
 }
@@ -73,9 +74,9 @@ function Hero({ scrollPosition }: Props) {
 
    return (
       <section className="hero-container ">
-         <div className="scroll " style={{ position: 'sticky', top: '2rem', left: '2rem', color: 'black' }}>
+         {/* <div className="scroll " style={{ position: 'sticky', top: '2rem', left: '2rem', color: 'black' }}>
             {scrollPosition}
-         </div>
+         </div> */}
          <div className="hero">
             <header>
                <div className="h-container  ">
@@ -97,10 +98,16 @@ function Hero({ scrollPosition }: Props) {
                   </select>
                </div>
             </header>
+
             <div className="img"></div>
+            <div style={{ position: 'absolute', bottom: '0', right: 0, width: '100%', zIndex: '1' }}>
+            <Waves />
          </div>
+         </div>
+      
          <SwatchList></SwatchList>
-         <div style={{ position: 'absolute', bottom: 0, right: 0, width: '100%' }}>{/* <Waves /> */}</div>
+
+         {/* <Waves></Waves> */}
       </section>
    )
 }

@@ -5,36 +5,32 @@
    display: flex;
    flex-direction: column;
    justify-content: space-between;
-   @media screen and (min-width: 768px) {
-      gap: 3rem;
-      
-   }
-   // border: 1px rgb(173, 173, 173) solid;
+
    > * {
       flex: 1;
    }
+
    .hero {
-      // border: 1px black solid;
-      padding: 7.5% 5%;
+      padding: 5% 0% 20%;
       display: flex;
       justify-content: space-between;
       flex: 1;
+      position: relative;
+
+      .waves {
+         grid-column: 1/-1;
+         border-radius: 0 0 17.5px 17.5px;
+      }
+
       header {
-         @media screen and (max-width: 768px) {
-            // border: 1px black solid;
-            width: 100%;
-         }
-         // border: 1px black solid;
          flex-direction: column;
          justify-content: space-around;
+
          .action-container {
             display: flex;
             justify-content: space-between;
             width: 100%;
-            @media screen and (max-width: 768px) {
-               width: 95%;
-            }
-            // border: 1px black solid;
+
             .btn-primary {
                flex: 2;
                text-align: center;
@@ -43,14 +39,11 @@
 
             select {
                flex: 1;
-               // no background color
                background-color: transparent;
-               // padding: 0 3em;
                text-align: center;
-               // margin-inline-end: .5em;
-               // border: 1px black solid;
             }
          }
+
          .h-container {
             h1 {
                font-size: clamp(2rem, 8vw, 4rem);
@@ -62,8 +55,15 @@
             }
          }
       }
+
       .img {
          flex: 1;
+      }
+   }
+
+   @media screen and (min-width: 768px) {
+      .hero {
+         // gap: 3rem;
       }
    }
 }
@@ -73,7 +73,7 @@
 }
 
 .btn-primary {
-   padding: clamp(.5rem,2vw,1rem) 0;
+   padding: clamp(0.5rem, 2vw, 1rem) 0;
    border-radius: 25px;
    background-color: var(--primary600);
    color: var(--primary100);

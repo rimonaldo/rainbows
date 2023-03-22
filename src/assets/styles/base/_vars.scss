@@ -29,7 +29,7 @@ $desktopToTabletBreak: $desktopWidth;
 $tabletToDesktopBreak: $tabletWidth;
 $mobileToTabletBreak: $mobileWidth;
 
-$layoutPaddingS: clamp(5px, 2vw, 100px);
+$layoutPaddingS: clamp(1rem, 2vw, 100px);
 $layoutPaddingM: clamp(5px, 2vw, 200px);
 $layoutPaddingL: clamp(5px, 5vw, 100px);
 $layoutPaddingXL: clamp(5px, 15vw, 300px);

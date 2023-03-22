@@ -1,6 +1,6 @@
 .main-layout {
    @include mainLayoutGrid();
-   grid-template-rows: 90px 1fr 1fr 1fr 1fr;
+   grid-template-rows: 90px max-content 1fr 1fr 1fr;
    .nav-bar{
       grid-row: 1 / 2;
    }

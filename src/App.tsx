@@ -3,6 +3,7 @@ import Hero from './layouts/Hero'
 import { usePaletteContext } from './hooks/usePaletteContext'
 import NavBar from './layouts/NavBar'
 import Models from './layouts/Models'
+import Waves from './components/Waves'
 function App() {
    const { palette } = usePaletteContext()
 

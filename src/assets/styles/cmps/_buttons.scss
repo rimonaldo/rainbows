@@ -8,7 +8,7 @@
       white-space: nowrap;
       vertical-align: middle;
       user-select: none;
-      border: 1px solid black;
+      // border: 1px solid black;
       padding: 0.35vw 0.75vw;
       font-size: 1rem;
       line-height: 1.5;
@@ -47,7 +47,6 @@
    align-items: center;
 
    header {
-
       h3 {
          opacity: 0;
       }
@@ -65,38 +64,53 @@
    place-items: center;
    //    border: 1px red solid;
    //    height: 2.6em;
-   overflow-y: hidden;
+   // overflow-y: hidden;
    opacity: 0;
-
    // padding: 0 1rem;
    transition: all 700ms cubic-bezier(0.23, 1, 0.32, 1); /* easeOutQuint */
-   height: 50%;
+   // height: 50%;
    transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); /* easeOutQuint */
-
+   position: relative;
+   top: 1rem;
+   // height: 100%;
+   gap: 0.5rem;
    &.shown {
-      height: 100%;
+      top: 0;
       opacity: 1;
-      gap: 0.5rem;
+      // border: 1px black solid;
+      width: 100%;
    }
 
    > * {
       display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      // border: 1px red solid;
+      width: 100%;
+      // padding: 0 20% ;
       //   border: 1px solid black;
       grid-column: 1/-1;
    }
    .row-1 {
       grid-row: 1;
+      border: none;
+      display: flex;
+      color: white;
    }
 
    .row-2 {
+      border: none;
+      color: white;
       grid-row: 2;
       &.shown {
-         color: red;
+         // color: red;
          grid-row: 2;
       }
    }
 
    .row-3 {
+      border: none;
+      color: white;
       grid-row: 3;
       &.shown {
          grid-row: 3;

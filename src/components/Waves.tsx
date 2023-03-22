@@ -61,13 +61,15 @@ p {
 
 
 .waves {
+  grid-column: 1 / -1;
+  // border: 1px solid red;
   position:relative;
   width: 100%;
-  height:15vh;
-  margin-bottom:-7px; /*Fix for safari gap*/
+  // height:15vh;
+  // margin-bottom:-7px; /*Fix for safari gap*/
   min-height:100px;
   max-height:150px;
-  opacity:0.25;
+  opacity:1;
 
 }
 
@@ -79,8 +81,8 @@ p {
   animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
 }
 .parallax > use:nth-child(1) {
-  animation-delay: -2s;
-  animation-duration: 7s;
+  animation-delay: -10s;
+  animation-duration: 30s;
 }
 .parallax > use:nth-child(2) {
   animation-delay: -3s;
