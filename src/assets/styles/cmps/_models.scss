@@ -400,6 +400,20 @@
    box-shadow: none;
 }
 
+.box {
+   // display: none !important;
+   .content-wrapper {
+      opacity: 0 !important;
+      padding-top: .5rem ;
+      transition: 0.1s ease-in-out;
+      &.shown {
+         padding: 0;
+         opacity: 1 !important;
+         // display: block !important;
+      }
+   }
+}
+
 @media screen and (max-width: $mobileWidth) {
    .row1 {
       .box1 {
@@ -420,6 +434,5 @@
    }
    .row3 {
       display: none !important;
-      
    }
 }

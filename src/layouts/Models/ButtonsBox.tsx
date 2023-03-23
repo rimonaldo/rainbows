@@ -20,7 +20,7 @@ const ButtonsBox = ({}: Props) => {
             }
          },
          {
-            rootMargin: '0px 0px -50px 0px', // Trigger the callback when the element is 50px from the bottom of the viewport
+            rootMargin: '0px 0px -90px 0px', // Trigger the callback when the element is 50px from the bottom of the viewport
          }
       )
 
