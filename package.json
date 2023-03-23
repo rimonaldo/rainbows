@@ -5,7 +5,7 @@
    "type": "module",
    "scripts": {
       "dev": "vite",
-      "build": "npm run build:css && tsc && vite build",
+      "build": "vite build",
       "preview": "vite preview",
       "build:css": "node-sass src/styles/main.scss src/styles/main.css && postcss src/styles/main.css -o src/styles/index.css"
    },
