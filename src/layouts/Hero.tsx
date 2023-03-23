@@ -100,11 +100,11 @@ function Hero({ scrollPosition }: Props) {
             </header>
 
             <div className="img"></div>
-            <div style={{ position: 'absolute', bottom: '0', right: 0, width: '100%', zIndex: '1' }}>
-            <Waves />
+            {/* <div style={{ position: 'absolute', bottom: '0', right: 0, width: '100%', zIndex: '1' }}>
+               <Waves />
+            </div> */}
          </div>
-         </div>
-      
+
          <SwatchList></SwatchList>
 
          {/* <Waves></Waves> */}

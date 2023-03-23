@@ -1,3 +1,8 @@
+@import url(//fonts.googleapis.com/css?family=Lato:300:400);
+h1 {
+   font-family: 'Lato', sans-serif;
+   font-weight: 300;
+}
 .hero-container {
    padding-top: $marginBottom4;
    grid-column: 1/-1;
@@ -11,7 +16,7 @@
    }
 
    .hero {
-      padding: 5% 0% 20%;
+      padding: 10% 5%;
       display: flex;
       justify-content: space-between;
       flex: 1;
@@ -20,6 +25,7 @@
       .waves {
          grid-column: 1/-1;
          border-radius: 0 0 17.5px 17.5px;
+         // border-radius: 50%;
       }
 
       header {

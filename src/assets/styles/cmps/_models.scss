@@ -7,7 +7,7 @@
    .hover-box {
       &:hover {
          .box {
-            filter: blur(5px);
+            filter: blur(2px);
          }
       }
    }
@@ -61,7 +61,7 @@
 
    .model-cards-container {
       margin: 0 auto;
-      margin-bottom: 9rem;
+      // margin-bottom: 9rem;
 
       // header {
       //    display: flex;
@@ -203,8 +203,18 @@
       display: flex;
       flex-direction: column;
       justify-content: space-around;
+      transition: 0.2s;
+
       height: 100%;
+
       header {
+         transition: 0.2s ease-in-out;
+         padding: 1rem 0;
+         opacity: 0;
+         &.shown {
+            opacity: 1;
+            padding: 0.5rem;
+         }
          display: flex;
          flex-direction: column;
          align-items: center;
@@ -388,4 +398,28 @@
 
 .models-container .model-cards-container > * {
    box-shadow: none;
+}
+
+@media screen and (max-width: $mobileWidth) {
+   .row1 {
+      .box1 {
+         flex: 1;
+      }
+      .box2 {
+         flex: 1;
+      }
+   }
+   .row2 {
+      .box1 {
+         flex: 1;
+         display: none !important;
+      }
+      .box2 {
+         flex: 1;
+      }
+   }
+   .row3 {
+      display: none !important;
+      
+   }
 }
