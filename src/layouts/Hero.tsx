@@ -4,67 +4,38 @@ import { PaletteColorType } from '../services/palette/PaletteType'
 import { PaletteColorRole } from '../services/palette/PaletteType'
 import SwatchList from '../components/SwatchList'
 import Waves from '../components/Waves'
+import { ColorStyle } from '../services/palette/PaletteType'
 type Props = {
    scrollPosition: number
 }
 
 function Hero({ scrollPosition }: Props) {
    const { palette, paletteColors, generatePaletteByStyle, generatePaletteColor } = usePaletteContext()
-   const [colorStyle, setColorStyle] = React.useState<'neon' | 'pastel' | 'earth' | 'jewel'>('pastel')
-   const setSassVariable = (variable: string, value: string) => {
-      const root = document.documentElement
-      root.style.setProperty(variable, value)
-   }
+   const [colorStyle, setColorStyle] = React.useState<ColorStyle>('pastel')
 
-   // generate random color
-   const [isSwatchListSticky, setIsSwatchListSticky] = React.useState<boolean>(false)
+   useEffect(() => {
+      setPaletteCssVars(palette)
+   }, [palette])
 
    const handleGenerate = () => {
-      const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16)
-      // setPrimary(new Color({ hex: randomColor }))
-
       const unlockedColors = paletteColors.filter((color: PaletteColorType) => !color.isLocked)
       unlockedColors.forEach(color => {
          generatePaletteColor(colorStyle, color.role as PaletteColorRole)
-         console.log(color.role)
       })
       generatePaletteByStyle(colorStyle)
-      // setPrimary(new Color({ hex: randomColor }), )
    }
 
-   useEffect(() => {
-      setSassVariable('--primary500', palette.primary.shade[500].hex)
-      setSassVariable('--primary100', palette.primary.shade[100].hex)
-      setSassVariable('--primary200', palette.primary.shade[200].hex)
-      setSassVariable('--primary300', palette.primary.shade[300].hex)
-      setSassVariable('--primary400', palette.primary.shade[400].hex)
-      setSassVariable('--primary600', palette.primary.shade[600].hex)
-      setSassVariable('--primary700', palette.primary.shade[700].hex)
-      setSassVariable('--primary800', palette.primary.shade[800].hex)
-      setSassVariable('--primary900', palette.primary.shade[900].hex)
-      setSassVariable('--secondary100', palette.secondary.shade[100].hex)
-      setSassVariable('--secondary200', palette.secondary.shade[200].hex)
-      setSassVariable('--secondary300', palette.secondary.shade[300].hex)
-      setSassVariable('--secondary400', palette.secondary.shade[400].hex)
-      setSassVariable('--secondary500', palette.secondary.shade[500].hex)
-      setSassVariable('--secondary600', palette.secondary.shade[600].hex)
-      setSassVariable('--secondary700', palette.secondary.shade[700].hex)
-      setSassVariable('--secondary800', palette.secondary.shade[800].hex)
-      setSassVariable('--secondary900', palette.secondary.shade[900].hex)
+   const setPaletteCssVars = (palette: any) => {
+      const root = document.documentElement
+      const colorGroups = ['primary', 'secondary', 'tertiary', 'neutral', 'success', 'warning', 'info']
 
-      setSassVariable('--neutral100', palette.neutral.shade[100].hex)
-      setSassVariable('--neutral200', palette.neutral.shade[200].hex)
-      setSassVariable('--neutral300', palette.neutral.shade[300].hex)
-      setSassVariable('--neutral400', palette.neutral.shade[400].hex)
-      setSassVariable('--neutral500', palette.neutral.shade[500].hex)
-      setSassVariable('--neutral600', palette.neutral.shade[600].hex)
-      setSassVariable('--neutral700', palette.neutral.shade[700].hex)
-      setSassVariable('--neutral800', palette.neutral.shade[800].hex)
-      setSassVariable('--neutral900', palette.neutral.shade[900].hex)
-   }, [palette])
-
-   const getShadeHex = (color: PaletteColorType, shade: number) => {
-      return color.shade[shade].hex
+      colorGroups.forEach(group => {
+         for (let i = 100; i <= 900; i += 100) {
+            const variableName = `--${group}${i}`
+            const value = palette[group].shade[i].hex
+            root.style.setProperty(variableName, value)
+         }
+      })
    }
 
    const textColor = ({ r, g, b }: { r: number; g: number; b: number }) => {
@@ -77,6 +48,7 @@ function Hero({ scrollPosition }: Props) {
          {/* <div className="scroll " style={{ position: 'sticky', top: '2rem', left: '2rem', color: 'black' }}>
             {scrollPosition}
          </div> */}
+
          <div className="hero">
             <header>
                <div className="h-container  ">
@@ -87,10 +59,11 @@ function Hero({ scrollPosition }: Props) {
                </div>
 
                <div className="action-container">
-                  <div className=" btn-primary " onClick={handleGenerate}>
+                  <button className="btn-primary" onClick={handleGenerate}>
                      Generate
-                  </div>
-                  <select onChange={ev => setColorStyle(ev.target.value as 'neon' | 'pastel' | 'earth' | 'jewel')}>
+                  </button>
+                  
+                  <select onChange={ev => setColorStyle(ev.target.value as ColorStyle)}>
                      <option value="pastel">Pastel</option>
                      <option value="jewel">Jewel</option>
                      <option value="earth">Earthy</option>
@@ -105,9 +78,7 @@ function Hero({ scrollPosition }: Props) {
             </div> */}
          </div>
 
-         <SwatchList></SwatchList>
-
-         {/* <Waves></Waves> */}
+         <SwatchList />
       </section>
    )
 }

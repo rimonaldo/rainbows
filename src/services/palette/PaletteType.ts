@@ -1,6 +1,6 @@
 import { ColorType } from '../color/type'
 
-// enum for numbers 100-900
+export type ColorStyle = 'neon' | 'pastel' | 'earth' | 'jewel'
 
 export interface ColorShadeType {
    [key: number]: ColorType
