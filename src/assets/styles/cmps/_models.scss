@@ -7,7 +7,7 @@
    .hover-box {
       &:hover {
          .box {
-            filter: blur(2px);
+            filter: blur(60px);
          }
       }
    }
@@ -197,24 +197,19 @@
 
 .model-cards-container {
    // SEMANTICS
+   
    .semantics {
       // background-color: white;
       background: var(--primary800);
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-      transition: 0.2s;
-
       height: 100%;
 
       header {
          transition: 0.2s ease-in-out;
-         padding: 1rem 0;
-         opacity: 0;
-         &.shown {
-            opacity: 1;
-            padding: 0.5rem;
-         }
+         // padding: 0.5rem;
+         flex: 1;
          display: flex;
          flex-direction: column;
          align-items: center;
@@ -229,7 +224,6 @@
       .semantic-list {
          flex: 9;
          display: flex;
-
          flex-direction: column;
          justify-content: space-between;
          .hex {
@@ -401,10 +395,12 @@
 }
 
 .box {
-   // display: none !important;
    .content-wrapper {
+      height: 100%;
       opacity: 0 !important;
-      padding-top: .5rem ;
+      padding-top: 1rem ;
+      display: flex;
+      flex-direction: column;
       transition: 0.1s ease-in-out;
       &.shown {
          padding: 0;

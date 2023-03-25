@@ -37,7 +37,8 @@ const SemanticsBox = ({ colors }: Props) => {
 
    return (
       <div ref={elRef} className="box semantics ">
-            <header className={`${isRowShown ? 'shown' : ''}`}>
+         <div className={` content-wrapper ${isRowShown ? 'shown' : ''}`}>
+            <header>
                <h3>Color Semantics</h3>
                <p className="desc">
                   Color semantics are used to communicate meaning to the user. They are used to indicate state or to
@@ -45,7 +46,7 @@ const SemanticsBox = ({ colors }: Props) => {
                </p>
             </header>
 
-            <ul className={`semantic-list ${isRowShown ? 'shown' : ''}`}>
+            <ul className="semantic-list">
                {colors.map(color => {
                   return (
                      <li>
@@ -61,6 +62,7 @@ const SemanticsBox = ({ colors }: Props) => {
                })}
             </ul>
          </div>
+      </div>
    )
 }
 
