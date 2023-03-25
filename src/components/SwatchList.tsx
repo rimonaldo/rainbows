@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { usePaletteContext } from '../hooks/usePaletteContext'
-import { CiUnlock } from 'react-icons/ci'
-import { CiLock } from 'react-icons/ci'
 import { PaletteColorType } from '../services/palette'
-import Waves from './Waves'
 import Swatch from './Swatch'
 type Props = {}
 
@@ -69,7 +66,6 @@ const SwatchList = ({}: Props) => {
                <option value="neon">Neon</option>
             </select>
          </div>
-         
       </div>
    )
 }
