@@ -1,30 +1,30 @@
-import { useState, useEffect } from 'react'
-import { Color } from '../services/color.class'
-import { ColorType } from '../types/ColorType'
-import { hslToRgb, rgbToHex } from '../services/colorService'
-import { HarmonyTitle, HarmonyType } from '../types/HarmonyType'
+import { useState } from 'react'
+import { Color } from '../services/color/color'
+import { ColorType } from '../services/color/type'
+import { HarmonyTitle, SchemeType } from '../services/harmony'
+import { Harmony, HarmonyType } from '../services/harmony'
 
-const ColorsToHslsDic = {
-   [HarmonyTitle.Monochromatic]: (color: ColorType) => color.getMonoHsls(),
-   [HarmonyTitle.Triadic]: (color: ColorType) => color.getTriadHsls(),
-   [HarmonyTitle.Complementary]: (color: ColorType) => color.getCompHsls(),
-   [HarmonyTitle.Analogous]: (color: ColorType) => color.getAnalogHsls(),
+const TitlesToSchemeDic = {
+   [HarmonyTitle.Monochromatic]: (harmony: HarmonyType) => harmony.getMonoColors(),
+   [HarmonyTitle.Triadic]: (harmony: HarmonyType) => harmony.getTriadColors(),
+   [HarmonyTitle.Complementary]: (harmony: HarmonyType) => harmony.getCompColor(),
+   [HarmonyTitle.Analogous]: (harmony: HarmonyType) => harmony.getAnalogColors(),
 }
 
-const useHarmony = () => {
-   const [harmony, setHarmony] = useState<HarmonyType>({
-      title: HarmonyTitle.Analogous,
-      mainColor: new Color('#ffffff'),
-      colors: ['#ffffff'],
-   })
-
-   const handleHarmonyChange = (harmony: HarmonyType) => {
-      const hexColors = ColorsToHslsDic[harmony.title](harmony.mainColor).map(hsl => rgbToHex(hslToRgb(hsl)))
-      harmony.colors = hexColors
-      setHarmony({ ...harmony })
+const useHarmony = (initial: HarmonyType = new Harmony(new Color({}))) => {
+   const [harmony, setHarmony] = useState<HarmonyType>(initial)
+   const [scheme, setScheme] = useState<SchemeType>(initial.analogous)
+   return {
+      harmony,
+      setHarmony: (color: ColorType) => {
+         setHarmony(new Harmony(color))
+      },
+      scheme,
+      setScheme: (harmonyTitle: HarmonyTitle) => {
+         let selectedScheme = TitlesToSchemeDic[harmonyTitle](harmony)
+         setScheme(selectedScheme)
+      },
    }
-
-   return [harmony, handleHarmonyChange] as const
 }
 
 export default useHarmony

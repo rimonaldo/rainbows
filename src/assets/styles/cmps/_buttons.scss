@@ -1,0 +1,118 @@
+.buttons-box {
+   .btn {
+      border-radius: 0;
+      border: 0;
+      font-weight: 400;
+      line-height: 1.5;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      user-select: none;
+      // border: 1px solid black;
+      padding: 0.35vw 0.75vw;
+      font-size: 1rem;
+      line-height: 1.5;
+      border-radius: 0.25rem;
+      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+         box-shadow 0.15s ease-in-out;
+
+      width: fit;
+   }
+
+   .btn-primary1 {
+      color: #fff;
+      background-color: #007bff;
+      border-color: #007bff;
+   }
+
+   .btn-secondary {
+   }
+
+   .btn-info {
+   }
+
+   .btn-success {
+   }
+
+   .btn-warning {
+   }
+
+   .btn-danger {
+   }
+}
+
+.buttons-box {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+
+   header {
+      h3 {
+         opacity: 0;
+      }
+      &.shown {
+         h3 {
+            opacity: 1;
+         }
+      }
+   }
+}
+.buttons-grid {
+   display: grid;
+   grid-template-columns: repeat(5, 1fr);
+   grid-template-rows: repeat(3, 1fr);
+   place-items: center;
+   //    border: 1px red solid;
+   //    height: 2.6em;
+   // overflow-y: hidden;
+   opacity: 0;
+   // padding: 0 1rem;
+   // height: 50%;
+   transition: 0.2s ease-in-out;
+   position: relative;
+   top: 1rem;
+   // height: 100%;
+   gap: 0.5rem;
+   &.shown {
+      top: 0;
+      opacity: 1;
+      // border: 1px black solid;
+      width: 100%;
+   }
+
+   > * {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      // border: 1px red solid;
+      width: 100%;
+      // padding: 0 20% ;
+      //   border: 1px solid black;
+      grid-column: 1/-1;
+   }
+   .row-1 {
+      grid-row: 1;
+      border: none;
+      display: flex;
+      color: white;
+   }
+
+   .row-2 {
+      border: none;
+      color: white;
+      grid-row: 2;
+      &.shown {
+         // color: red;
+         grid-row: 2;
+      }
+   }
+
+   .row-3 {
+      border: none;
+      color: white;
+      grid-row: 3;
+      &.shown {
+         grid-row: 3;
+      }
+   }
+}

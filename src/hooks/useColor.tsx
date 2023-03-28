@@ -1,36 +1,29 @@
-import { useState, useEffect } from 'react'
-import { Color } from '../services/color.class'
-import { ColorType, hex, rgb, hsl, hsv } from '../types/ColorType'
-import { hslToRgb, hsvToRgb, rgbToHex } from '../services/colorService'
-import { HarmonyTitle, HarmonyType } from '../types/HarmonyType'
-import { colorService } from '../services/colorService'
+import React, { useContext, useState, useEffect } from 'react'
+import { Color } from '../services/color'
+import { ColorType, hex, hsl, rgb, hsv } from '../services/color'
 
-const formatToHexDic = {
-   hex: (hex: hex) => hex,
-   rgb: (rgb: rgb) => colorService.rgbToHex(rgb),
-   hsl: (hsl: hsl) => colorService.rgbToHex(hslToRgb(hsl)),
-   hsv: (hsv: hsv) => colorService.rgbToHex(hsvToRgb(hsv)),
+export const setColor = (hex: string) => {
+   return new Color({ hex })
 }
 
-type Format = hex | rgb | hsl | hsv
-
-const useColor = () => {
-   const [hex, setHex] = useState<hex>('#ffffff')
-   const [color, setColor] = useState<ColorType>(new Color(hex))
-   const [colorFormat, setFormat] = useState<Format>('')
-   const handleFormatChange = (format: Format) => {
-      // const hexColors = formatToHexDic[color.title](color.mainColor).map(hsl => rgbToHex(hslToRgb(hsl)))
-      // color.colors = hexColors
-        // const newHex = formatToHexDic[typeof format]
-      console.log(typeof format === 'string'? 'hex':'')
-      if (typeof format === 'string') setFormat(hex)
-    //   if (format === {}) setFormat(hex)
-      //   setHex()
-      setFormat(format)
-      setColor(new Color(hex))
+const useColor = (initial: ColorType) => {
+   const [color, colorSet] = useState<ColorType>(initial)
+   return {
+      color,
+      setColor: (hex: string) => {
+         colorSet(setColor(hex))
+      },
+      setFromRgb: (rgb: rgb) => {
+         colorSet(new Color({ rgb }))
+      },
+      setColorFromHsl: (hsl: hsl) => {
+         colorSet(new Color({ hsl }))
+      },
+      setFromHsv: (hsv: hsv) => {
+         colorSet(new Color({ hsv }))
+      },
    }
-
-   return [color, handleFormatChange] as const
 }
 
 export default useColor
+

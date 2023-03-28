@@ -1,36 +1,49 @@
 {
-  "name": "vite-number-conversion",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@react-spectrum/color": "^3.0.0-beta.19",
-    "@types/react-color": "^2.17.5",
-    "@types/react-router-dom": "5.3.3",
-    "@uiw/react-color": "^1.1.1",
-    "axios": "^1.2.2",
-    "hex-color-to-color-name": "^1.0.2",
-    "react": "^18.2.0",
-    "react-colorful": "^5.6.1",
-    "react-dom": "^18.2.0",
-    "react-redux": "^8.0.5",
-    "react-router-dom": "5.3.0",
-    "redux": "^4.2.0",
-    "redux-thunk": "^2.4.2",
-    "sass": "^1.57.1",
-    "thunk": "^0.0.1",
-    "zustand": "^4.2.0"
-  },
-  "devDependencies": {
-    "@types/react": "^18.0.26",
-    "@types/react-dom": "^18.0.9",
-    "@vitejs/plugin-react": "^3.0.0",
-    "typescript": "^4.9.3",
-    "vite": "^4.0.0"
-  }
+   "name": "vite-number-conversion",
+   "private": true,
+   "version": "0.0.0",
+   "type": "module",
+   "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "preview": "vite preview",
+      "build:css": "node-sass src/styles/main.scss src/styles/main.css && postcss src/styles/main.css -o src/styles/index.css"
+   },
+   "dependencies": {
+      "@emotion/react": "^11.10.5",
+      "@emotion/styled": "^11.10.5",
+      "@mui/material": "^5.11.7",
+      "@react-spectrum/color": "^3.0.0-beta.19",
+      "@types/react-color": "^2.17.5",
+      "@types/react-router-dom": "5.3.3",
+      "@uiw/react-color": "^1.1.1",
+      "accessible-colors": "^1.0.4",
+      "axios": "^1.2.2",
+      "contrast-ratio": "^1.1.0",
+      "hex-color-to-color-name": "^1.0.2",
+      "lodash": "^4.17.21",
+      "react": "^18.2.0",
+      "react-colorful": "^5.6.1",
+      "react-dom": "^18.2.0",
+      "react-icons": "^4.8.0",
+      "react-redux": "^8.0.5",
+      "react-router-dom": "5.3.0",
+      "react-uuid": "^2.0.0",
+      "redux": "^4.2.0",
+      "redux-thunk": "^2.4.2",
+      "sass": "^1.58.3",
+      "thunk": "^0.0.1",
+      "zustand": "^4.2.0"
+   },
+   "devDependencies": {
+      "@types/lodash": "^4.14.191",
+      "@types/react": "^18.0.28",
+      "@types/react-dom": "^18.0.11",
+      "@vitejs/plugin-react": "^3.0.0",
+      "autoprefixer": "^10.4.13",
+      "postcss": "^8.4.21",
+      "tailwindcss": "^3.2.7",
+      "typescript": "^4.9.3",
+      "vite": "^4.0.0"
+   }
 }

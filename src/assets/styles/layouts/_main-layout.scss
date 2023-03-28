@@ -1,5 +1,19 @@
-.main-layout{
-    background-color: rgb(148, 160, 149);
+.main-layout {
+   @include mainLayoutGrid();
+   grid-template-rows: 90px max-content max-content 1fr 1fr;
+   .nav-bar{
+      grid-row: 1 / 2;
+   }
 
-    
+   .second-page{
+      grid-column: 1/-1;
+   }
+
+
+}
+
+
+
+.flex {
+   display: flex;
 }

@@ -1,0 +1,116 @@
+@import url(//fonts.googleapis.com/css?family=Lato:300:400);
+h1 {
+   font-family: 'Lato', sans-serif;
+   font-weight: 300;
+}
+.hero-container {
+   padding-top: $marginBottom4;
+   grid-column: 1/-1;
+   @include layoutPadding();
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+
+   > * {
+      flex: 1;
+   }
+
+   .hero {
+      padding: 10% 5% 15%;
+      display: flex;
+      justify-content: space-between;
+      flex: 1;
+      position: relative;
+
+      .waves {
+         grid-column: 1/-1;
+         border-radius: 0 0 17.5px 17.5px;
+         // border-radius: 50%;
+      }
+
+      header {
+         flex-direction: column;
+         justify-content: space-around;
+
+         .action-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            .btn-primary {
+               flex: 2;
+               text-align: center;
+               margin-right: 1rem;
+            }
+
+            select {
+               flex: 1;
+               background-color: transparent;
+               text-align: center;
+            }
+         }
+
+         .h-container {
+            h1 {
+               font-size: clamp(2rem, 8vw, 4rem);
+               font-weight: bolder;
+               color: var(--primary500);
+               margin-bottom: 1.5rem;
+               right: 5px;
+               line-height: 1.2em;
+            }
+         }
+      }
+
+      .img {
+         flex: 1;
+      }
+   }
+
+   @media screen and (min-width: 768px) {
+      .hero {
+         // gap: 3rem;
+      }
+   }
+}
+
+.btn {
+   text-align: center;
+}
+
+.btn-primary {
+   padding: clamp(0.5rem, 2vw, 1rem) 0;
+   border-radius: 25px;
+   background-color: var(--primary600);
+   color: var(--primary100);
+   cursor: pointer;
+   transition: 0.1s;
+   &:hover {
+      background-color: var(--primary700);
+   }
+}
+
+.btn-neutral {
+   padding: 1rem 6rem;
+   border-radius: 7px;
+   background-color: var(--neutral500);
+   color: var(--neutral900);
+   cursor: pointer;
+   transition: 0.1s;
+   &:hover {
+      background-color: var(--primary200);
+   }
+}
+
+.btn-secondary {
+   padding: 1rem 3rem;
+   border-radius: 7px;
+   background-color: var(--secondary500);
+   color: var(--secondary100);
+   cursor: pointer;
+   transition: 0.1s;
+   &:hover {
+      background-color: var(--secondary600);
+   }
+}
+

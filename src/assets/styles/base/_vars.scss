@@ -1,0 +1,95 @@
+$primary: #ff0000;
+$secondary: #00ff00;
+$tertiary: #0000ff;
+$info: #00ffff;
+$success: #00ff00;
+$warning: #ffff00;
+$danger: #ff0000;
+$neutral: #ffffff;
+
+// dimensions and margins
+$headerHeight: 90px;
+$marginBottom1: 1rem;
+$marginBottom2: 2rem;
+$marginBottom3: 4rem;
+$marginBottom4: 8rem;
+
+$gap1: 1rem;
+$gap2: 2rem;
+$gap3: 4rem;
+$gap4: 8rem;
+
+// font sizes
+
+$desktopWidth: 1024px;
+$tabletWidth: 768px;
+$mobileWidth: 480px;
+
+$desktopToTabletBreak: $desktopWidth;
+$tabletToDesktopBreak: $tabletWidth;
+$mobileToTabletBreak: $mobileWidth;
+
+$layoutPaddingS: clamp(1rem, 2vw, 100px);
+$layoutPaddingM: clamp(5px, 2vw, 200px);
+$layoutPaddingL: clamp(5px, 5vw, 100px);
+$layoutPaddingXL: clamp(5px, 15vw, 300px);
+// $layoutPadding: $layoutPaddingS;
+
+@media screen and (min-width: $tabletToDesktopBreak) {
+   $layoutPadding: $layoutPaddingL;
+}
+
+@media screen and (min-width: $mobileToTabletBreak) {
+   $layoutPadding: $layoutPaddingM;
+}
+
+// media queries for layout padding
+
+// mixin for layout padding
+
+@mixin layoutPadding {
+   padding: 0 $layoutPaddingXL;
+
+   @media screen and (max-width: 1500px) {
+      padding: 0 $layoutPaddingL;
+   }
+
+   @media screen and (max-width: $desktopWidth) {
+      padding: 0 $layoutPaddingM;
+   }
+
+   @media screen and (max-width: $tabletWidth) {
+      padding: 0 $layoutPaddingS;
+   }
+}
+
+@mixin mainLayoutGrid {
+   display: grid;
+   grid-template-columns: $layoutPaddingXL auto $layoutPaddingXL;
+
+   @media screen and (max-width: 1500px) {
+      grid-template-columns: $layoutPaddingL auto $layoutPaddingL;
+   }
+
+   @media screen and (max-width: $desktopWidth) {
+      grid-template-columns: $layoutPaddingM auto $layoutPaddingM;
+   }
+
+   @media screen and (max-width: $tabletWidth) {
+      grid-template-columns: $layoutPaddingS auto $layoutPaddingS;
+   }
+   > * {
+      grid-column: 2;
+   }
+}
+
+@mixin fontSize($size) {
+   font-size: $size;
+   
+   @media screen and (max-width: $tabletWidth) {
+      font-size: $size * 0.8;
+   }
+   @media screen and (max-width: $mobileWidth) {
+      font-size: $size * 0.6;
+   }
+}

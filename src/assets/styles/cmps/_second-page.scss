@@ -1,0 +1,105 @@
+.second-page {
+   margin-bottom: 5rem;
+}
+
+.cards {
+   height: 90%;
+   width: 100%;
+
+   display: flex;
+   justify-content: space-between;
+
+   gap: 1rem;
+
+   .card {
+      border-radius: 15px;
+      flex: 1;
+      box-shadow: 10px 10px 15px -1px rgba(1, 1, 0.5, 0.1);
+      -webkit-box-shadow: 10px 10px 15px -1px rgba(1, 1, 0.5, 0.1);
+      -moz-box-shadow: 10px 10px 15px -1px rgba(1, 1, 0.5, 0.1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      .content-wrapper {
+         // border: 1px white solid;
+         .color-picker-wrapper {
+            // margin: 0 auto;
+            // width: 100%;
+            margin-bottom: 1rem;
+            // display: flex;
+            // justify-content: center;
+         }
+         padding: 1rem;
+         display: flex;
+         flex-direction: column;
+         height: 100%;
+         justify-content: space-between;
+         p {
+            padding: 5px;
+            font-size: 14px;
+            line-height: 1.2em;
+            color: white;
+            border-bottom: 1px rgb(220, 220, 220) solid;
+            margin-bottom: 10px;
+            min-height: 4rem;
+         }
+         .content {
+            background-color: inherit;
+            width: 100%;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+
+            .circle {
+               width: 2rem;
+               height: 2rem;
+               border-radius: 50%;
+               background-color: var(--primary600);
+               margin-inline-end: 1rem;
+            }
+         }
+      }
+
+      &.primary {
+         background-color: var(--primary900);
+         color: var(--primary600);
+      }
+      &.secondary {
+         background-color: var(--secondary900);
+         color: var(--secondary600);
+      }
+      &.neutral {
+         background-color: var(--neutral900);
+         color: var(--neutral600);
+      }
+      .card-header {
+         align-self: top;
+         border-radius: 10px 0 0 0;
+         padding: 1rem;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         &.primary {
+            background-color: var(--primary500);
+            color: var(--primary900);
+         }
+         &.secondary {
+            background-color: var(--secondary100);
+            color: black;
+         }
+         &.neutral {
+            background-color: var(--neutral100);
+            color: black;
+         }
+
+         .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+         }
+         .card-icon {
+            font-size: 1.5rem;
+         }
+      }
+   }
+}
