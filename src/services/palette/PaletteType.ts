@@ -25,7 +25,6 @@ export interface PaletteMetaDataType {
 }
 
 export interface PaletteType {
-   title: string
    primary: PaletteColorType
    secondary: PaletteColorType
    tertiary: PaletteColorType

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { usePaletteContext } from '../hooks/usePaletteContext'
-import { PaletteColorType } from '../services/palette/PaletteType'
+import { PaletteColorType, PaletteType } from '../services/palette/PaletteType'
 import { PaletteColorRole } from '../services/palette/PaletteType'
 import SwatchList from '../components/SwatchList'
 import Waves from '../components/Waves'
@@ -10,7 +10,8 @@ type Props = {
 }
 
 function Hero({ scrollPosition }: Props) {
-   const { palette, paletteColors, generatePaletteByStyle, generatePaletteColor } = usePaletteContext()
+   const { palette, setLock, setPalette, paletteColors, generatePaletteByStyle, generatePaletteColor } =
+      usePaletteContext()
    const [colorStyle, setColorStyle] = React.useState<ColorStyle>('pastel')
 
    useEffect(() => {
@@ -19,20 +20,37 @@ function Hero({ scrollPosition }: Props) {
 
    const handleGenerate = () => {
       const unlockedColors = paletteColors.filter((color: PaletteColorType) => !color.isLocked)
+      let newColor
+      console.log(unlockedColors)
+
+      let newPalette = { ...palette }
       unlockedColors.forEach(color => {
-         generatePaletteColor(colorStyle, color.role as PaletteColorRole)
+         newColor = generatePaletteColor(colorStyle, color.role as PaletteColorRole)
+         // console.log(newColor.role);
+
+         newPalette = { ...newPalette, [newColor.role]: newColor }
       })
+
       generatePaletteByStyle(colorStyle)
+      setPalette(newPalette)
    }
 
-   const setPaletteCssVars = (palette: any) => {
+   const setPaletteCssVars = (palette: PaletteType) => {
       const root = document.documentElement
-      const colorGroups = ['primary', 'secondary', 'tertiary', 'neutral', 'success', 'warning', 'info']
+      const colorRoles = [
+         'primary',
+         'secondary',
+         'tertiary',
+         'neutral',
+         'success',
+         'warning',
+         'info',
+      ] as PaletteColorRole[]
 
-      colorGroups.forEach(group => {
+      colorRoles.forEach(role => {
          for (let i = 100; i <= 900; i += 100) {
-            const variableName = `--${group}${i}`
-            const value = palette[group].shade[i].hex
+            const variableName = `--${role}${i}`
+            const value = palette[role].shade[i].hex
             root.style.setProperty(variableName, value)
          }
       })
@@ -62,7 +80,7 @@ function Hero({ scrollPosition }: Props) {
                   <button className="btn-primary" onClick={handleGenerate}>
                      Generate
                   </button>
-                  
+
                   <select onChange={ev => setColorStyle(ev.target.value as ColorStyle)}>
                      <option value="pastel">Pastel</option>
                      <option value="jewel">Jewel</option>
@@ -78,7 +96,7 @@ function Hero({ scrollPosition }: Props) {
             </div> */}
          </div>
 
-         <SwatchList />
+         <SwatchList palette={palette} onLock={setLock} />
       </section>
    )
 }

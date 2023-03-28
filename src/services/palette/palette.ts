@@ -37,7 +37,7 @@ export class PaletteColor implements PaletteColorType {
       this._id = _id || guid()
       this.shade[500] = this.color
       this.genShades()
-      this.isLocked = this.role === 'primary' ? true : false
+      this.isLocked = false
       this.name = GetColorName(this.color.hex)
    }
 
@@ -108,7 +108,6 @@ interface PaletteConstructorType {
 }
 
 export class Palette implements PaletteType {
-   title: string
    primary: PaletteColorType = new PaletteColor({ role: 'primary' })
    secondary: PaletteColorType = new PaletteColor({ role: 'secondary' })
    tertiary: PaletteColorType = new PaletteColor({ role: 'tertiary' })
@@ -141,10 +140,9 @@ export class Palette implements PaletteType {
       info,
       theme,
    }: PaletteConstructorType) {
-      this.title = title || ''
       this.primary = primary || this.primary
-      this.secondary = secondary || this.setSecondary()
-      this.tertiary = tertiary || this.setTertiary()
+      this.secondary = secondary || this.setAccent('secondary')
+      this.tertiary = tertiary || this.setAccent('tertiary')
       this.neutral = neutral || this.setNeutral(theme)
 
       this.temp = this.setTempByColor(this.primary.shade[500])
@@ -209,14 +207,16 @@ export class Palette implements PaletteType {
       return { secondaryHsl, tertiaryHsl }
    }
 
-   setTertiary = () => {
+
+   setAccent = (role:'secondary'|'tertiary') => {
       const { secondaryHsl, tertiaryHsl } = this._getAccentHsls()
+      const secondary = new Color({ hsl: secondaryHsl })
       const tertiary = new Color({ hsl: tertiaryHsl })
-      return this.setSecondary()
-      // return new PaletteColor({ color: tertiary, role: 'tertiary' })
+      const selectedRole = role === 'secondary' ? secondary : tertiary
+      return new PaletteColor({ color: selectedRole, role })
    }
 
-   setSecondary = () => {
+   _getAccent = () => {
       let AAhex
       let accentColor = new Color({ hex: AAhex })
       const validHueAngles = [30, -30, 210, 150, 120, -120, 180]
@@ -251,16 +251,6 @@ export class Palette implements PaletteType {
 
       return secondaryColor
    }
-
-   // setTertiary = () => {
-   //    let tertiary = new Color({ hex: getRandomAAColor(this.primary.shade[500].hex) })
-   //    let { h, s } = tertiary.hsl
-   //    let primaryLum = this.primary.shade[500].hsl.l
-   //    let newColor = new Color({ hsl: { h, s, l: primaryLum } })
-   //    tertiary = new Color({ hsl: newColor.hsl })
-   //    let tertiaryColor = new PaletteColor({ color: tertiary, role: 'tertiary' })
-   //    return tertiaryColor
-   // }
 
    setSemanticColors = () => {
       let primaryHue = this.primary.shade[500].hsl.h

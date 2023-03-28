@@ -6,14 +6,15 @@ import { usePaletteContext } from '../hooks/usePaletteContext'
 import { guid } from '../services/utils'
 type Props = {
    color: PaletteColorType
+   setLock: (color: PaletteColorType) => void
 }
 
-const Swatch = ({ color }: Props) => {
+const Swatch = ({ color, setLock }: Props) => {
    const [isLocked, setIsLocked] = React.useState(color.isLocked)
-   const { setLock } = usePaletteContext()
    const handleLock = () => {
       setLock(color)
       setIsLocked(color.isLocked)
+      console.log(color)
    }
 
    return (

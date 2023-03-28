@@ -1,18 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { PaletteType } from '../features/palette'
 import { usePaletteContext } from '../hooks/usePaletteContext'
 import { PaletteColorType } from '../services/palette'
 import Swatch from './Swatch'
-type Props = {}
+type Props = {
+   palette: PaletteType
+   onLock: (color: PaletteColorType) => void
+}
 
-const SwatchList = ({}: Props) => {
-   const { palette, setLock } = usePaletteContext()
+const SwatchList = ({ palette, onLock }: Props) => {
    const { primary, secondary, tertiary, info, success, warning, danger, neutral } = palette
    const colors = [primary, secondary, tertiary, neutral, neutral]
    const [itemsToShow, setItemsToShow] = useState<number>(5)
    const [isTop, setIsTop] = useState<boolean>(false)
    const [colorStyle, setColorStyle] = React.useState<'neon' | 'pastel' | 'earth' | 'jewel'>('pastel')
+
    const handleLock = (color: PaletteColorType) => {
-      setLock(color)
+      onLock(color)
    }
 
    // wiewport height
@@ -54,7 +58,7 @@ const SwatchList = ({}: Props) => {
       <div ref={swatchListRef} className="swatch-list-container ">
          <ul className="swatch-list rounded-2xl">
             {colors.slice(0, itemsToShow).map((color, index) => {
-               return <Swatch key={index} color={color} />
+               return <Swatch key={index} color={color} setLock={onLock} />
             })}
          </ul>
          <div className="desc">

@@ -18,18 +18,20 @@ const usePalette = (
    const [colorLocked, setColorLocked] = useState<boolean>(false)
    const [lockedColors, setLockedColors] = useState<PaletteColorType[]>([])
 
+   const paletteColors = [
+      palette.primary,
+      palette.secondary,
+      palette.tertiary,
+      palette.neutral,
+      palette.success,
+      palette.info,
+      palette.warning,
+      palette.danger,
+   ]
+
    return {
       palette,
-      paletteColors: [
-         palette.primary,
-         palette.secondary,
-         palette.tertiary,
-         palette.neutral,
-         palette.success,
-         palette.info,
-         palette.warning,
-         palette.danger,
-      ],
+      paletteColors,
       setPrimary: (primary: ColorType, theme: 'light' | 'dark' = palette.theme) => {
          let primaryColor = new PaletteColor({
             color: primary,
@@ -39,24 +41,24 @@ const usePalette = (
 
          setPalette(new Palette({ primary: primaryColor, metaData, theme }))
       },
-      generate: (paletteStyle: 'neon' | 'pastel' | 'earth' | 'jewel') => {
-         let primaryHsl = utils.getRandomHslByPaletteStyle(paletteStyle)
-         let primary = new Color({ hsl: primaryHsl })
-         let metaData = { ...palette.metaData }
-         let newPalette = new Palette({
-            theme: palette.theme,
-            metaData,
-            primary: new PaletteColor({ role: 'primary', color: primary }),
-         })
-         setPalette(newPalette)
-      },
+
+      // generate: (paletteStyle: 'neon' | 'pastel' | 'earth' | 'jewel') => {
+      //    let primaryHsl = utils.getRandomHslByPaletteStyle(paletteStyle)
+      //    let primary = new Color({ hsl: primaryHsl })
+      //    let metaData = { ...palette.metaData }
+      //    let newPalette = new Palette({
+      //       theme: palette.theme,
+      //       metaData,
+      //       primary: new PaletteColor({ role: 'primary', color: primary }),
+      //    })
+      //    setPalette(newPalette)
+      // },
 
       setPalette: (newPalette: PaletteType) => {
          setPalette(newPalette)
       },
 
       editPaletteColor: (role: string, hex: string) => {
-         role = role
          let newColor = new PaletteColor({ role, color: new Color({ hex }) })
          let newPalette = new Palette({ ...palette, [role]: newColor })
          setPalette(newPalette)
@@ -89,16 +91,13 @@ const usePalette = (
 
       generatePaletteColor: (paletteStyle: string, role: PaletteColorRole) => {
          let hsl = utils.getRandomHslByPaletteStyle(paletteStyle)
-         console.log(hsl)
+         // console.log(hsl)
          let color = new Color({ hsl })
-         let paletteColor = new PaletteColor({ role, color })
-         let newPalette = new Palette({ ...palette, [role]: paletteColor })
-         setPalette(newPalette)
+         return new PaletteColor({ role, color })
       },
 
-      setLock(color: PaletteColorType) {
-         color.setLock(!color.isLocked)
-         // console.log(color.isLocked);
+      setLock(paletteColor: PaletteColorType) {
+         paletteColor.setLock(!paletteColor.isLocked)
       },
    }
 }
