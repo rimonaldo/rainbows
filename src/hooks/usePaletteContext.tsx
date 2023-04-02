@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { ColorType } from '../services/color/type'
 import { Color } from '../services/color/color'
 import { Palette } from '../services/palette/palette'
-import { PaletteMetaDataType, PaletteType, PaletteColorRole, PaletteColorType } from '../services/palette/PaletteType'
+import { PaletteType, PaletteColorRole, PaletteColorType } from '../services/palette/palette'
 import { PaletteColor } from '../services/palette'
 import { paletteUtils as utils } from '../services/palette/paletteUtils'
 
@@ -13,7 +13,8 @@ const usePalette = (
 ) => {
    const [palette, setPalette] = useState<PaletteType>(initial)
    const [paletteStyle, setPaletteStyle] = useState<'neon' | 'pastel' | 'earth' | 'jewel'>(
-      initial.metaData.paletteStyle
+      // initial.paletteStyle
+      'pastel'
    )
    const [colorLocked, setColorLocked] = useState<boolean>(false)
    const [lockedColors, setLockedColors] = useState<PaletteColorType[]>([])
@@ -37,9 +38,7 @@ const usePalette = (
             color: primary,
             role: 'primary',
          })
-         let metaData = { ...palette.metaData }
-
-         setPalette(new Palette({ primary: primaryColor, metaData, theme }))
+         setPalette(new Palette({ primary: primaryColor, theme }))
       },
 
       // generate: (paletteStyle: 'neon' | 'pastel' | 'earth' | 'jewel') => {
@@ -58,15 +57,11 @@ const usePalette = (
          setPalette(newPalette)
       },
 
-      editPaletteColor: (role: string, hex: string) => {
+      editPaletteColor: (role: PaletteColorRole, hex: string) => {
          let newColor = new PaletteColor({ role, color: new Color({ hex }) })
-         let newPalette = new Palette({ ...palette, [role]: newColor })
-         setPalette(newPalette)
-      },
-
-      setMetaData: (metaData: PaletteMetaDataType) => {
-         let newPalette = new Palette({ ...palette, metaData })
-         setPalette(newPalette)
+         // let newPalette = new Palette({ ...palette, [role]: newColor })
+         palette.setPaletteColor(newColor, role)
+         setPalette(palette)
       },
 
       setPaletteStyle: (paletteStyle: 'neon' | 'pastel' | 'earth' | 'jewel') => {
@@ -77,22 +72,29 @@ const usePalette = (
          return utils.getRandomHslByPaletteStyle(paletteStyle)
       },
 
-      generatePaletteByStyle: (paletteStyle: 'neon' | 'pastel' | 'earth' | 'jewel') => {
-         let primaryHsl = utils.getRandomHslByPaletteStyle(paletteStyle)
-         let primary = new Color({ hsl: primaryHsl })
-         let metaData = { ...palette.metaData }
-         let newPalette = new Palette({
-            theme: palette.theme,
-            metaData,
-            primary: new PaletteColor({ role: 'primary', color: primary }),
-         })
-         setPalette(newPalette)
+      generatePaletteByStyle: (
+         temp: number = 0,
+         fluidity: number = 0,
+         paletteStyle: 'neon' | 'pastel' | 'earth' | 'jewel'
+      ) => {
+         // let primaryHsl = utils.getRandomHslByPaletteStyle(paletteStyle)
+         // let primary = new Color({ hsl: primaryHsl })
+         // let newPalette = new Palette({
+         //    theme: palette.theme,
+         //    primary: new PaletteColor({ role: 'primary', color: primary }),
+         // })
+         // setPalette(newPalette)
+         palette.genBrandColors(temp, fluidity, paletteStyle)
+         setPalette(palette)
+         return palette.genBrandColors(temp, fluidity, paletteStyle)
       },
 
       generatePaletteColor: (paletteStyle: string, role: PaletteColorRole) => {
          let hsl = utils.getRandomHslByPaletteStyle(paletteStyle)
          // console.log(hsl)
          let color = new Color({ hsl })
+         console.log()
+
          return new PaletteColor({ role, color })
       },
 

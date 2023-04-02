@@ -104,6 +104,14 @@ const getRandomHslByPaletteStyle = (colorStyleKey: keyof typeof paletteStyle) =>
    return { h, s, l }
 }
 
+const getHueByTemperature = (temperature: number) => {
+   
+}
+
+const getHslBySpreadRatio = (hsl: { h: number; s: number; l: number }, ratio: number) => {
+
+}
+
 // __________________________________________________________________________________________
 
 const randomIntBetween = (min: number, max: number) => {

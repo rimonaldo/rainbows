@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { usePaletteContext } from '../hooks/usePaletteContext'
-import { PaletteColorType, PaletteType } from '../services/palette/PaletteType'
+import { PaletteColorType, PaletteType } from '../services/palette/palette'
 import { PaletteColorRole } from '../services/palette/PaletteType'
 import SwatchList from '../components/SwatchList'
 import Waves from '../components/Waves'
@@ -13,26 +13,47 @@ function Hero({ scrollPosition }: Props) {
    const { palette, setLock, setPalette, paletteColors, generatePaletteByStyle, generatePaletteColor } =
       usePaletteContext()
    const [colorStyle, setColorStyle] = React.useState<ColorStyle>('pastel')
+   const [avg, setAvg] = useState(0)
+   const [pts, setPts] = useState([])
+   const [tempValue, setValue] = useState(1)
+   const [fluidity, setFluidity] = useState(1)
+
+   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = parseInt(event.target.value, 10)
+      setValue(newValue)
+      console.log('Slider value:', newValue)
+   }
+
+   const handleFluidity = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = parseInt(event.target.value, 10)
+      setFluidity(newValue)
+      console.log('Slider value:', newValue)
+   }
 
    useEffect(() => {
       setPaletteCssVars(palette)
-   }, [palette])
+   }, [palette.colors])
 
    const handleGenerate = () => {
-      const unlockedColors = paletteColors.filter((color: PaletteColorType) => !color.isLocked)
-      let newColor
-      console.log(unlockedColors)
+      //    const unlockedColors = paletteColors.filter((color: PaletteColorType) => !color.isLocked)
+      //    let newColor
+      //    console.log(unlockedColors)
 
-      let newPalette = { ...palette }
-      unlockedColors.forEach(color => {
-         newColor = generatePaletteColor(colorStyle, color.role as PaletteColorRole)
-         // console.log(newColor.role);
+      //    let newPalette = { ...palette }
+      //    unlockedColors.forEach(color => {
+      //       newColor = generatePaletteColor(colorStyle, color.role as PaletteColorRole)
+      //       // console.log(newColor.role);
 
-         newPalette = { ...newPalette, [newColor.role]: newColor }
-      })
+      //       newPalette = { ...newPalette, [newColor.role]: newColor }
+      //    })
 
-      generatePaletteByStyle(colorStyle)
-      setPalette(newPalette)
+      const ptsObj = generatePaletteByStyle(tempValue,fluidity,colorStyle)
+      const { avgHue, pts } = ptsObj
+      setAvg(avgHue)
+      setPts(pts)
+      console.log(avgHue, pts)
+
+      // setPalette(newPalette)
    }
 
    const setPaletteCssVars = (palette: PaletteType) => {
@@ -52,6 +73,8 @@ function Hero({ scrollPosition }: Props) {
             const variableName = `--${role}${i}`
             const value = palette[role].shade[i].hex
             root.style.setProperty(variableName, value)
+            // console.log();
+            
          }
       })
    }
@@ -96,6 +119,45 @@ function Hero({ scrollPosition }: Props) {
             </div> */}
          </div>
 
+         <input type="range" min={1} max={3} value={tempValue} onChange={handleSliderChange} style={{ width: '20%' }} />
+         <input type="range" min={1} max={3} value={fluidity} onChange={handleFluidity} style={{ width: '20%' }} />
+         <div
+            style={{
+               position: 'relative',
+               border: '1px black solid',
+               width: '360px',
+               margin: '1rem auto',
+               padding: '1rem 0',
+            }}
+         >
+            <div
+               className="avg"
+               style={{ position: 'absolute', top: 0, left: avg, width: '10px', background: 'red', height: '100%' }}
+            ></div>
+
+            <div
+               className="pt1"
+               style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: pts[0],
+                  width: '10px',
+                  background: 'black',
+                  height: '100%',
+               }}
+            ></div>
+            <div
+               className="pt2"
+               style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: pts[1],
+                  width: '10px',
+                  background: 'black',
+                  height: '100%',
+               }}
+            ></div>
+         </div>
          <SwatchList palette={palette} onLock={setLock} />
       </section>
    )

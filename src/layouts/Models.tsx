@@ -17,8 +17,12 @@ const Models = ({ isScrolledDown, scrollPosition }: Props) => {
    const colors = [info, success, warning, danger]
 
 
+   useEffect(() => {
+      console.log('palette', palette)
+   }, [palette])
+
    return (
-      <section className="models-container">
+      <section className="models-container" style={{background:palette.primary.shade[800].hex}}>
          <header className="main-models-header">
             <h2 className="">Models</h2>
             <h4>Lorem ipsum dolor sit amet, consectetur!</h4>

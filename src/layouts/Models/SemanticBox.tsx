@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { PaletteColor } from '../../services/palette'
+import { guid } from '../../services/utils'
 type Props = {
    colors: PaletteColor[]
 }
@@ -49,7 +50,7 @@ const SemanticsBox = ({ colors }: Props) => {
             <ul className="semantic-list">
                {colors.map(color => {
                   return (
-                     <li>
+                     <li key={guid()}>
                         <div className="color-name" style={{ color: color.shade[500].hex }}>
                            {color.name}
                         </div>

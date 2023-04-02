@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { PaletteType } from '../features/palette'
+import { PaletteType } from '../services/palette'
 import { usePaletteContext } from '../hooks/usePaletteContext'
 import { PaletteColorType } from '../services/palette'
 import Swatch from './Swatch'
+import { guid } from '../services/utils'
 type Props = {
    palette: PaletteType
    onLock: (color: PaletteColorType) => void
@@ -37,6 +38,7 @@ const SwatchList = ({ palette, onLock }: Props) => {
       }
    })
 
+   // set number of swatches to show based on viewport width
    useEffect(() => {
       console.log(width)
       if (width < 768) {
@@ -46,6 +48,7 @@ const SwatchList = ({ palette, onLock }: Props) => {
       }
    }, [width])
 
+   // set scroll animation
    useEffect(() => {
       if (position && position?.top < 0) {
          setIsTop(true)
@@ -58,7 +61,7 @@ const SwatchList = ({ palette, onLock }: Props) => {
       <div ref={swatchListRef} className="swatch-list-container ">
          <ul className="swatch-list rounded-2xl">
             {colors.slice(0, itemsToShow).map((color, index) => {
-               return <Swatch key={index} color={color} setLock={onLock} />
+               return <Swatch key={guid()} color={color} setLock={onLock} />
             })}
          </ul>
          <div className="desc">

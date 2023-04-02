@@ -9,20 +9,57 @@ import { HarmonyTitle } from '../harmony'
 import { paletteUtils as utils } from './paletteUtils'
 import { GetColorName } from 'hex-color-to-color-name'
 
-export class Palette implements PaletteType {
-   colors: Record<PaletteColorRole, PaletteColorType> = {
-      primary: new PaletteColor({ role: 'primary' }),
-      secondary: new PaletteColor({ role: 'secondary' }),
-      tertiary: new PaletteColor({ role: 'tertiary' }),
-      neutral: new PaletteColor({ role: 'neutral' }),
-      success: new PaletteColor({ role: 'success' }),
-      warning: new PaletteColor({ role: 'warning' }),
-      danger: new PaletteColor({ role: 'danger' }),
-      info: new PaletteColor({ role: 'info' }),
-      // Add other roles if needed
-   }
+// TYPES
+// .................................................
+// TYPES
 
-   primary: PaletteColorType = new PaletteColor({ role: 'primary' })
+export interface PaletteColorType {
+   role: string
+   name: string
+   shade: ColorShadeType
+   isLocked: boolean
+   color: ColorType
+   setLock: (lock: boolean) => void
+}
+
+export interface ColorShadeType {
+   [key: number]: ColorType
+   genShades: () => void
+}
+
+// CLASSES
+// ..............................................
+//
+
+export interface PaletteType {
+   primary: PaletteColorType
+   secondary: PaletteColorType
+   tertiary: PaletteColorType
+   neutral: PaletteColorType
+   info: PaletteColorType
+   warning: PaletteColorType
+   danger: PaletteColorType
+   success: PaletteColorType
+   metaData: PaletteMetaDataType
+   theme: 'light' | 'dark'
+}
+
+interface PaletteConstructorType {
+   title?: string
+   primary?: PaletteColorType
+   secondary?: PaletteColorType
+   tertiary?: PaletteColorType
+   neutral?: PaletteColorType
+   success?: PaletteColorType
+   warning?: PaletteColorType
+   danger?: PaletteColorType
+   info?: PaletteColorType
+   metaData?: PaletteMetaDataType
+   theme?: 'light' | 'dark'
+}
+
+export class Palette implements PaletteType {
+   primary: PaletteColorType = new PaletteColor({ role: 'primary', })
    secondary: PaletteColorType = new PaletteColor({ role: 'secondary' })
    tertiary: PaletteColorType = new PaletteColor({ role: 'tertiary' })
    neutral: PaletteColorType = new PaletteColor({ role: 'neutral' })
@@ -30,22 +67,8 @@ export class Palette implements PaletteType {
    warning: PaletteColorType = new PaletteColor({ role: 'warning' })
    danger: PaletteColorType = new PaletteColor({ role: 'danger' })
    info: PaletteColorType = new PaletteColor({ role: 'info' })
-   // [key:PaletteColorType]: PaletteColorType
    theme: 'light' | 'dark' = 'light' // light or dark
    temp: 'cool' | 'warm' = 'cool' // warm or cool
-   private colorsRank = {
-      blue: 2,
-      green: 1,
-      purple: 1,
-      red: 1,
-      black: 1,
-      orange: 0.5,
-      yellow: 0.5,
-      pink: 0.5,
-      white: 0.2,
-      brown: 0.2,
-   }
-   
    metaData: PaletteMetaDataType = {
       creationTimeStamp: Date.now(),
       temp: 'cool', // warm or cool
@@ -80,139 +103,11 @@ export class Palette implements PaletteType {
       this.theme = theme || this.theme
    }
 
-   genBrandColors(temp: number = 1, fluidity: number = 1, style: 'neon' | 'pastel' | 'earth' | 'jewel' = 'pastel') {
-      // Extract color properties
+   generateBrandColors = ({ temperature = 0, fluidity = 0, style = 'pastel' }) => {
       const { primary, secondary, tertiary } = this
-      const brandColors = [primary, secondary, tertiary]
-
-      // Filter unlocked and locked colors
-      const unlockedColors = brandColors.filter(color => !color.isLocked)
-      const anchors = brandColors.filter(color => color.isLocked)
-
-      console.log(anchors)
-
-      // calculate unlocked colors based on anchors:
-      // 1. if there is only one anchor, generate two colors
-      // 2. if there are two anchors, generate one color
-      // 3. if there are no anchors, generate three colors
-
-      // Generate random styles list
-      const randStylesList = this._generateRandomStylesList(unlockedColors.length)
-      console.log(randStylesList)
-
-      // Calculate average hue and points
-      const avgHue = this._calculateAvgHue(temp as 1 | 2 | 3)
-      const overallDist = 360
-      const distfromAvg = (overallDist / 2) * fluidity
-      let generatedHues = this._separateAvgHue(avgHue, distfromAvg, unlockedColors.length)
-      generatedHues = [avgHue, generatedHues[0], generatedHues[1]]
-
-      // Update unlocked colors with new HSL values
-      this._updateUnlockedColors(unlockedColors, randStylesList, generatedHues)
-
-      // Return average hue and points
-      return { avgHue, pts: generatedHues }
-   }
-
-   _calculateAvgHue(temp: 1 | 2 | 3) {
-      return this._randHueInTempRange(temp)
-   }
-
-   _separateAvgHue(avgHue: number, distfromAvg: number, length: number) {
-      return this._sepetareAvgToTwoPoints(avgHue, distfromAvg, length)
-   }
-
-   _generateRandomStylesList(length: number) {
-      const styles = ['neon', 'pastel', 'earth', 'jewel', 'jewel', 'jewel']
-      const randStyles = []
-      for (let i = 0; i < length; i++) {
-         const randIndex = Math.floor(Math.random() * styles.length)
-         randStyles.push(styles[randIndex])
-      }
-      return randStyles
-   }
-
-   _calculateHSL(randStyle: string, h: number) {
-      const { s, l } = this._randSatLumByPaletteStyle(randStyle)
-      return { h, s, l }
-   }
-
-   _updateColors(colorRole: PaletteColorRole, hsl: { h: number; s: number; l: number }) {
-      this.colors[colorRole] = new PaletteColor({
-         role: colorRole,
-         color: new Color({ hsl }),
-      })
-   }
-
-   private _updateUnlockedColors(unlockedColors: PaletteColorType[], randStylesList: string[], pts: number[]) {
-      unlockedColors.forEach((color, i) => {
-         const randStyle = randStylesList[i]
-         const hsl = this._calculateHSL(randStyle, pts[i])
-         let colorRole = color.role as PaletteColorRole
-         this._updateColors(colorRole, hsl)
-      })
-
-      this.primary = this.colors.primary
-      this.secondary = this.colors.secondary
-      this.tertiary = this.colors.tertiary
-      console.log(this.tertiary)
-   }
-
-   private _randSatLumByPaletteStyle = (colorStyleKey: keyof typeof paletteStyle) => {
-      const { sat, lum } = paletteStyle[colorStyleKey]
-      const s = +(Math.random() * (sat.max - sat.min) + sat.min).toFixed(2)
-      const l = +(Math.random() * (lum.max - lum.min) + lum.min).toFixed(2)
-      return { s, l }
-   }
-
-   private _randHueInTempRange = (temp: 1 | 2 | 3) => {
-      const range1 = [180, 270]
-      const range2 = [[60, 180]]
-      const ranges3 = [
-         [0, 60],
-         [300, 360],
-      ]
-
-      const rand = (min: number, max: number) => +Math.random() * (max - min) + min
-
-      if (temp === 1) {
-         return +rand(range1[0], range1[1]).toFixed(0)
-      } else if (temp === 2) {
-         const range = range2[Math.floor(Math.random() * range2.length)]
-         return +rand(range[0], range[1]).toFixed(0)
-      } else if (temp === 3) {
-         const range = ranges3[Math.floor(Math.random() * ranges3.length)]
-         return +rand(range[0], range[1]).toFixed(0)
-      }
-
-      return 0
-   }
-
-   private _sepetareAvgToTwoPoints = (avg: number, distance: number, amount = 2) => {
-      let ratio = [1, 1]
-
-      if (amount === 3) {
-         ratio = [1, 2]
-      }
-
-      const sum = ratio.reduce((a, b) => a + b)
-      const ratio1 = ratio[0] / sum
-      const ratio2 = ratio[1] / sum
-
-      // if point is over 360, then substract 360
-
-      let pt1 = avg - distance * ratio1
-      let pt2 = avg + distance * ratio2
-
-      if (pt1 < 0) {
-         pt1 = 360 + pt1
-      }
-
-      if (pt2 > 360) {
-         pt2 = pt2 - 360
-      }
-
-      return [+pt1.toFixed(0), +pt2.toFixed(0)]
+      const unlcockedColors = [primary, secondary, tertiary].filter(color => !color.isLocked)
+      unlcockedColors.forEach(color => {})
+      const { h, s, l } = primary.shade[500].hsl
    }
 
    setTempByColor = (color: ColorType) => {
@@ -224,10 +119,6 @@ export class Palette implements PaletteType {
    getColorTemp(color: ColorType) {
       const { h } = color.hsl
       return (h >= 0 && h <= 60) || (h >= 270 && h <= 360) ? 'cool' : 'warm'
-   }
-
-   setPaletteColor = (color: PaletteColorType, role: PaletteColorRole) => {
-      this[role] = color
    }
 
    _getAccentHsls = () => {
@@ -377,103 +268,6 @@ export class Palette implements PaletteType {
          color: new Color({ hsl: neutralHsl }),
       })
    }
-}
-
-export interface PaletteType {
-   colors: object
-
-   primary: PaletteColorType
-   secondary: PaletteColorType
-   tertiary: PaletteColorType
-   neutral: PaletteColorType
-   info: PaletteColorType
-   warning: PaletteColorType
-   danger: PaletteColorType
-   success: PaletteColorType
-   metaData: PaletteMetaDataType
-   theme: 'light' | 'dark'
-   genBrandColors: (temp: number, fluidity: number, style: 'neon' | 'pastel' | 'earth' | 'jewel') => void
-   setPaletteColor: (color: PaletteColorType, role: PaletteColorRole) => void
-}
-
-export class PaletteColor implements PaletteColorType {
-   _id: string
-   role: string
-   color: ColorType
-   name: string = ''
-   shade: ColorShadeType = new BrandShader({ color: new Color({}) })
-   isLocked: boolean = false
-   style: 'neon' | 'pastel' | 'earth' | 'jewel' = 'pastel'
-   constructor({ role, color, _id }: { role: PaletteColorRole; color?: ColorType; hex?: string; _id?: string }) {
-      this.role = role
-      this.color = color || new Color({})
-      this._id = _id || guid()
-      this.shade[500] = this.color
-      this.shade.genShades()
-      this.isLocked = false
-      this.name = GetColorName(this.color.hex)
-   }
-
-   setLock = () => {
-      this.isLocked = !this.isLocked
-   }
-
-   genShades = () => {
-      this.shade.genShades()
-   }
-
-   setStyle = (style: 'neon' | 'pastel' | 'earth' | 'jewel') => {
-      this.style = style
-   }
-}
-
-export interface PaletteColorType {
-   role: string
-   name: string
-   shade: ColorShadeType
-   isLocked: boolean
-   color: ColorType
-   setLock: (lock: boolean) => void
-}
-
-type ColorStyleRangeType = {
-   sat: { min: number; max: number }
-   lum: { min: number; max: number }
-}
-
-const paletteStyle: { [key: string]: ColorStyleRangeType } = {
-   pastel: { sat: { min: 0.3, max: 0.45 }, lum: { min: 0.8, max: 0.9 } },
-   neutral: { sat: { min: 0.05, max: 0.15 }, lum: { min: 0.75, max: 0.9 } },
-   neon: { sat: { min: 0.95, max: 1 }, lum: { min: 0.6, max: 0.7 } },
-   earth: { sat: { min: 0.2, max: 0.35 }, lum: { min: 0.2, max: 0.4 } },
-   jewel: { sat: { min: 0.5, max: 0.65 }, lum: { min: 0.5, max: 0.7 } },
-}
-
-// TYPES
-// .................................................
-// TYPES
-
-export interface ColorShadeType {
-   [key: number]: ColorType
-   genShades: () => void
-}
-
-// CLASSES
-// ..............................................
-//
-
-interface PaletteConstructorType {
-   title?: string
-   primary?: PaletteColorType
-   secondary?: PaletteColorType
-   tertiary?: PaletteColorType
-   neutral?: PaletteColorType
-   success?: PaletteColorType
-   warning?: PaletteColorType
-   danger?: PaletteColorType
-   info?: PaletteColorType
-   metaData?: PaletteMetaDataType
-   theme?: 'light' | 'dark'
 }
 
 export class BrandShader implements ColorShadeType {
@@ -635,15 +429,34 @@ export class NeutralsShader implements ColorShadeType {
    }
 }
 
-export type PaletteColorRole =
-   | 'primary'
-   | 'secondary'
-   | 'tertiary'
-   | 'warning'
-   | 'success'
-   | 'info'
-   | 'danger'
-   | 'neutral'
+export type PaletteColorRole = 'primary' | 'secondary' | 'tertiary' | 'warning' | 'success' | 'info' | 'danger' | 'neutral'
+
+export class PaletteColor implements PaletteColorType {
+   _id: string
+   role: string
+   color: ColorType
+   name: string = ''
+   shade: ColorShadeType = new BrandShader({ color: new Color({}) })
+   isLocked: boolean = false
+
+   constructor({ role, color, _id }: { role: PaletteColorRole; color?: ColorType; hex?: string; _id?: string }) {
+      this.role = role
+      this.color = color || new Color({})
+      this._id = _id || guid()
+      this.shade[500] = this.color
+      this.shade.genShades()
+      this.isLocked = false
+      this.name = GetColorName(this.color.hex)
+   }
+
+   setLock = (isLocked: boolean) => {
+      this.isLocked = isLocked
+   }
+
+   genShades = () => {
+      this.shade.genShades()
+   }
+}
 
 export class BrandColor extends PaletteColor {
    constructor({ role, color, hex, _id }: { role: PaletteColorRole; color: ColorType; hex?: string; _id?: string }) {

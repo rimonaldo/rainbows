@@ -14,12 +14,12 @@ const Swatch = ({ color, setLock }: Props) => {
    const handleLock = () => {
       setLock(color)
       setIsLocked(color.isLocked)
-      console.log(color)
    }
 
    return (
       <li className="swatch" key={guid()}>
          <div className="color " style={{ background: color.shade[500].hex }}></div>
+         {/* {color.color.hsl.h.toFixed(0)} */}
          <div className="bottom-line">
             <div className="hex">{color.shade[500].hex}</div>
             <div onClick={handleLock} className="lock ">
