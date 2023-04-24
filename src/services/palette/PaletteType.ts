@@ -8,14 +8,12 @@ export interface ColorShadeType {
 
 export interface PaletteColorType {
    role: string
-   shade: ColorShadeType
-   hue: number
-   isLocked: boolean
    name: string
+   shade: ColorShadeType
+   isLocked: boolean
    color: ColorType
-   setLock: (lock: boolean) => void
+   setLock: () => void
 }
-
 export interface PaletteMetaDataType {
    creationTimeStamp: number
    temp: 'warm' | 'cool'
@@ -25,6 +23,7 @@ export interface PaletteMetaDataType {
 }
 
 export interface PaletteType {
+   // colors: object
    primary: PaletteColorType
    secondary: PaletteColorType
    tertiary: PaletteColorType
@@ -35,6 +34,9 @@ export interface PaletteType {
    success: PaletteColorType
    metaData: PaletteMetaDataType
    theme: 'light' | 'dark'
+   generate: () => void
+   genBrandColors: (temp: number, fluidity: number, style: 'neon' | 'pastel' | 'earth' | 'jewel') => void
+   setPaletteColor: (color: PaletteColorType, role: PaletteColorRole) => void
 }
 
 export type PaletteColorRole =

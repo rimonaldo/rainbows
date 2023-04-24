@@ -8,19 +8,20 @@ import { guid } from '../utils'
 import { HarmonyTitle } from '../harmony'
 import { paletteUtils as utils } from './paletteUtils'
 import { GetColorName } from 'hex-color-to-color-name'
+import { PaletteType, PaletteColorType } from './PaletteType'
 
 export class Palette implements PaletteType {
-   colors: Record<PaletteColorRole, PaletteColorType> = {
-      primary: new PaletteColor({ role: 'primary' }),
-      secondary: new PaletteColor({ role: 'secondary' }),
-      tertiary: new PaletteColor({ role: 'tertiary' }),
-      neutral: new PaletteColor({ role: 'neutral' }),
-      success: new PaletteColor({ role: 'success' }),
-      warning: new PaletteColor({ role: 'warning' }),
-      danger: new PaletteColor({ role: 'danger' }),
-      info: new PaletteColor({ role: 'info' }),
-      // Add other roles if needed
-   }
+   // colors: Record<PaletteColorRole, PaletteColorType> = {
+   //    primary: new PaletteColor({ role: 'primary' }),
+   //    secondary: new PaletteColor({ role: 'secondary' }),
+   //    tertiary: new PaletteColor({ role: 'tertiary' }),
+   //    neutral: new PaletteColor({ role: 'neutral' }),
+   //    success: new PaletteColor({ role: 'success' }),
+   //    warning: new PaletteColor({ role: 'warning' }),
+   //    danger: new PaletteColor({ role: 'danger' }),
+   //    info: new PaletteColor({ role: 'info' }),
+   //    // Add other roles if needed
+   // }
 
    primary: PaletteColorType = new PaletteColor({ role: 'primary' })
    secondary: PaletteColorType = new PaletteColor({ role: 'secondary' })
@@ -45,7 +46,7 @@ export class Palette implements PaletteType {
       white: 0.2,
       brown: 0.2,
    }
-   
+
    metaData: PaletteMetaDataType = {
       creationTimeStamp: Date.now(),
       temp: 'cool', // warm or cool
@@ -79,6 +80,8 @@ export class Palette implements PaletteType {
       this.danger = danger || this.danger
       this.theme = theme || this.theme
    }
+   generate() {
+   }
 
    genBrandColors(temp: number = 1, fluidity: number = 1, style: 'neon' | 'pastel' | 'earth' | 'jewel' = 'pastel') {
       // Extract color properties
@@ -109,9 +112,6 @@ export class Palette implements PaletteType {
 
       // Update unlocked colors with new HSL values
       this._updateUnlockedColors(unlockedColors, randStylesList, generatedHues)
-
-      // Return average hue and points
-      return { avgHue, pts: generatedHues }
    }
 
    _calculateAvgHue(temp: 1 | 2 | 3) {
@@ -138,7 +138,7 @@ export class Palette implements PaletteType {
    }
 
    _updateColors(colorRole: PaletteColorRole, hsl: { h: number; s: number; l: number }) {
-      this.colors[colorRole] = new PaletteColor({
+      this[colorRole] = new PaletteColor({
          role: colorRole,
          color: new Color({ hsl }),
       })
@@ -152,10 +152,9 @@ export class Palette implements PaletteType {
          this._updateColors(colorRole, hsl)
       })
 
-      this.primary = this.colors.primary
-      this.secondary = this.colors.secondary
-      this.tertiary = this.colors.tertiary
-      console.log(this.tertiary)
+      this.primary = this.primary
+      this.secondary = this.secondary
+      this.tertiary = this.tertiary
    }
 
    private _randSatLumByPaletteStyle = (colorStyleKey: keyof typeof paletteStyle) => {
@@ -379,23 +378,6 @@ export class Palette implements PaletteType {
    }
 }
 
-export interface PaletteType {
-   colors: object
-
-   primary: PaletteColorType
-   secondary: PaletteColorType
-   tertiary: PaletteColorType
-   neutral: PaletteColorType
-   info: PaletteColorType
-   warning: PaletteColorType
-   danger: PaletteColorType
-   success: PaletteColorType
-   metaData: PaletteMetaDataType
-   theme: 'light' | 'dark'
-   genBrandColors: (temp: number, fluidity: number, style: 'neon' | 'pastel' | 'earth' | 'jewel') => void
-   setPaletteColor: (color: PaletteColorType, role: PaletteColorRole) => void
-}
-
 export class PaletteColor implements PaletteColorType {
    _id: string
    role: string
@@ -425,15 +407,6 @@ export class PaletteColor implements PaletteColorType {
    setStyle = (style: 'neon' | 'pastel' | 'earth' | 'jewel') => {
       this.style = style
    }
-}
-
-export interface PaletteColorType {
-   role: string
-   name: string
-   shade: ColorShadeType
-   isLocked: boolean
-   color: ColorType
-   setLock: (lock: boolean) => void
 }
 
 type ColorStyleRangeType = {

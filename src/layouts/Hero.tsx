@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { usePaletteContext } from '../hooks/usePaletteContext'
-import { PaletteColorType, PaletteType } from '../services/palette/palette'
+import { PaletteColorType, PaletteType } from '../services/palette/PaletteType'
 import { PaletteColorRole } from '../services/palette/PaletteType'
 import SwatchList from '../components/SwatchList'
 import Waves from '../components/Waves'
@@ -32,26 +32,13 @@ function Hero({ scrollPosition }: Props) {
 
    useEffect(() => {
       setPaletteCssVars(palette)
-   }, [palette.colors])
+   }, [palette.primary])
 
    const handleGenerate = () => {
-      //    const unlockedColors = paletteColors.filter((color: PaletteColorType) => !color.isLocked)
-      //    let newColor
-      //    console.log(unlockedColors)
-
-      //    let newPalette = { ...palette }
-      //    unlockedColors.forEach(color => {
-      //       newColor = generatePaletteColor(colorStyle, color.role as PaletteColorRole)
-      //       // console.log(newColor.role);
-
-      //       newPalette = { ...newPalette, [newColor.role]: newColor }
-      //    })
-
-      const ptsObj = generatePaletteByStyle(tempValue,fluidity,colorStyle)
-      const { avgHue, pts } = ptsObj
-      setAvg(avgHue)
+      generatePaletteByStyle(tempValue, fluidity, colorStyle)
+      // const { avgHue, pts } = ptsObj
+      // setAvg(avgHue)
       setPts(pts)
-      console.log(avgHue, pts)
 
       // setPalette(newPalette)
    }
@@ -74,7 +61,6 @@ function Hero({ scrollPosition }: Props) {
             const value = palette[role].shade[i].hex
             root.style.setProperty(variableName, value)
             // console.log();
-            
          }
       })
    }
