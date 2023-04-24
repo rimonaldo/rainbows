@@ -143,14 +143,14 @@ export class Palette implements PaletteType {
       this.primary = primary || this.primary
       this.secondary = secondary || this.setAccent('secondary')
       this.tertiary = tertiary || this.setAccent('tertiary')
-      this.neutral = neutral || this.setNeutral(theme)
+      this.neutral = this.setNeutral(theme)
 
       this.temp = this.setTempByColor(this.primary.shade[500])
       this.setSemanticColors()
-      this.info = info || this.info
-      this.success = success || this.success
-      this.warning = warning || this.warning
-      this.danger = danger || this.danger
+      this.info = this.info
+      this.success =  this.success
+      this.warning =  this.warning
+      this.danger =  this.danger
       this.metaData = metaData || this.metaData
       this.theme = theme || this.theme
    }

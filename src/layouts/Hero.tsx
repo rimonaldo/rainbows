@@ -19,7 +19,8 @@ function Hero({ scrollPosition }: Props) {
    }, [palette])
 
    const handleGenerate = () => {
-      const unlockedColors = paletteColors.filter((color: PaletteColorType) => !color.isLocked)
+      const brandColors = [palette.primary, palette.secondary, palette.tertiary]
+      const unlockedColors = brandColors.filter((color: PaletteColorType) => !color.isLocked)
       let newColor
       console.log(unlockedColors)
 
@@ -31,7 +32,7 @@ function Hero({ scrollPosition }: Props) {
          newPalette = { ...newPalette, [newColor.role]: newColor }
       })
 
-      generatePaletteByStyle(colorStyle)
+      // generatePaletteByStyle(colorStyle)
       setPalette(newPalette)
    }
 
