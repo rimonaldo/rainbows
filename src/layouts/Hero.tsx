@@ -143,7 +143,7 @@ function Hero({ scrollPosition }: Props) {
                   top: 0,
                   left: pts[0],
                   width: '10px',
-                  background: new Color({ hsl: { h: pts[0], s: 1, l: 0.5 } }).hex,
+                  background: new Color({ hsl: { h: pts[0], s: palette.primary.color.hsl.s, l: palette.primary.color.hsl.l } }).hex,
                   height: '100%',
                   zIndex: 2,
                   color: textColor(new Color({ hsl: { h: pts[0], s: 1, l: 0.5 } }).rgb),
@@ -158,7 +158,7 @@ function Hero({ scrollPosition }: Props) {
                   top: 0,
                   left: pts[1],
                   width: '10px',
-                  background: new Color({ hsl: { h: pts[1], s: 0.5, l: 0.5 } }).hex,
+                  background: new Color({ hsl: { h: pts[1], s: palette.secondary.color.hsl.s, l: palette.secondary.color.hsl.l } }).hex,
                   height: '100%',
                   color: textColor(new Color({ hsl: { h: pts[1], s: 1, l: 0.5 } }).rgb),
                }}
@@ -172,7 +172,7 @@ function Hero({ scrollPosition }: Props) {
                   top: 0,
                   left: pts[2],
                   width: '10px',
-                  background: new Color({ hsl: { h: pts[2], s: 0.5, l: 0.5 } }).hex,
+                  background: new Color({ hsl: { h: pts[2], s: palette.tertiary.color.hsl.s, l: palette.tertiary.color.hsl.l } }).hex,
                   height: '100%',
                   color: textColor(new Color({ hsl: { h: pts[2], s: 1, l: 0.5 } }).rgb),
                }}
