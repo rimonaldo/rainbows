@@ -40,7 +40,7 @@ const SwatchList = ({ palette, onLock }: Props) => {
 
    // set number of swatches to show based on viewport width
    useEffect(() => {
-      console.log(width)
+      // console.log(width)
       if (width < 768) {
          setItemsToShow(3)
       } else {

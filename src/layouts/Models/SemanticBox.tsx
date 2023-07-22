@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { PaletteColor } from '../../services/palette'
 import { guid } from '../../services/utils'
+import { usePaletteContext } from '../../hooks/usePaletteContext'
 type Props = {
    colors: PaletteColor[]
 }
@@ -8,6 +9,7 @@ type Props = {
 const SemanticsBox = ({ colors }: Props) => {
    const [isRowShown, setIsRowShown] = useState(false)
    const elRef = useRef<HTMLDivElement>(null)
+   const { palette } = usePaletteContext()
    useEffect(() => {
       const observer = new IntersectionObserver(
          entries => {
@@ -34,7 +36,7 @@ const SemanticsBox = ({ colors }: Props) => {
             observer.unobserve(elRef.current)
          }
       }
-   }, [elRef]) // Add dependency array to avoid unnecessary re-renders
+   }, [elRef, palette]) // Add dependency array to avoid unnecessary re-renders
 
    return (
       <div ref={elRef} className="box semantics ">

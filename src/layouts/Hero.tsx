@@ -5,29 +5,30 @@ import { PaletteColorRole } from '../services/palette/PaletteType'
 import SwatchList from '../components/SwatchList'
 import Waves from '../components/Waves'
 import { ColorStyle } from '../services/palette/PaletteType'
+import { Color } from '../services/color'
 type Props = {
    scrollPosition: number
 }
 
 function Hero({ scrollPosition }: Props) {
-   const { palette, setLock, setPalette, paletteColors, generatePaletteByStyle, generatePaletteColor } =
+   const { getPtsObj, palette, setLock, setPalette, paletteColors, generatePaletteByStyle, generatePaletteColor } =
       usePaletteContext()
    const [colorStyle, setColorStyle] = React.useState<ColorStyle>('pastel')
    const [avg, setAvg] = useState(0)
    const [pts, setPts] = useState([])
    const [tempValue, setValue] = useState(1)
-   const [fluidity, setFluidity] = useState(1)
+   const [fluidity, setFluidity] = useState(3)
 
    const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = parseInt(event.target.value, 10)
       setValue(newValue)
-      console.log('Slider value:', newValue)
+      // console.log('Slider value:', newValue)
    }
 
    const handleFluidity = (event: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = parseInt(event.target.value, 10)
       setFluidity(newValue)
-      console.log('Slider value:', newValue)
+      // console.log('Slider value:', newValue)
    }
 
    useEffect(() => {
@@ -35,25 +36,12 @@ function Hero({ scrollPosition }: Props) {
    }, [palette.colors])
 
    const handleGenerate = () => {
-      //    const unlockedColors = paletteColors.filter((color: PaletteColorType) => !color.isLocked)
-      //    let newColor
-      //    console.log(unlockedColors)
-
-      //    let newPalette = { ...palette }
-      //    unlockedColors.forEach(color => {
-      //       newColor = generatePaletteColor(colorStyle, color.role as PaletteColorRole)
-      //       // console.log(newColor.role);
-
-      //       newPalette = { ...newPalette, [newColor.role]: newColor }
-      //    })
-
-      const ptsObj = generatePaletteByStyle(tempValue,fluidity,colorStyle)
+      type PtsObj = { avgHue: number; pts: number[] }
+      generatePaletteByStyle(tempValue, fluidity, colorStyle)
+      const ptsObj: PtsObj = getPtsObj()
       const { avgHue, pts } = ptsObj
       setAvg(avgHue)
-      setPts(pts)
-      console.log(avgHue, pts)
-
-      // setPalette(newPalette)
+      setPts(pts as any)
    }
 
    const setPaletteCssVars = (palette: PaletteType) => {
@@ -74,7 +62,6 @@ function Hero({ scrollPosition }: Props) {
             const value = palette[role].shade[i].hex
             root.style.setProperty(variableName, value)
             // console.log();
-            
          }
       })
    }
@@ -100,7 +87,14 @@ function Hero({ scrollPosition }: Props) {
                </div>
 
                <div className="action-container">
-                  <button className="btn-primary" onClick={handleGenerate}>
+                  <button
+                     style={{
+                        background: palette.primary.shade[500].hex,
+                        color: textColor(palette.primary.shade[500].rgb),
+                     }}
+                     className="btn-primary"
+                     onClick={handleGenerate}
+                  >
                      Generate
                   </button>
 
@@ -114,9 +108,9 @@ function Hero({ scrollPosition }: Props) {
             </header>
 
             <div className="img"></div>
-            {/* <div style={{ position: 'absolute', bottom: '0', right: 0, width: '100%', zIndex: '1' }}>
+            <div style={{ position: 'absolute', bottom: '0', right: 0, width: '100%', zIndex: '1' }}>
                <Waves />
-            </div> */}
+            </div>
          </div>
 
          <input type="range" min={1} max={3} value={tempValue} onChange={handleSliderChange} style={{ width: '20%' }} />
@@ -132,7 +126,14 @@ function Hero({ scrollPosition }: Props) {
          >
             <div
                className="avg"
-               style={{ position: 'absolute', top: 0, left: avg, width: '10px', background: 'red', height: '100%' }}
+               style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: avg,
+                  width: '10px',
+                  background: new Color({ hsl: { h: avg, s: 0.5, l: 0.5 } }).hex,
+                  height: '100%',
+               }}
             ></div>
 
             <div
@@ -142,10 +143,14 @@ function Hero({ scrollPosition }: Props) {
                   top: 0,
                   left: pts[0],
                   width: '10px',
-                  background: 'black',
+                  background: new Color({ hsl: { h: pts[0], s: 1, l: 0.5 } }).hex,
                   height: '100%',
+                  zIndex: 2,
+                  color: textColor(new Color({ hsl: { h: pts[0], s: 1, l: 0.5 } }).rgb),
                }}
-            ></div>
+            >
+               1
+            </div>
             <div
                className="pt2"
                style={{
@@ -153,10 +158,27 @@ function Hero({ scrollPosition }: Props) {
                   top: 0,
                   left: pts[1],
                   width: '10px',
-                  background: 'black',
+                  background: new Color({ hsl: { h: pts[1], s: 0.5, l: 0.5 } }).hex,
                   height: '100%',
+                  color: textColor(new Color({ hsl: { h: pts[1], s: 1, l: 0.5 } }).rgb),
                }}
-            ></div>
+            >
+               2
+            </div>
+            <div
+               className="pt3"
+               style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: pts[2],
+                  width: '10px',
+                  background: new Color({ hsl: { h: pts[2], s: 0.5, l: 0.5 } }).hex,
+                  height: '100%',
+                  color: textColor(new Color({ hsl: { h: pts[2], s: 1, l: 0.5 } }).rgb),
+               }}
+            >
+               3
+            </div>
          </div>
          <SwatchList palette={palette} onLock={setLock} />
       </section>

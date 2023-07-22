@@ -5,6 +5,7 @@ import { Palette } from '../services/palette/palette'
 import { PaletteType, PaletteColorRole, PaletteColorType } from '../services/palette/palette'
 import { PaletteColor } from '../services/palette'
 import { paletteUtils as utils } from '../services/palette/paletteUtils'
+import { log } from 'console'
 
 const usePalette = (
    initial: PaletteType = new Palette({
@@ -57,6 +58,11 @@ const usePalette = (
          setPalette(newPalette)
       },
 
+      setPaletteColor: (newColor: PaletteColorType, role: PaletteColorRole) => {
+         let newPalette = new Palette({ ...palette, [role]: newColor })
+         setPalette(newPalette)
+      },
+
       editPaletteColor: (role: PaletteColorRole, hex: string) => {
          let newColor = new PaletteColor({ role, color: new Color({ hex }) })
          // let newPalette = new Palette({ ...palette, [role]: newColor })
@@ -77,35 +83,29 @@ const usePalette = (
          fluidity: number = 0,
          paletteStyle: 'neon' | 'pastel' | 'earth' | 'jewel'
       ) => {
-         // let primaryHsl = utils.getRandomHslByPaletteStyle(paletteStyle)
-         // let primary = new Color({ hsl: primaryHsl })
-         // let newPalette = new Palette({
-         //    theme: palette.theme,
-         //    primary: new PaletteColor({ role: 'primary', color: primary }),
-         // })
-         // setPalette(newPalette)
          palette.genBrandColors(temp, fluidity, paletteStyle)
-         setPalette(palette)
-         return palette.genBrandColors(temp, fluidity, paletteStyle)
+         // setPalette(new Palette({ palette }))
       },
 
+      getPtsObj: () => {
+         return palette.getPtsObj()
+      },
       generatePaletteColor: (paletteStyle: string, role: PaletteColorRole) => {
          let hsl = utils.getRandomHslByPaletteStyle(paletteStyle)
-         // console.log(hsl)
          let color = new Color({ hsl })
-         console.log()
-
          return new PaletteColor({ role, color })
       },
 
       setLock(paletteColor: PaletteColorType) {
          paletteColor.setLock(!paletteColor.isLocked)
+         // setPalette(new Palette({ palette }))
       },
    }
 }
 
 export type UsePaletteType = ReturnType<typeof usePalette>
-const PaletteContext = React.createContext<UsePaletteType | null>(null)
+// const PaletteContext = React.createContext<UsePaletteType | null>(null)
+const PaletteContext = React.createContext<UsePaletteType>(null as any)
 export const usePaletteContext = () => useContext(PaletteContext)!
 export const PaletteProvider = ({ children }: { children: React.ReactNode }) => {
    return <PaletteContext.Provider value={usePalette(new Palette({}))}>{children}</PaletteContext.Provider>

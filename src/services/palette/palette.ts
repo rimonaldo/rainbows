@@ -19,6 +19,7 @@ export class Palette implements PaletteType {
       warning: new PaletteColor({ role: 'warning' }),
       danger: new PaletteColor({ role: 'danger' }),
       info: new PaletteColor({ role: 'info' }),
+
       // Add other roles if needed
    }
 
@@ -45,7 +46,7 @@ export class Palette implements PaletteType {
       white: 0.2,
       brown: 0.2,
    }
-   
+
    metaData: PaletteMetaDataType = {
       creationTimeStamp: Date.now(),
       temp: 'cool', // warm or cool
@@ -65,8 +66,20 @@ export class Palette implements PaletteType {
       danger,
       info,
       theme,
+      palette,
    }: PaletteConstructorType) {
-      this.primary = primary || this.primary
+      if (palette) {
+         this.primary = palette.primary || this.primary
+         this.secondary = palette.secondary || this.secondary
+         this.tertiary = palette.tertiary || this.tertiary
+         this.neutral = palette.neutral || this.neutral
+         this.success = palette.success || this.success
+         this.warning = palette.warning || this.warning
+         this.danger = palette.danger || this.danger
+         this.info = palette.info || this.info
+         this.theme = palette.theme || this.theme
+         // this.temp = palette.temp || this.temp    
+      } else this.primary = primary || this.primary
       this.secondary = secondary || this.setAccent('secondary')
       this.tertiary = tertiary || this.setAccent('tertiary')
       this.neutral = neutral || this.setNeutral(theme)
@@ -80,7 +93,28 @@ export class Palette implements PaletteType {
       this.theme = theme || this.theme
    }
 
+   private getAngleFromHarmonyTitle(harmonyTitle: HarmonyTitle) {
+      switch (harmonyTitle) {
+         case 'complementary':
+            return 180
+         case 'analogous':
+            return 30
+         case 'triadic':
+            return 120
+         case 'monochromatic':
+            return 0
+         default:
+            return 0
+      }
+   }
+   private getRandHarmonyTitle() {
+      const harmonyTitles = ['complementary', 'analogous', 'triadic', 'monochromatic']
+      const randIndex = Math.floor(Math.random() * harmonyTitles.length)
+      return harmonyTitles[randIndex] as HarmonyTitle
+   }
+
    genBrandColors(temp: number = 1, fluidity: number = 1, style: 'neon' | 'pastel' | 'earth' | 'jewel' = 'pastel') {
+      
       // Extract color properties
       const { primary, secondary, tertiary } = this
       const brandColors = [primary, secondary, tertiary]
@@ -89,8 +123,6 @@ export class Palette implements PaletteType {
       const unlockedColors = brandColors.filter(color => !color.isLocked)
       const anchors = brandColors.filter(color => color.isLocked)
 
-      console.log(anchors)
-
       // calculate unlocked colors based on anchors:
       // 1. if there is only one anchor, generate two colors
       // 2. if there are two anchors, generate one color
@@ -98,12 +130,12 @@ export class Palette implements PaletteType {
 
       // Generate random styles list
       const randStylesList = this._generateRandomStylesList(unlockedColors.length)
-      console.log(randStylesList)
+      // console.log(randStylesList)
 
       // Calculate average hue and points
       const avgHue = this._calculateAvgHue(temp as 1 | 2 | 3)
-      const overallDist = 360
-      const distfromAvg = (overallDist / 2) * fluidity
+      const overallDist = this.getAngleFromHarmonyTitle(this.getRandHarmonyTitle())
+      const distfromAvg = overallDist * fluidity
       let generatedHues = this._separateAvgHue(avgHue, distfromAvg, unlockedColors.length)
       generatedHues = [avgHue, generatedHues[0], generatedHues[1]]
 
@@ -111,7 +143,7 @@ export class Palette implements PaletteType {
       this._updateUnlockedColors(unlockedColors, randStylesList, generatedHues)
 
       // Return average hue and points
-      return { avgHue, pts: generatedHues }
+      // return { avgHue, pts: generatedHues }
    }
 
    _calculateAvgHue(temp: 1 | 2 | 3) {
@@ -155,7 +187,7 @@ export class Palette implements PaletteType {
       this.primary = this.colors.primary
       this.secondary = this.colors.secondary
       this.tertiary = this.colors.tertiary
-      console.log(this.tertiary)
+      // console.log(this.tertiary)
    }
 
    private _randSatLumByPaletteStyle = (colorStyleKey: keyof typeof paletteStyle) => {
@@ -318,6 +350,21 @@ export class Palette implements PaletteType {
       return secondaryColor
    }
 
+   getPtsObj = () => {
+      const primaryHue = this.primary.color.hsl.h
+      const secondaryHue = this.secondary.color.hsl.h
+      const tertiaryHue = this.tertiary.color.hsl.h
+      let object = {
+         avgHue: this.getAvgHue(),
+         pts: [primaryHue, secondaryHue, tertiaryHue],
+      }
+      return object
+   }
+   private getAvgHue = () => {
+      let hueSum = this.primary.color.hsl.h + this.secondary.color.hsl.h + this.tertiary.color.hsl.h
+      return hueSum / 3
+   }
+
    setSemanticColors = () => {
       let primaryHue = this.primary.shade[500].hsl.h
       let colorName = utils.getColorNameByHue(primaryHue)
@@ -377,7 +424,20 @@ export class Palette implements PaletteType {
          color: new Color({ hsl: neutralHsl }),
       })
    }
+
+   setColorLock = (colorRole: PaletteColorRole) => {
+      let colorToSetLock = this.getColorByRole(colorRole)
+      colorToSetLock.setLock(colorToSetLock.isLocked)
+
+      this[`${colorRole}`] = colorToSetLock
+      // console.log(this[`${colorRole}`])
+   }
+
+   private getColorByRole = (role: PaletteColorRole) => {
+      return this.colors[role]
+   }
 }
+type PtsObj = { avgHue: number; pts: number[] }
 
 export interface PaletteType {
    colors: object
@@ -394,6 +454,8 @@ export interface PaletteType {
    theme: 'light' | 'dark'
    genBrandColors: (temp: number, fluidity: number, style: 'neon' | 'pastel' | 'earth' | 'jewel') => void
    setPaletteColor: (color: PaletteColorType, role: PaletteColorRole) => void
+   getPtsObj: () => PtsObj
+   setColorLock: (colorRole: PaletteColorRole) => void
 }
 
 export class PaletteColor implements PaletteColorType {
@@ -474,6 +536,7 @@ interface PaletteConstructorType {
    info?: PaletteColorType
    metaData?: PaletteMetaDataType
    theme?: 'light' | 'dark'
+   palette?: PaletteType
 }
 
 export class BrandShader implements ColorShadeType {
