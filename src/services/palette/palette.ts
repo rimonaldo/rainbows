@@ -78,7 +78,7 @@ export class Palette implements PaletteType {
          this.danger = palette.danger || this.danger
          this.info = palette.info || this.info
          this.theme = palette.theme || this.theme
-         // this.temp = palette.temp || this.temp    
+         // this.temp = palette.temp || this.temp
       } else this.primary = primary || this.primary
       this.secondary = secondary || this.setAccent('secondary')
       this.tertiary = tertiary || this.setAccent('tertiary')
@@ -114,7 +114,6 @@ export class Palette implements PaletteType {
    }
 
    genBrandColors(temp: number = 1, fluidity: number = 1, style: 'neon' | 'pastel' | 'earth' | 'jewel' = 'pastel') {
-      
       // Extract color properties
       const { primary, secondary, tertiary } = this
       const brandColors = [primary, secondary, tertiary]
@@ -441,7 +440,7 @@ type PtsObj = { avgHue: number; pts: number[] }
 
 export interface PaletteType {
    colors: object
-
+   _id?: string
    primary: PaletteColorType
    secondary: PaletteColorType
    tertiary: PaletteColorType

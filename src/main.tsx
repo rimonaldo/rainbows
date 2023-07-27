@@ -6,6 +6,7 @@ import { ColorProvider } from './hooks/useColorContext'
 import { PaletteProvider } from './hooks/usePaletteContext'
 import { HarmonyProvider } from './hooks/useHarmonyContext'
 import { SassProvider } from './hooks/useSassContext'
+// import {PaletteProvider} from './API/PaletteContext'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
    <ColorProvider>
       <HarmonyProvider>

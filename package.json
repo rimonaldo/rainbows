@@ -18,10 +18,12 @@
       "@types/react-router-dom": "5.3.3",
       "@uiw/react-color": "^1.1.1",
       "accessible-colors": "^1.0.4",
-      "axios": "^1.2.2",
+      "axios": "^1.4.0",
       "contrast-ratio": "^1.1.0",
       "hex-color-to-color-name": "^1.0.2",
+      "immer": "^10.0.2",
       "lodash": "^4.17.21",
+      "lodash.isequal": "^4.5.0",
       "react": "^18.2.0",
       "react-colorful": "^5.6.1",
       "react-dom": "^18.2.0",
@@ -33,7 +35,7 @@
       "redux-thunk": "^2.4.2",
       "sass": "^1.58.3",
       "thunk": "^0.0.1",
-      "zustand": "^4.2.0"
+      "zustand": "^4.3.9"
    },
    "devDependencies": {
       "@types/lodash": "^4.14.191",
