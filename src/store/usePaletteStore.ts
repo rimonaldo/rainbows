@@ -7,8 +7,10 @@ import { userService } from '../services/user.service'
 
 type State = {
    miniPalette: MiniPaletteType | null
-   palette: PaletteType 
+   palette: PaletteType
    addPalette: (palette: PaletteType) => void
+   getEmptyPalette: () => PaletteType
+   setPalette: (palette: PaletteType) => void
    // removePalette: (id: string) => void
    // updatePalette: (id: string, palette: Palette) => void
    // getMiniPalettes: () => MiniPaletteType[]
@@ -26,9 +28,13 @@ export const usePaletteStore = create(
                set({ miniPalette })
             }
          },
-         setPalette: async (palette:PaletteType) => {
+         setPalette: async (palette: PaletteType) => {
             set({ palette })
          },
+         getEmptyPalette: () => {
+            return paletteService.getEmptyPalette()
+         },
+
          // updatePalette: async (id, palette) => {
          //    await paletteService.updatePalette(id, palette)
          //    set({ miniPalette: null })

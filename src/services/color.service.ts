@@ -213,7 +213,7 @@ export class Color extends ColorPrototype implements ColorType {
       } else if (hsv) {
          super({ hsv })
       } else {
-         throw new Error('Color must be initialized with a hex, rgb, hsl, or hsv value')
+         super({ hex: '#000000' })
       }
       this.rgb = this.hexToRgb(this.hex)
       this.hsl = this.rgbToHsl(this.rgb)

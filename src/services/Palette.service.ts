@@ -268,6 +268,7 @@ export const paletteService = {
       })
    },
    getEmptyPalette: (): PaletteType => {
-      return new Palette()
+      console.log(new Palette(new MiniPalette({})))
+      return new Palette(new MiniPalette({}))
    },
 }
