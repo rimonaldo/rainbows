@@ -12,7 +12,7 @@ type Props = {
 }
 
 function Hero({ scrollPosition }: Props) {
-   const { getPtsObj, setLock, setPalette, paletteColors, generatePaletteByStyle, generatePaletteColor } =
+   const { getPtsObj, setLock,  paletteColors, generatePaletteByStyle, generatePaletteColor } =
       usePaletteContext()
    const [colorStyle, setColorStyle] = React.useState<ColorStyle>('pastel')
    const [avg, setAvg] = useState(0)
@@ -21,7 +21,7 @@ function Hero({ scrollPosition }: Props) {
    // temp value type 1|2|3
    const [tempValue, setValue]: [1 | 2 | 3, React.Dispatch<React.SetStateAction<1 | 2 | 3>>] = useState<1 | 2 | 3>(1);
    const [fluidity, setFluidity]: [1 | 2 | 3, React.Dispatch<React.SetStateAction<1 | 2 | 3>>] = useState<1 | 2 | 3>(3);
-   const { generatePalette,palette} = usePaletteStore()
+   const { generatePalette,palette,setPalette} = usePaletteStore()
    const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = parseInt(event.target.value, 10)
       setValue(newValue as 1 | 2 | 3)
@@ -41,6 +41,7 @@ function Hero({ scrollPosition }: Props) {
    const handleGenerate = () => {
       type PtsObj = { avgHue: number; pts: number[] }
       generatePalette(tempValue, fluidity,palette)
+      setPalette(palette)
       const ptsObj: PtsObj = getPtsObj()
       const { avgHue, pts } = ptsObj
       setAvg(avgHue)

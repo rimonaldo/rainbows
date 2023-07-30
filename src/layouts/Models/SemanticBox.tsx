@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { PaletteColor } from '../../services/palette'
+import { PaletteColorType } from '../../types'
 import { guid } from '../../services/utils'
 import { usePaletteContext } from '../../hooks/usePaletteContext'
 type Props = {
-   colors: PaletteColor[]
+   colors: PaletteColorType[]
 }
 
 const SemanticsBox = ({ colors }: Props) => {

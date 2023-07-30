@@ -12,20 +12,27 @@ type Credentials = {
    password: string
 }
 
+const mockCredentials: Credentials = {
+   username: 'Rimonaldo123',
+   password: '123',
+}
+
 type State = {
    user: User | null
    loggedIn: boolean
+   mockCredentials: Credentials
    logIn: (credentials: Credentials) => Promise<void>
    logOut: () => void
    signup: (credentials: Credentials) => Promise<void>
 }
 
-export const useStore = create(
+export const useUserStore = create(
    persist<State>(
       // persist the store to localStorage
       set => ({
          user: null,
          loggedIn: false,
+         mockCredentials,
          logIn: async credentials => {
             const user = await userService.login(credentials)
             if (user) {

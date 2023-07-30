@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
-
+import { usePaletteStore } from '../../store/usePaletteStore'
 const NavbarBox = () => {
+   const { palette } = usePaletteStore()
    const [isRowShown, setIsRowShown] = useState(false)
    const elRef = useRef<HTMLDivElement>(null)
    useEffect(() => {
@@ -31,12 +32,12 @@ const NavbarBox = () => {
       }
    }, [elRef]) // Add dependency array to avoid unnecessary re-renders
    return (
-      <div ref={elRef} className="box1 box">
-         <div className={` content-wrapper ${isRowShown ? 'shown' : ''}`}>
+      <div ref={elRef} className="box1 box" style={{background:'white'}}>
+         <div  className={` content-wrapper ${isRowShown ? 'shown' : ''}`}>
             <header>
                <h3>Nav Bar</h3>
             </header>
-            <div className="nav">
+            <div className="nav" style={{background:palette.primary.shade[100].hex}}>
                <div className="">Link</div>
                <div>Link</div>
                <select name="" id="">

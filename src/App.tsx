@@ -1,31 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useScrollPosition } from './hooks/useScrollPosition'
 import Hero from './layouts/Hero'
-import { usePaletteContext } from './hooks/usePaletteContext'
 import NavBar from './layouts/NavBar'
 import Models from './layouts/Models'
 import { usePaletteStore } from './store/usePaletteStore'
-import { useStore } from './store/useStore'
-import { Palette } from './services/Palette.service'
-import { PaletteType, PaletteColorRole, PaletteColorType } from './services/palette/palette'
-const mockCredentials: Credentials = {
-   username: 'Rimonaldo123',
-   password: '123',
-}
+import { useUserStore } from './store/useUserStore'
+import { Credentials } from './types'
 
-type Credentials = {
-   username: string
-   password: string
-}
+
+
 
 function App() {
+   // const [isScrolledDown, setIsScrolledDown] = useState(false)
    const prevScrollPos = useScrollPosition()
-   const [isScrolledDown, setIsScrolledDown] = useState(false)
-   const { user, logIn, logOut, loggedIn, signup } = useStore()
+   const { user, logIn, logOut, loggedIn, signup,mockCredentials } = useUserStore()
    const [{ username, password }, setCredentials] = useState<Credentials>({ username: '', password: '' })
    const { addPalette, palette, getEmptyPalette, setPalette } = usePaletteStore()
+   
    // useEffect(() => {
-   //    logIn(mockCredentials)
    //    setIsScrolledDown(prevScrollPos > 270)
    // }, [prevScrollPos])
 
@@ -57,7 +49,7 @@ function App() {
          </div>
 
          <Hero scrollPosition={prevScrollPos} />
-         <Models />
+         <Models palette={palette}/>
       </div>
    )
 }

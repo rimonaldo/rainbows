@@ -79,8 +79,6 @@ export class Palette implements PaletteType {
    }
 
    genBrandColors(temp: 1 | 2 | 3 = 1, fluidity: 1 | 2 | 3 = 1) {
-      console.log("temp: ", temp, "fluidity: ", fluidity);
-      
     // Extract color properties
     const { primary, secondary, tertiary } = this
     const brandColors = [primary, secondary, tertiary]

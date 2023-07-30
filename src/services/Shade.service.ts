@@ -34,7 +34,7 @@ export class Shader implements PaletteColorShadeType {
    genShade900 = () => {
       const initialHue = this[500].hsl.h
       const sat = Math.min(0.9, this[500].hsl.s * 1.25)
-      const lum = Math.max(this[500].hsl.l * 0.75, 0.1)
+      const lum = Math.max(this[500].hsl.l * 0.25, 0.1)
       const shade900Hsl = { h: initialHue, s: sat, l: lum }
       return new Color({ hsl: shade900Hsl })
    }
