@@ -1,4 +1,4 @@
-import { ColorType } from '../color/type'
+import { ColorType } from '../../types'
 
 export type ColorStyle = 'neon' | 'pastel' | 'earth' | 'jewel'
 

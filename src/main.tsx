@@ -4,12 +4,12 @@ import App from './App'
 import './assets/styles/global.scss'
 import { ColorProvider } from './hooks/useColorContext'
 import { PaletteProvider } from './hooks/usePaletteContext'
-import { HarmonyProvider } from './hooks/useHarmonyContext'
+// import { HarmonyProvider } from './hooks/useHarmonyContext'
 import { SassProvider } from './hooks/useSassContext'
 // import {PaletteProvider} from './API/PaletteContext'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
    <ColorProvider>
-      <HarmonyProvider>
+      {/* <HarmonyProvider> */}
          <PaletteProvider>
             <SassProvider>
                <React.StrictMode>
@@ -17,6 +17,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                </React.StrictMode>
             </SassProvider>
          </PaletteProvider>
-      </HarmonyProvider>
+      {/* </HarmonyProvider> */}
    </ColorProvider>
 )

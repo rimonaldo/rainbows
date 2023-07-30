@@ -1,43 +1,46 @@
 import React, { useEffect, useState } from 'react'
 import { usePaletteContext } from '../hooks/usePaletteContext'
-import { PaletteColorType, PaletteType } from '../services/palette/palette'
+import { PaletteColorType, PaletteType } from '../types'
 import { PaletteColorRole } from '../services/palette/PaletteType'
 import SwatchList from '../components/SwatchList'
 import Waves from '../components/Waves'
 import { ColorStyle } from '../services/palette/PaletteType'
-import { Color } from '../services/color'
+import { Color } from '../services/color.service'
+import { usePaletteStore } from '../store/usePaletteStore'
 type Props = {
    scrollPosition: number
 }
 
 function Hero({ scrollPosition }: Props) {
-   const { getPtsObj, palette, setLock, setPalette, paletteColors, generatePaletteByStyle, generatePaletteColor } =
+   const { getPtsObj, setLock, setPalette, paletteColors, generatePaletteByStyle, generatePaletteColor } =
       usePaletteContext()
    const [colorStyle, setColorStyle] = React.useState<ColorStyle>('pastel')
    const [avg, setAvg] = useState(0)
    const [pts, setPts] = useState([])
-   const [tempValue, setValue] = useState(1)
-   const [fluidity, setFluidity] = useState(3)
-
+   // const [tempValue, setValue] = useState(1)
+   // temp value type 1|2|3
+   const [tempValue, setValue]: [1 | 2 | 3, React.Dispatch<React.SetStateAction<1 | 2 | 3>>] = useState<1 | 2 | 3>(1);
+   const [fluidity, setFluidity]: [1 | 2 | 3, React.Dispatch<React.SetStateAction<1 | 2 | 3>>] = useState<1 | 2 | 3>(3);
+   const { generatePalette,palette} = usePaletteStore()
    const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = parseInt(event.target.value, 10)
-      setValue(newValue)
+      setValue(newValue as 1 | 2 | 3)
       // console.log('Slider value:', newValue)
    }
 
    const handleFluidity = (event: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = parseInt(event.target.value, 10)
-      setFluidity(newValue)
+      setFluidity(newValue as 1 | 2 | 3)
       // console.log('Slider value:', newValue)
    }
 
    useEffect(() => {
       setPaletteCssVars(palette)
-   }, [palette.colors])
+   }, [palette])
 
    const handleGenerate = () => {
       type PtsObj = { avgHue: number; pts: number[] }
-      generatePaletteByStyle(tempValue, fluidity, colorStyle)
+      generatePalette(tempValue, fluidity,palette)
       const ptsObj: PtsObj = getPtsObj()
       const { avgHue, pts } = ptsObj
       setAvg(avgHue)

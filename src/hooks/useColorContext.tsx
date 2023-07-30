@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Color } from '../services/color'
+import { Color } from '.././services/color.service'
 import useColor from './useColor'
 
 export type UseType = ReturnType<typeof useColor>

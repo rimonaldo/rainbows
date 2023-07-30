@@ -49,7 +49,7 @@ export interface PaletteType {
    danger: PaletteColorType
    neutral: PaletteColorType
 
-   genBrandColors: () => void
+   genBrandColors: (temp:1|2|3,fluidity:1|2|3) => void
    genSemanticColors: () => void
    genNeutralColors: () => void
    getMiniPalette: () => MiniPaletteType
@@ -80,4 +80,11 @@ export class MiniPalette implements MiniPaletteType {
       this.danger = new MiniPaletteColor(palette.danger)
       this.neutral = new MiniPaletteColor(palette.neutral)
    }
+}
+
+export enum HarmonyTitle {
+   Monochromatic = 'monochromatic',
+   Triadic = 'triadic',
+   Complementary = 'complementary',
+   Analogous = 'analogous',
 }

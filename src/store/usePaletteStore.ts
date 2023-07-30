@@ -11,6 +11,7 @@ type State = {
    addPalette: (palette: PaletteType) => void
    getEmptyPalette: () => PaletteType
    setPalette: (palette: PaletteType) => void
+   generatePalette: (temp:1|2|3 , fludity:1|2|3 , palette:PaletteType) => void
    // removePalette: (id: string) => void
    // updatePalette: (id: string, palette: Palette) => void
    // getMiniPalettes: () => MiniPaletteType[]
@@ -34,6 +35,11 @@ export const usePaletteStore = create(
          getEmptyPalette: () => {
             return paletteService.getEmptyPalette()
          },
+         generatePalette: async (temp:1|2|3 = 1 , fludity:1|2|3 = 1 , palette:PaletteType) => {
+            const newPalette = await paletteService.generateBrand(palette,temp,fludity)
+            set({ palette: newPalette })
+         },
+         
 
          // updatePalette: async (id, palette) => {
          //    await paletteService.updatePalette(id, palette)

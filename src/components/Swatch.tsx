@@ -1,18 +1,18 @@
 import React from 'react'
-import { PaletteColorType } from '../services/palette'
+import { PaletteColorType } from '../types'
 import { CiUnlock } from 'react-icons/ci'
 import { CiLock } from 'react-icons/ci'
 import { usePaletteContext } from '../hooks/usePaletteContext'
 import { guid } from '../services/utils'
 type Props = {
    color: PaletteColorType
-   setLock: (color: PaletteColorType) => void
+   // setLock: (color: PaletteColorType) => void
 }
 
-const Swatch = ({ color, setLock }: Props) => {
+const Swatch = ({ color, }: Props) => {
    const [isLocked, setIsLocked] = React.useState(color.isLocked)
    const handleLock = () => {
-      setLock(color)
+      // setLock(color)
       setIsLocked(color.isLocked)
    }
 

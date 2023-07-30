@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { PaletteType } from '../services/palette'
+import { PaletteType } from '../types'
 import { usePaletteContext } from '../hooks/usePaletteContext'
 import { PaletteColorType } from '../services/palette'
 import Swatch from './Swatch'
@@ -61,7 +61,7 @@ const SwatchList = ({ palette, onLock }: Props) => {
       <div ref={swatchListRef} className="swatch-list-container ">
          <ul className="swatch-list rounded-2xl">
             {colors.slice(0, itemsToShow).map((color, index) => {
-               return <Swatch key={guid()} color={color} setLock={onLock} />
+               return <Swatch key={guid()} color={color} />
             })}
          </ul>
          <div className="desc">

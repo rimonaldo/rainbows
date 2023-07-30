@@ -1,5 +1,5 @@
-import { ColorType } from '../color/type'
-import { Color, hsl } from '../color'
+import { ColorType } from '../../types'
+import { Color } from '../color.service'
 import { PaletteMetaDataType } from './PaletteType'
 import { getRandomAAColor } from 'accessible-colors'
 import { RgbColor } from 'contrast-ratio'

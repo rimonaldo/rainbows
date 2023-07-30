@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { Color } from '../services/color'
-import { ColorType, hex, hsl, rgb, hsv } from '../services/color/type'
+// import React, { useContext, useState, useEffect } from 'react'
+// import { Color } from '../services/color'
+// import { ColorType, hex, hsl, rgb, hsv } from '../services/color/type'
 
 export const setSassVariable = (variable: string, value: string) => {
    const root = document.documentElement

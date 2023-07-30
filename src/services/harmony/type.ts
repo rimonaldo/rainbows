@@ -1,4 +1,4 @@
-import { ColorType } from '../color/type'
+import { ColorType } from '../../types'
 
 type hex = string
 type rgb = { r: number; g: number; b: number }

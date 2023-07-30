@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { ColorType } from '../services/color/type'
-import { Color } from '../services/color/color'
+import { ColorType } from '../types'
+import { Color } from '../services/color.service'
 import { Palette } from '../services/palette/palette'
 import { PaletteType, PaletteColorRole, PaletteColorType } from '../services/palette/palette'
 import { PaletteColor } from '../services/palette'

@@ -1,7 +1,7 @@
 import { PaletteColorType, MiniPaletteColorType, PaletteColorRole } from '../types/PaletteColor'
 import { Shader } from './Shade.service'
 import { ColorType, MiniPaletteColorShadeType, PaletteColorShadeType } from '../types'
-import { hex, rgb, hsl, hsv } from './color'
+import { hex, rgb, hsl, hsv } from '../types'
 import { Color } from './color.service'
 import { getRandomAAColor } from 'accessible-colors'
 import { utilService } from './util.service'
