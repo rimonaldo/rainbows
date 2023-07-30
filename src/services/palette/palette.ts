@@ -439,7 +439,7 @@ export class Palette implements PaletteType {
 type PtsObj = { avgHue: number; pts: number[] }
 
 export interface PaletteType {
-   colors: object
+   // colors: object
    _id?: string
    primary: PaletteColorType
    secondary: PaletteColorType

@@ -6,6 +6,7 @@ import NavBar from './layouts/NavBar'
 import Models from './layouts/Models'
 import { usePaletteStore } from './store/usePaletteStore'
 import { useStore } from './store/useStore'
+import {Palette} from './services/Palette.service'
 import { PaletteType, PaletteColorRole, PaletteColorType } from './services/palette/palette'
 const mockCredentials: Credentials = {
    username: 'Rimonaldo123',
@@ -18,23 +19,24 @@ type Credentials = {
 }
 
 function App() {
-   const { palette } = usePaletteContext()
+
    const prevScrollPos = useScrollPosition()
    const [isScrolledDown, setIsScrolledDown] = useState(false)
    const { user, logIn, logOut, loggedIn, signup } = useStore()
    const [{ username, password }, setCredentials] = useState<Credentials>({ username: '', password: '' })
-   const { addPalette } = usePaletteStore()
+   const { addPalette,palette } = usePaletteStore()
    useEffect(() => {
       logIn(mockCredentials)
       setIsScrolledDown(prevScrollPos > 270)
    }, [prevScrollPos])
 
    useEffect(() => {
-      console.log('loggedInUser', user)
+      // console.log('loggedInUser', user)
+
    }, [user])
 
    return (
-      <div className="App main-layout" style={{ background: palette.primary.shade[100].hex }}>
+      <div className="App main-layout" style={{ background: palette?.primary.shade[100].hex }}>
          <NavBar />
          {/* login logout */}
          <div className="login">
@@ -46,7 +48,7 @@ function App() {
             <input type="text" placeholder="username" />
             <input type="text" placeholder="password" />
             <div>
-               <button onClick={() => addPalette(palette)}>savePalette</button>
+               <button onClick={() => addPalette(palette!)}>savePalette</button>
             </div>
          </div>
 

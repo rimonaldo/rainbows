@@ -85,7 +85,7 @@ const usePalette = (
       ) => {
          palette.genBrandColors(temp, fluidity, paletteStyle)
          const json = { primary : palette.primary , secondary : palette.secondary , tertiary : palette.tertiary , neutral : palette.neutral , success : palette.success , info : palette.info , warning : palette.warning , danger : palette.danger}
-         console.log(JSON.stringify(json))
+         // console.log(JSON.stringify(json))
          // setPalette(new Palette({ palette }))
       },
 

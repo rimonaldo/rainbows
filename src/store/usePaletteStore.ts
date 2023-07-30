@@ -1,31 +1,33 @@
 import { create } from 'zustand'
-import { Palette } from '../services/palette/palette'
-import { MiniPaletteType, MiniPalette } from '../types/Palette'
 import { persist } from 'zustand/middleware'
-import { PaletteType } from '../services/palette/palette'
+import { PaletteType } from '../types'
+import { MiniPaletteType, MiniPalette } from '../types/Palette'
 import { paletteService } from '../services/Palette.service'
+import { userService } from '../services/user.service'
+
 type State = {
    miniPalette: MiniPaletteType | null
-   palette: PaletteType | null
+   palette: PaletteType 
    addPalette: (palette: PaletteType) => void
    // removePalette: (id: string) => void
    // updatePalette: (id: string, palette: Palette) => void
    // getMiniPalettes: () => MiniPaletteType[]
 }
 
-// store.ts
-
 export const usePaletteStore = create(
    persist<State>(
       // persist the store to localStorage
       set => ({
          miniPalette: null,
-         palette: null,
+         palette: paletteService.getEmptyPalette(),
          addPalette: async palette => {
-            const miniPalette = await paletteService.addPalette(new MiniPalette(palette))
+            const miniPalette = await paletteService.addPalette(palette.getMiniPalette())
             if (miniPalette) {
                set({ miniPalette })
             }
+         },
+         setPalette: async (palette:PaletteType) => {
+            set({ palette })
          },
          // updatePalette: async (id, palette) => {
          //    await paletteService.updatePalette(id, palette)

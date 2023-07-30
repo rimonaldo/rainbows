@@ -7,6 +7,15 @@ type Credentials = {
    password: string
 }
 
+type State = {
+   user: User | null
+   loggedIn: boolean
+   logIn: (credentials: Credentials) => Promise<void>
+   logOut: () => void
+   signup: (credentials: Credentials) => Promise<void>
+   updateUser: (user: User) => void
+}
+
 const _saveLocalUser = (user: User) => {
    // save user to local storage or somewhere
    // this implementation depends on your application's requirements
