@@ -7,16 +7,13 @@ import { usePaletteStore } from './store/usePaletteStore'
 import { useUserStore } from './store/useUserStore'
 import { Credentials } from './types'
 
-
-
-
 function App() {
    // const [isScrolledDown, setIsScrolledDown] = useState(false)
    const prevScrollPos = useScrollPosition()
-   const { user, logIn, logOut, loggedIn, signup,mockCredentials } = useUserStore()
+   const { user, logIn, logOut, loggedIn, signup, mockCredentials, addSavedPalette } = useUserStore()
    const [{ username, password }, setCredentials] = useState<Credentials>({ username: '', password: '' })
-   const { addPalette, palette, getEmptyPalette, setPalette } = usePaletteStore()
-   
+   const { addPalette, palette, getEmptyPalette, setPalette, savedPaletteId } = usePaletteStore()
+
    // useEffect(() => {
    //    setIsScrolledDown(prevScrollPos > 270)
    // }, [prevScrollPos])
@@ -27,8 +24,9 @@ function App() {
    }, [user])
 
    const handleSavePalette = () => {
-      console.log('palette', palette)
+      // console.log('palette', palette)
       addPalette(palette)
+      addSavedPalette(savedPaletteId)
    }
 
    return (
@@ -37,6 +35,7 @@ function App() {
          {/* login logout */}
          <div className="login">
             <button onClick={() => logIn(mockCredentials)}>login</button>
+            <div>__</div>
             <button onClick={() => logOut()}>logout</button>
             {/* <button onClick={()=>signup() } >Signup</button> */}
          </div>
@@ -49,7 +48,7 @@ function App() {
          </div>
 
          <Hero scrollPosition={prevScrollPos} />
-         <Models palette={palette}/>
+         <Models palette={palette} />
       </div>
    )
 }

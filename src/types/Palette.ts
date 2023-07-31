@@ -1,7 +1,7 @@
 import { PaletteColorType, PaletteColorRole } from './PaletteColor'
 import { MiniPaletteColorType } from './'
 import { PaletteColorShadeType, MiniPaletteColorShadeType } from './Shade'
-
+import { guid } from '../services/utils'
 export class MiniPaletteColor implements MiniPaletteColorType {
    role: PaletteColorRole
    hex: string
@@ -28,7 +28,7 @@ export class MiniPaletteColor implements MiniPaletteColorType {
 }
 
 export interface MiniPaletteType {
-   _id?: string
+   _id: string
    primary: MiniPaletteColorType
    secondary: MiniPaletteColorType
    tertiary: MiniPaletteColorType
@@ -40,6 +40,7 @@ export interface MiniPaletteType {
 }
 
 export interface PaletteType {
+   _id: string
    primary: PaletteColorType
    secondary: PaletteColorType
    tertiary: PaletteColorType
@@ -60,7 +61,7 @@ export type MiniColorType = {
 }
 
 export class MiniPalette implements MiniPaletteType {
-   _id?: string
+   _id: string
    primary: MiniPaletteColorType
    secondary: MiniPaletteColorType
    tertiary: MiniPaletteColorType
@@ -71,6 +72,7 @@ export class MiniPalette implements MiniPaletteType {
    neutral: MiniPaletteColorType
 
    constructor(palette: PaletteType ) {
+      this._id = guid()
       this.primary = new MiniPaletteColor(palette.primary)
       this.secondary = new MiniPaletteColor(palette.secondary)
       this.tertiary = new MiniPaletteColor(palette.tertiary)

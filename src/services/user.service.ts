@@ -14,6 +14,7 @@ type State = {
    logOut: () => void
    signup: (credentials: Credentials) => Promise<void>
    updateUser: (user: User) => void
+   addSavedPalette: (paletteId: string) => void
 }
 
 const _saveLocalUser = (user: User) => {
@@ -23,27 +24,31 @@ const _saveLocalUser = (user: User) => {
 
 export const userService = {
    getUsers: async (): Promise<User[]> => {
-      return httpService.get('users')
+      return httpService.get('user')
    },
    getUser: async (id: number): Promise<User> => {
-      return httpService.get(`users/${id}`)
+      return httpService.get(`user/${id}`)
    },
    createUser: async (user: User): Promise<User> => {
-      return httpService.post('users', user)
+      return httpService.post('user', user)
    },
-   updateUser: async (id: number, user: User): Promise<User> => {
-      return httpService.put(`users/${id}`, user)
+   updateUser: async (id: string, user: User): Promise<User> => {
+      return httpService.put(`user/${id}`, user)
    },
    deleteUser: async (id: number): Promise<void> => {
-      return httpService.delete(`users/${id}`)
+      return httpService.delete(`user/${id}`)
    },
    login: async (credentials: Credentials): Promise<User> => {
-      return httpService.post('auth/login', credentials)
+      return (await httpService.post('auth/login', credentials)).data
    },
    signup: async (credentials: Credentials): Promise<User> => {
       return httpService.post('signup', credentials)
    },
    logout: async (): Promise<void> => {
       return httpService.post('logout')
+   },
+   addPaletteId: async (user: User, paletteId: string): Promise<User> => {
+      user.savedPalettes.push(paletteId)
+      return httpService.post(`user/${user._id}/palettes`, { paletteId })
    },
 }

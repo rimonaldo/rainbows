@@ -1,11 +1,9 @@
 // store.ts
 import create from 'zustand'
-import { persist } from 'zustand/middleware'
 import { userService } from '../services/user.service'
-export type User = {
-   username: string
-   password: string
-}
+import { produce } from 'immer'
+import { storageService } from '../services/localStorage.service'
+import { User } from '../types'
 
 type Credentials = {
    username: string
@@ -24,32 +22,49 @@ type State = {
    logIn: (credentials: Credentials) => Promise<void>
    logOut: () => void
    signup: (credentials: Credentials) => Promise<void>
+   updateUser: (user: User) => void
+   addSavedPalette: (paletteId: string) => void
 }
 
-export const useUserStore = create(
-   persist<State>(
-      // persist the store to localStorage
-      set => ({
-         user: null,
-         loggedIn: false,
-         mockCredentials,
-         logIn: async credentials => {
-            const user = await userService.login(credentials)
-            if (user) {
-               set({ user, loggedIn: true })
-            }
-         },
-         logOut: () => set({ user: null, loggedIn: false }),
-         signup: async credentials => {
-            const user = await userService.signup(credentials)
-            if (user) {
-               set({ user, loggedIn: true })
-            }
-         },
-      }),
-      {
-         name: 'user-storage', // unique name
-         getStorage: () => localStorage, // (optional) by default the 'localStorage' is used
+export const useUserStore = create<State>(set => ({
+   user: null,
+   loggedIn: false,
+   mockCredentials,
+   logIn: async credentials => {
+      const user = await userService.login(credentials)
+      console.log(user)
+
+      if (user) {
+         storageService.setUser(user)
+         set({ user, loggedIn: true })
       }
-   )
-)
+   },
+   logOut: () => async () => {
+      console.log('logging out')
+
+      await storageService.clear('user')
+      await userService.logout()
+      set({ user: null, loggedIn: false })
+   },
+   signup: async credentials => {
+      const user = await userService.signup(credentials)
+      if (user) {
+         set({ user, loggedIn: true })
+      }
+   },
+   updateUser: user => set({ user }),
+   addSavedPalette: async paletteId => {
+      const loggedUser = await storageService.getLoggedinUser()
+      if (loggedUser) {
+         if (!loggedUser.savedPalettes) loggedUser.savedPalettes = []
+         loggedUser.savedPalettes.push(paletteId)
+         console.log(loggedUser.savedPalettes)
+
+         const updatedUser = await userService.updateUser(loggedUser._id, loggedUser)
+         storageService.setUser(updatedUser)
+         set({
+            user: updatedUser,
+         })
+      }
+   },
+}))

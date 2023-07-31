@@ -9,9 +9,9 @@ import { ColorType } from '../types'
 import { hex, hsl, rgb, hsv } from '../types'
 import { paletteUtils as utils } from './palette/paletteUtils'
 import { getRandomAAColor } from 'accessible-colors'
-
+import { guid } from './utils'
 export class MiniPalette implements MiniPaletteType {
-   _id?: string
+   _id: string
    primary: MiniPaletteColorType
    secondary: MiniPaletteColorType
    tertiary: MiniPaletteColorType
@@ -41,11 +41,12 @@ export class MiniPalette implements MiniPaletteType {
          this.danger = new MiniPaletteColor({ role: 'danger' })
          this.neutral = new MiniPaletteColor({ role: 'neutral' })
       }
+      this._id = guid()
    }
 }
 
-export class Palette implements PaletteType {
-   _id?: string | undefined
+export class Palette implements PaletteType  {
+   _id: string 
    primary: PaletteColorType
    secondary: PaletteColorType
    tertiary: PaletteColorType
@@ -67,6 +68,7 @@ export class Palette implements PaletteType {
          this.danger = new PaletteColor({ hex: miniPalette.danger.hex, role: 'danger' })
          this.neutral = new PaletteColor({ hex: miniPalette.neutral.hex, role: 'neutral' })
       } else {
+         this._id = guid()
          this.primary = new PaletteColor({ hex: '#000000', role: 'primary' })
          this.secondary = new PaletteColor({ hex: '#000000', role: 'secondary' })
          this.tertiary = new PaletteColor({ hex: '#000000', role: 'tertiary' })
@@ -76,6 +78,7 @@ export class Palette implements PaletteType {
          this.danger = new PaletteColor({ hex: '#000000', role: 'danger' })
          this.neutral = new PaletteColor({ hex: '#000000', role: 'neutral' })
       }
+      
    }
 
    genBrandColors(temp: 1 | 2 | 3 = 1, fluidity: 1 | 2 | 3 = 1) {
@@ -391,9 +394,9 @@ export const paletteService = {
       return httpService.get(`palette/${id}`)
    },
    addPalette: async (palette: MiniPaletteType): Promise<MiniPaletteType> => {
-      return httpService.post('palette', palette)
+      return (await httpService.post('palette', palette)).data
    },
-   updatePalette: async (id: number, palette: PaletteType): Promise<PaletteType> => {
+   updatePalette: async (id: string, palette: PaletteType): Promise<PaletteType> => {
       return httpService.put(`palettes/${id}`, palette)
    },
    generateBrand: async (palette: PaletteType,temp:1|2|3,fludity:1|2|3): Promise<PaletteType> => {
