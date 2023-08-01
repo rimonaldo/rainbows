@@ -9,7 +9,6 @@ export interface MiniColorType {
 }
 
 export interface ColorType extends MiniColorType {
-   hex: hex
    rgb: rgb
    hsl: hsl
    hsv: hsv

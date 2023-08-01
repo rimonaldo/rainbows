@@ -23,7 +23,7 @@ export class Shader implements PaletteColorShadeType {
       this[600] = this.genMidShade(this[500], this[700])
    }
 
-   genShade100 = () => {
+   private genShade100 = () => {
       const initialHue = this[500].hsl.h
       const randomSat = this._randomNumInRange(0.1, 0.2)
       const randomLum = this._randomNumInRange(0.95, 0.97)
@@ -31,7 +31,7 @@ export class Shader implements PaletteColorShadeType {
       return new Color({ hsl: shade100Hsl })
    }
 
-   genShade900 = () => {
+   private genShade900 = () => {
       const initialHue = this[500].hsl.h
       const sat = Math.min(0.9, this[500].hsl.s * 1.25)
       const lum = Math.max(this[500].hsl.l * 0.25, 0.1)
@@ -39,7 +39,7 @@ export class Shader implements PaletteColorShadeType {
       return new Color({ hsl: shade900Hsl })
    }
 
-   genMidShade = (shade1: ColorType, shade2: ColorType) => {
+   private genMidShade = (shade1: ColorType, shade2: ColorType) => {
       const initialHue = this[500].hsl.h
       const hsl1 = shade1.hsl
       const hsl2 = shade2.hsl
@@ -49,11 +49,11 @@ export class Shader implements PaletteColorShadeType {
       return new Color({ hsl: newHsl })
    }
 
-   _randomNumInRange = (min: number, max: number) => {
+   private _randomNumInRange = (min: number, max: number) => {
       return Math.random() * (max - min) + min
    }
 
-   getMiniShader = (): MiniPaletteColorShadeType => {
+   public getMiniShader = (): MiniPaletteColorShadeType => {
       return {
          [100]: { hex: this[100].hex, name: this[100].name },
          [200]: { hex: this[200].hex, name: this[200].name },
@@ -68,4 +68,9 @@ export class Shader implements PaletteColorShadeType {
    }
 }
 
-
+export const shadeService = {
+   genShades: (color: ColorType) => {
+      const shader = new Shader(color)
+      return shader
+   },
+}

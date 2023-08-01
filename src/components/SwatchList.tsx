@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { PaletteType } from '../types'
-import { usePaletteContext } from '../hooks/usePaletteContext'
-import { PaletteColorType } from '../services/palette'
+import { PaletteColorType } from '../types'
 import Swatch from './Swatch'
 import { guid } from '../services/utils'
 type Props = {

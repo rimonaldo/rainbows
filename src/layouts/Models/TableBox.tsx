@@ -1,9 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { usePaletteContext } from '../../hooks/usePaletteContext'
-type Props = {}
+import { PaletteType } from '../../types'
+type Props = {
+   palette: PaletteType
 
-const TableBox = (props: Props) => {
-   const { palette } = usePaletteContext()
+}
+
+const TableBox = ({palette}: Props) => {
    const { info, success, warning, danger } = palette
    const [isRowShown, setIsRowShown] = useState(false)
    const elRef = useRef<HTMLDivElement>(null)

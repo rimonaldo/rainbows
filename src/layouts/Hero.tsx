@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { usePaletteContext } from '../hooks/usePaletteContext'
+
 import { PaletteColorType, PaletteType } from '../types'
-import { PaletteColorRole } from '../services/palette/PaletteType'
+import { PaletteColorRole } from '../types'
 import SwatchList from '../components/SwatchList'
 import Waves from '../components/Waves'
-import { ColorStyle } from '../services/palette/PaletteType'
+import {  PaletteColorStyle } from '../types'
 import { Color } from '../services/color.service'
 import { usePaletteStore } from '../store/usePaletteStore'
 type Props = {
@@ -12,20 +12,25 @@ type Props = {
 }
 
 function Hero({ scrollPosition }: Props) {
-   const { getPtsObj, setLock,  paletteColors, generatePaletteByStyle, generatePaletteColor } =
-      usePaletteContext()
-   const [colorStyle, setColorStyle] = React.useState<ColorStyle>('pastel')
+   const [colorStyle, setColorStyle] = React.useState<PaletteColorStyle>('pastel')
    const [avg, setAvg] = useState(0)
    const [pts, setPts] = useState([])
    // const [tempValue, setValue] = useState(1)
    // temp value type 1|2|3
-   const [tempValue, setValue]: [1 | 2 | 3, React.Dispatch<React.SetStateAction<1 | 2 | 3>>] = useState<1 | 2 | 3>(1);
-   const [fluidity, setFluidity]: [1 | 2 | 3, React.Dispatch<React.SetStateAction<1 | 2 | 3>>] = useState<1 | 2 | 3>(3);
-   const { generatePalette,palette,setPalette} = usePaletteStore()
+   const [tempValue, setValue]: [1 | 2 | 3, React.Dispatch<React.SetStateAction<1 | 2 | 3>>] = useState<1 | 2 | 3>(1)
+   const [fluidity, setFluidity]: [1 | 2 | 3, React.Dispatch<React.SetStateAction<1 | 2 | 3>>] = useState<1 | 2 | 3>(3)
+   const { generatePalette, palette, setPalette } = usePaletteStore()
    const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = parseInt(event.target.value, 10)
       setValue(newValue as 1 | 2 | 3)
       // console.log('Slider value:', newValue)
+   }
+
+   const setLock = (color: PaletteColorType) => {
+      console.log(color.role + 'toggle from ' + color.isLocked ? 'locked' : 'unlocked')
+      // const newPalette = { ...palette }
+      // newPalette[color.role].shade[color.value].locked = !newPalette[color.role].shade[color.value].locked
+      // setPalette(newPalette)
    }
 
    const handleFluidity = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,11 +45,11 @@ function Hero({ scrollPosition }: Props) {
 
    const handleGenerate = () => {
       type PtsObj = { avgHue: number; pts: number[] }
-      generatePalette(tempValue, fluidity,palette)
+      generatePalette(tempValue, fluidity, palette)
       setPalette(palette)
-      const ptsObj: PtsObj = getPtsObj()
-      const { avgHue, pts } = ptsObj
-      setAvg(avgHue)
+      // const ptsObj: PtsObj = getPtsObj()
+      // const { avgHue, pts } = ptsObj
+      // setAvg(avgHue)
       setPts(pts as any)
    }
 
@@ -102,7 +107,7 @@ function Hero({ scrollPosition }: Props) {
                      Generate
                   </button>
 
-                  <select onChange={ev => setColorStyle(ev.target.value as ColorStyle)}>
+                  <select onChange={ev => setColorStyle(ev.target.value as PaletteColorStyle)}>
                      <option value="pastel">Pastel</option>
                      <option value="jewel">Jewel</option>
                      <option value="earth">Earthy</option>
@@ -147,7 +152,9 @@ function Hero({ scrollPosition }: Props) {
                   top: 0,
                   left: pts[0],
                   width: '10px',
-                  background: new Color({ hsl: { h: pts[0], s: palette.primary.color.hsl.s, l: palette.primary.color.hsl.l } }).hex,
+                  background: new Color({
+                     hsl: { h: pts[0], s: palette.primary.color.hsl.s, l: palette.primary.color.hsl.l },
+                  }).hex,
                   height: '100%',
                   zIndex: 2,
                   color: textColor(new Color({ hsl: { h: pts[0], s: 1, l: 0.5 } }).rgb),
@@ -162,7 +169,9 @@ function Hero({ scrollPosition }: Props) {
                   top: 0,
                   left: pts[1],
                   width: '10px',
-                  background: new Color({ hsl: { h: pts[1], s: palette.secondary.color.hsl.s, l: palette.secondary.color.hsl.l } }).hex,
+                  background: new Color({
+                     hsl: { h: pts[1], s: palette.secondary.color.hsl.s, l: palette.secondary.color.hsl.l },
+                  }).hex,
                   height: '100%',
                   color: textColor(new Color({ hsl: { h: pts[1], s: 1, l: 0.5 } }).rgb),
                }}
@@ -176,7 +185,9 @@ function Hero({ scrollPosition }: Props) {
                   top: 0,
                   left: pts[2],
                   width: '10px',
-                  background: new Color({ hsl: { h: pts[2], s: palette.tertiary.color.hsl.s, l: palette.tertiary.color.hsl.l } }).hex,
+                  background: new Color({
+                     hsl: { h: pts[2], s: palette.tertiary.color.hsl.s, l: palette.tertiary.color.hsl.l },
+                  }).hex,
                   height: '100%',
                   color: textColor(new Color({ hsl: { h: pts[2], s: 1, l: 0.5 } }).rgb),
                }}

@@ -1,15 +1,14 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { PaletteColorType } from '../../types'
+import { PaletteColorType, PaletteType } from '../../types'
 import { guid } from '../../services/utils'
-import { usePaletteContext } from '../../hooks/usePaletteContext'
 type Props = {
    colors: PaletteColorType[]
+   palette: PaletteType
 }
 
-const SemanticsBox = ({ colors }: Props) => {
+const SemanticsBox = ({ colors,palette }: Props) => {
    const [isRowShown, setIsRowShown] = useState(false)
    const elRef = useRef<HTMLDivElement>(null)
-   const { palette } = usePaletteContext()
    useEffect(() => {
       const observer = new IntersectionObserver(
          entries => {

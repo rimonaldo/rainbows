@@ -1,9 +1,9 @@
 import React from 'react'
-import { usePaletteContext } from '../hooks/usePaletteContext'
+import { usePaletteStore } from '../store/usePaletteStore'
 type Props = {}
 
 const Waves = (props: Props) => {
-   const { palette } = usePaletteContext()
+   const { palette } = usePaletteStore()
    return (
       <div>
          <style>{css}</style>

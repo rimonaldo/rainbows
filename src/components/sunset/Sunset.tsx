@@ -1,12 +1,10 @@
-import React from 'react'
-import { usePaletteContext } from '../../hooks/usePaletteContext'
-import PaletteColorShades from '../palette/PaletteColorShades'
+import { usePaletteStore } from '../../store/usePaletteStore'
 import './sunset.scss'
 
 type Props = {}
 
 const Sunset = (props: Props) => {
-   const { palette } = usePaletteContext()
+   const { palette } = usePaletteStore()
 
    const primaryShades = [
       palette.primary.shade[100],

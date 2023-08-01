@@ -1,5 +1,20 @@
 import { MiniColorType, ColorType, MiniPaletteColorShadeType, PaletteColorShadeType } from './'
-import { hex, rgb, hsl, hsv } from './'
+
+export interface MiniPaletteColorType extends MiniColorType {
+   _id: string
+   role: PaletteColorRole
+   shade: MiniPaletteColorShadeType
+}
+
+export interface PaletteColorType extends MiniPaletteColorType {
+   color: ColorType
+   style: PaletteColorStyle
+   shade: PaletteColorShadeType
+   isLocked: boolean
+   setLock: (lock: boolean) => void
+}
+
+export type PaletteColorStyle = 'neon' | 'pastel' | 'earth' | 'jewel'
 
 export type PaletteColorRole =
    | 'primary'
@@ -10,23 +25,3 @@ export type PaletteColorRole =
    | 'info'
    | 'danger'
    | 'neutral'
-
-// export interface MiniColorShadeType {
-//    [key: number]: MiniColorType
-// }
-// export interface ColorShadeType extends MiniColorShadeType {
-//    genShades: () => void
-// }
-
-export interface MiniPaletteColorType extends MiniColorType {
-   _id: string
-   role: PaletteColorRole
-   shade: MiniPaletteColorShadeType
-}
-
-export interface PaletteColorType extends MiniPaletteColorType {
-   color: ColorType
-   shade: PaletteColorShadeType
-   isLocked: boolean
-   setLock: (lock: boolean) => void
-}

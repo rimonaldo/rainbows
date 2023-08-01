@@ -13,11 +13,12 @@ export const storageService = {
    postMany,
    getLoggedinUser,
    setUser,
+
 }
 
 function query(entityType: EntityType): Promise<Entities> {
-   var entities = JSON.parse(localStorage.getItem(entityType) || '[]')
-   return Promise.resolve(entities)
+   var entities = JSON.parse(localStorage.getItem(entityType) || '{"data": []}').data;
+   return Promise.resolve(entities);
 }
 
 function get(entityType: EntityType, entityId: string): Promise<Entity | undefined> {
@@ -65,7 +66,7 @@ function clear(entityType: EntityType): Promise<void> {
 }
 
 function _save(entityType: EntityType, entities: Entities): void {
-   localStorage.setItem(entityType, JSON.stringify(entities))
+   localStorage.setItem(entityType, JSON.stringify({data: entities}))
 }
 
 function _makeId(length: number = 8): string {
@@ -81,7 +82,7 @@ function getLoggedinUser(): Promise<User> {
    return new Promise((resolve, reject) => {
       const user = JSON.parse(localStorage.getItem('user') || 'null')
       if (user) {
-         resolve(user)
+         resolve(user.user)
       } else {
          reject('No user found')
       }
@@ -90,7 +91,7 @@ function getLoggedinUser(): Promise<User> {
 
 function setUser(user: User): Promise<User> {
    return new Promise((resolve, reject) => {
-      localStorage.setItem('user', JSON.stringify(user))
+      localStorage.setItem('user', JSON.stringify({user}))
       resolve(user)
    })
 }

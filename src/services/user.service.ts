@@ -1,39 +1,24 @@
 // userService.ts
 import { User } from '../types'
-import httpService from './http.service'
+import httpService from '../API/http.service'
 
 type Credentials = {
    username: string
    password: string
 }
 
-type State = {
-   user: User | null
-   loggedIn: boolean
-   logIn: (credentials: Credentials) => Promise<void>
-   logOut: () => void
-   signup: (credentials: Credentials) => Promise<void>
-   updateUser: (user: User) => void
-   addSavedPalette: (paletteId: string) => void
-}
-
-const _saveLocalUser = (user: User) => {
-   // save user to local storage or somewhere
-   // this implementation depends on your application's requirements
-}
-
 export const userService = {
    getUsers: async (): Promise<User[]> => {
-      return httpService.get('user')
+      return (await httpService.get('user')).data
    },
-   getUser: async (id: number): Promise<User> => {
-      return httpService.get(`user/${id}`)
+   getUser: async (id:string): Promise<User> => {
+      return (await httpService.get(`user/${id}`)).data
    },
    createUser: async (user: User): Promise<User> => {
-      return httpService.post('user', user)
+      return (await httpService.post('user', user)).data
    },
    updateUser: async (id: string, user: User): Promise<User> => {
-      return httpService.put(`user/${id}`, user)
+      return (await httpService.put(`user/${id}`, user)).data
    },
    deleteUser: async (id: number): Promise<void> => {
       return httpService.delete(`user/${id}`)
@@ -42,10 +27,10 @@ export const userService = {
       return (await httpService.post('auth/login', credentials)).data
    },
    signup: async (credentials: Credentials): Promise<User> => {
-      return httpService.post('signup', credentials)
+      return (await httpService.post('auth/signup', credentials)).data
    },
    logout: async (): Promise<void> => {
-      return httpService.post('logout')
+      return httpService.post('auth/logout')
    },
    addPaletteId: async (user: User, paletteId: string): Promise<User> => {
       user.savedPalettes.push(paletteId)

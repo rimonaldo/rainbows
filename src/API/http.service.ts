@@ -5,6 +5,7 @@ const http = Axios.create({
    headers: {
       'Content-type': 'application/json',
    },
+   withCredentials: true, // this is the missing part
 })
 
 export const httpService = {
@@ -16,8 +17,7 @@ export const httpService = {
 
 async function ajax(endpoint: string, method = 'GET', data = null) {
    try {
-      const res = await Axios({
-         withCredentials: true,
+      const res = await http({
          url: `${endpoint}`,
          method,
          data,

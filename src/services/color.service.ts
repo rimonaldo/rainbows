@@ -1,6 +1,7 @@
 import { MiniColorType, ColorType } from '../types/Color'
 import { hex, rgb, hsl, hsv } from '../types/Color'
 import { GetColorName } from 'hex-color-to-color-name'
+
 export class ColorPrototype implements MiniColorType {
    hex: hex
    name: string
@@ -238,8 +239,17 @@ export const colorService = {
       }
    },
    getMiniColor: (color: ColorType) => color.getMiniColor(),
-   asyncGetColor: async (hex: hex): Promise<ColorType> => {
-      const color = new Color({ hex })
+   asyncGetColor: async ({ hex, rgb, hsl, hsv }: { hex: hex; rgb: rgb; hsl: hsl; hsv: hsv }): Promise<ColorType> => {
+      let color: ColorType
+      if (hex) {
+         color = new Color({ hex })
+      } else if (rgb) {
+         color = new Color({ rgb })
+      } else if (hsl) {
+         color = new Color({ hsl })
+      } else if (hsv) {
+         color = new Color({ hsv })
+      }
       return new Promise((resolve, reject) => {
          resolve(color)
       })

@@ -6,42 +6,39 @@ import Models from './layouts/Models'
 import { usePaletteStore } from './store/usePaletteStore'
 import { useUserStore } from './store/useUserStore'
 import { Credentials } from './types'
-
+import { Login } from './components/Login'
+import PaletteList from './components/PaletteList'
 function App() {
-   // const [isScrolledDown, setIsScrolledDown] = useState(false)
    const prevScrollPos = useScrollPosition()
-   const { user, logIn, logOut, loggedIn, signup, mockCredentials, addSavedPalette } = useUserStore()
+   const { user, logIn, loggedIn, logOut, signup, savePaletteId } = useUserStore()
    const [{ username, password }, setCredentials] = useState<Credentials>({ username: '', password: '' })
-   const { addPalette, palette, getEmptyPalette, setPalette, savedPaletteId } = usePaletteStore()
+   // const [paletteId, setPaletteId] = useState<string>('')
+   const { loadPalette, savePalette: addPalette, palette, getEmptyPalette, setPalette, savedPaletteId } = usePaletteStore()
 
    // useEffect(() => {
-   //    setIsScrolledDown(prevScrollPos > 270)
-   // }, [prevScrollPos])
-
-   useEffect(() => {
-      // console.log('loggedInUser', user)
-      setPalette(getEmptyPalette())
-   }, [user])
+   //    setPalette(getEmptyPalette())
+   // }, [user])
 
    const handleSavePalette = () => {
-      // console.log('palette', palette)
+      console.log('handleSavePalette',savedPaletteId);
+      
       addPalette(palette)
-      addSavedPalette(savedPaletteId)
+      savePaletteId(savedPaletteId)
+   }
+
+   const handleLoadPalette = (paletteId: string) => {
+      loadPalette(paletteId)
    }
 
    return (
       <div className="App main-layout" style={{ background: palette?.primary.shade[100].hex }}>
-         <NavBar />
+         <NavBar user={user} />
          {/* login logout */}
-         <div className="login">
-            <button onClick={() => logIn(mockCredentials)}>login</button>
-            <div>__</div>
-            <button onClick={() => logOut()}>logout</button>
-            {/* <button onClick={()=>signup() } >Signup</button> */}
+         <div>
+            <Login></Login>
+            <PaletteList loadPalette={loadPalette} paletteIds={user?.savedPalettes || []}></PaletteList>
          </div>
          <div>
-            <input type="text" placeholder="username" />
-            <input type="text" placeholder="password" />
             <div>
                <button onClick={() => handleSavePalette()}>savePalette</button>
             </div>

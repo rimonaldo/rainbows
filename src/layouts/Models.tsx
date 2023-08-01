@@ -1,7 +1,3 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { usePaletteContext } from '../hooks/usePaletteContext'
-import Waves from '../components/Waves'
-import { Palette, PaletteColor } from '../services/palette'
 import SemanticsBox from './Models/SemanticBox'
 import NavbarBox from './Models/NavbarBox'
 import ButtonsBox from './Models/ButtonsBox'
@@ -13,7 +9,6 @@ type Props = {
 }
 
 const Models = ({palette}: Props) => {
-   // const { palette } = usePaletteContext()
    const { info, success, warning, danger,primary,tertiary } = palette
    const colors = [info, success, warning, danger]
    
@@ -27,16 +22,16 @@ const Models = ({palette}: Props) => {
          <div className="hover-box">
             <div className="model-cards-container">
                <div className="row1 semantics-row">
-                  <SemanticsBox colors={[palette.info,palette.success,palette.danger,palette.warning]} />
+                  <SemanticsBox palette={palette} colors={[palette.info,palette.success,palette.danger,palette.warning]} />
                </div>
 
                <div className="row2 nav-buttons-row">
-                  <NavbarBox></NavbarBox>
-                  <ButtonsBox></ButtonsBox>
+                  <NavbarBox  ></NavbarBox>
+                  <ButtonsBox palette={palette}></ButtonsBox>
                </div>
 
                <div className="row3">
-                  <TableBox />
+                  <TableBox palette={palette}/>
                   <div className="box2 box"></div>
                </div>
             </div>

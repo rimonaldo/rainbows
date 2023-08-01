@@ -1,15 +1,12 @@
-import { PaletteType, MiniPaletteType,HarmonyTitle } from '../types'
+import { PaletteType, MiniPaletteType, HarmonyTitle, PaletteColorStyle } from '../types'
 import { PaletteColorType, MiniPaletteColorType } from '../types'
 import { MiniPaletteColor } from './PaletteColor.service'
-// import { MiniPalette } from '../types/Palette'
 import { PaletteColor } from './PaletteColor.service'
-import { Color } from './color.service'
-import httpService from './http.service'
+import httpService from '../API/http.service'
 import { ColorType } from '../types'
-import { hex, hsl, rgb, hsv } from '../types'
-import { paletteUtils as utils } from './palette/paletteUtils'
 import { getRandomAAColor } from 'accessible-colors'
 import { guid } from './utils'
+
 export class MiniPalette implements MiniPaletteType {
    _id: string
    primary: MiniPaletteColorType
@@ -45,8 +42,8 @@ export class MiniPalette implements MiniPaletteType {
    }
 }
 
-export class Palette implements PaletteType  {
-   _id: string 
+export class Palette implements PaletteType {
+   _id: string
    primary: PaletteColorType
    secondary: PaletteColorType
    tertiary: PaletteColorType
@@ -78,44 +75,42 @@ export class Palette implements PaletteType  {
          this.danger = new PaletteColor({ hex: '#000000', role: 'danger' })
          this.neutral = new PaletteColor({ hex: '#000000', role: 'neutral' })
       }
-      
    }
 
    genBrandColors(temp: 1 | 2 | 3 = 1, fluidity: 1 | 2 | 3 = 1) {
-    // Extract color properties
-    const { primary, secondary, tertiary } = this
-    const brandColors = [primary, secondary, tertiary]
+      // Extract color properties
+      const { primary, secondary, tertiary } = this
+      const brandColors = [primary, secondary, tertiary]
 
-    // Filter unlocked and locked colors
-    const unlockedColors = brandColors.filter(color => !color.isLocked)
-    const anchors = brandColors.filter(color => color.isLocked)
+      // Filter unlocked and locked colors
+      const unlockedColors = brandColors.filter(color => !color.isLocked)
+      const anchors = brandColors.filter(color => color.isLocked)
 
-    // calculate unlocked colors based on anchors:
-    // 1. if there is only one anchor, generate two colors
-    // 2. if there are two anchors, generate one color
-    // 3. if there are no anchors, generate three colors
+      // calculate unlocked colors based on anchors:
+      // 1. if there is only one anchor, generate two colors
+      // 2. if there are two anchors, generate one color
+      // 3. if there are no anchors, generate three colors
 
-    // Generate random styles list
-    const randStylesList = this._generateRandomStylesList(unlockedColors.length)
-    // console.log(randStylesList)
+      // Generate random styles list
+      const randStylesList = this._generateRandomStylesList(unlockedColors.length)
+      // console.log(randStylesList)
 
-    // Calculate average hue and points
-    const avgHue = this._calculateAvgHue(temp as 1 | 2 | 3)
-    const overallDist = this.getAngleFromHarmonyTitle(this.getRandHarmonyTitle())
-    const distfromAvg = overallDist * fluidity
-    let generatedHues = this._separateAvgHue(avgHue, distfromAvg, unlockedColors.length)
-    generatedHues = [avgHue, generatedHues[0], generatedHues[1]]
+      // Calculate average hue and points
+      const avgHue = this._calculateAvgHue(temp as 1 | 2 | 3)
+      const overallDist = this.getAngleFromHarmonyTitle(this.getRandHarmonyTitle())
+      const distfromAvg = overallDist * fluidity
+      let generatedHues = this._separateAvgHue(avgHue, distfromAvg, unlockedColors.length)
+      generatedHues = [avgHue, generatedHues[0], generatedHues[1]]
 
-    // Update unlocked colors with new HSL values
-    this._updateUnlockedColors(unlockedColors, randStylesList, generatedHues)
-
+      // Update unlocked colors with new HSL values
+      this._updateUnlockedColors(unlockedColors, randStylesList, generatedHues)
    }
 
    private _updateUnlockedColors(unlockedColors: PaletteColorType[], randStylesList: string[], pts: number[]) {
       unlockedColors.forEach((color, i) => {
          const randStyle = randStylesList[i]
          const hsl = this._calculateHSL(randStyle, pts[i])
-         let colorRole = color.role 
+         let colorRole = color.role
          this[colorRole] = new PaletteColor({ hsl, role: colorRole })
          // this._updateColors(colorRole, hsl)
       })
@@ -171,7 +166,6 @@ export class Palette implements PaletteType  {
       const randIndex = Math.floor(Math.random() * harmonyTitles.length)
       return harmonyTitles[randIndex] as HarmonyTitle
    }
-
 
    private getAngleFromHarmonyTitle(harmonyTitle: HarmonyTitle) {
       switch (harmonyTitle) {
@@ -391,7 +385,7 @@ export class Palette implements PaletteType  {
 
 export const paletteService = {
    getPalette: async (id: string): Promise<PaletteType> => {
-      return httpService.get(`palette/${id}`)
+      return (await httpService.get(`palette/${id}`)).data
    },
    addPalette: async (palette: MiniPaletteType): Promise<MiniPaletteType> => {
       return (await httpService.post('palette', palette)).data
@@ -399,9 +393,10 @@ export const paletteService = {
    updatePalette: async (id: string, palette: PaletteType): Promise<PaletteType> => {
       return httpService.put(`palettes/${id}`, palette)
    },
-   generateBrand: async (palette: PaletteType,temp:1|2|3,fludity:1|2|3): Promise<PaletteType> => {
+   generateBrand: async (palette: PaletteType, temp: 1 | 2 | 3, fludity: 1 | 2 | 3): Promise<PaletteType> => {
+      if (palette instanceof MiniPalette) palette = new Palette(palette)
       return new Promise((resolve, reject) => {
-         palette.genBrandColors(temp,fludity)
+         palette.genBrandColors(temp, fludity)
          resolve(palette)
       })
    },
@@ -409,6 +404,11 @@ export const paletteService = {
       console.log(new Palette(new MiniPalette({})))
       return new Palette(new MiniPalette({}))
    },
+   buildFromMiniPalette: (miniPalette: MiniPaletteType): PaletteType => {
+      return new Palette(miniPalette)
+   },
+
+
 }
 
 type ColorStyleRangeType = {
