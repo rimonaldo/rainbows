@@ -15,9 +15,9 @@ function App() {
    // const [paletteId, setPaletteId] = useState<string>('')
    const { loadPalette, savePalette: addPalette, palette, getEmptyPalette, setPalette, savedPaletteId } = usePaletteStore()
 
-   // useEffect(() => {
-   //    setPalette(getEmptyPalette())
-   // }, [user])
+   useEffect(() => {
+      setPalette(getEmptyPalette())
+   }, [])
 
    const handleSavePalette = () => {
       console.log('handleSavePalette',savedPaletteId);

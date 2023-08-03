@@ -17,16 +17,22 @@ type State = {
    // getMiniPalettes: () => MiniPaletteType[]
    savedPaletteId: string
    loadPalette: (id: string) => void
+   count: number
+   increment: () => void
+
 }
 
 export const usePaletteStore = create(
    persist<State>(
       // persist the store to localStorage
       set => ({
+         count: 0,
+         increment: () => set(state => ({ count: state.count + 1 })),
          palette: paletteService.getEmptyPalette(), // maybe get from localStorage
          miniPalette: null,
          savedPaletteId: '',
          setPalette: async (palette: PaletteType) => {
+
             set({ palette })
          },
          getEmptyPalette: () => {
