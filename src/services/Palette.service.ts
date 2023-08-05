@@ -394,8 +394,6 @@ export const paletteService = {
       return httpService.put(`palettes/${id}`, palette)
    },
    generateBrand: async (palette: PaletteType, temp: 1 | 2 | 3, fludity: 1 | 2 | 3): Promise<PaletteType> => {
-   
-      
       return new Promise((resolve, reject) => {
          palette.genBrandColors(temp, fludity)
          resolve(palette)
@@ -408,8 +406,6 @@ export const paletteService = {
    buildFromMiniPalette: (miniPalette: MiniPaletteType): PaletteType => {
       return new Palette(miniPalette)
    },
-
-
 }
 
 type ColorStyleRangeType = {

@@ -57,7 +57,7 @@ const SwatchList = ({ palette, onLock }: Props) => {
    }, [position])
 
    return (
-      <div ref={swatchListRef} className="swatch-list-container ">
+      <div style={{border:'1px white solid'}} ref={swatchListRef} className="swatch-list-container ">
          <ul className="swatch-list rounded-2xl">
             {colors.slice(0, itemsToShow).map((color, index) => {
                return <Swatch key={guid()} color={color} />
