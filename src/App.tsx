@@ -8,6 +8,7 @@ import { useUserStore } from './store/useUserStore'
 import { Credentials } from './types'
 import { Login } from './components/Login'
 import PaletteList from './components/PaletteList'
+import AdminBox from './layouts/AdminBox'
 function App() {
    const prevScrollPos = useScrollPosition()
    const { user, logIn, loggedIn, logOut, signup, savePaletteId } = useUserStore()
@@ -33,10 +34,9 @@ function App() {
    return (
       <div className="App main-layout" style={{ background: palette?.primary.shade[100].hex }}>
          <NavBar user={user} />
+         <AdminBox user={user}></AdminBox>
          {/* login logout */}
          <div>
-            <Login></Login>
-            <PaletteList loadPalette={loadPalette} paletteIds={user?.savedPalettes || []}></PaletteList>
          </div>
          <div>
             <div>
