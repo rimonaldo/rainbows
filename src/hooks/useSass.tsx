@@ -1,7 +1,31 @@
+import { MiniPaletteType, PaletteColorRole } from "../types"
 
 export const setSassVariable = (variable: string, value: string) => {
    const root = document.documentElement
    root.style.setProperty(variable, value)
+}
+
+export const setSassPalette = (palette: MiniPaletteType) => {
+
+   const root = document.documentElement
+   const colorRoles = [
+      'primary',
+      'secondary',
+      'tertiary',
+      'neutral',
+      'success',
+      'warning',
+      'info',
+   ] as PaletteColorRole[]
+
+   colorRoles.forEach(role => {
+      for (let i = 100; i <= 900; i += 100) {
+         const variableName = `--${role}${i}`
+         const value = palette[role].shade[i].hex
+         root.style.setProperty(variableName, value)
+         // console.log();
+      }
+   })
 }
 
 export type Shade = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900

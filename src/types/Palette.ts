@@ -54,6 +54,8 @@ export interface PaletteType {
    genSemanticColors: () => void
    genNeutralColors: () => void
    getMiniPalette: () => MiniPaletteType
+   setColor: (role:PaletteColorRole , hex:string) => void
+   setColorLock:(role:PaletteColorRole , lock:boolean) => void
 }
 
 export type MiniColorType = {

@@ -10,6 +10,7 @@
       "build:css": "node-sass src/styles/main.scss src/styles/main.css && postcss src/styles/main.css -o src/styles/index.css"
    },
    "dependencies": {
+      "@uidotdev/usehooks": "^2.0.1",
       "accessible-colors": "^1.0.4",
       "axios": "^1.4.0",
       "contrast-ratio": "^1.1.0",

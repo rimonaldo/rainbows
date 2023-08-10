@@ -2,7 +2,7 @@
    z-index: 2;
    $modelsPadding: 1.5rem;
    padding: $modelsPadding;
-   background: var(--primary900);
+   background: white;
    position: relative;
    .hover-box {
       &:hover {
@@ -16,7 +16,7 @@
       padding: 1rem 0.5rem;
    }
    .main-models-header {
-      color: var(--primary300);
+      color: black;
       text-align: center;
       h2 {
          font-size: 2rem;
@@ -42,7 +42,7 @@
          transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
 
          &:hover {
-            box-shadow: 0 0 10px var(--primary600);
+            // box-shadow: 0 0 10px var(--primary600);
             // remove blur
             filter: blur(0);
          }
@@ -89,11 +89,11 @@
             gap: 0.5rem;
             .box1 {
                flex: 1;
-               background: var(--primary800);
+               background: white;
             }
             .box2 {
                // flex: 1;
-               background: var(--primary800);
+               background: white;
             }
          }
 
@@ -103,11 +103,11 @@
             grid-column: 1/-1;
             .box1 {
                flex: 1;
-               background: var(--primary800);
+               background: white;
             }
             .box2 {
                flex: 1;
-               background: var(--primary800);
+               background: white;
             }
          }
       }
@@ -130,11 +130,11 @@
             gap: 0.5rem;
             .box1 {
                flex: 0.5;
-               background: var(--primary800);
+               background: white;
             }
             .box2 {
                flex: 1;
-               background: var(--primary800);
+               background: white;
             }
          }
 
@@ -144,7 +144,7 @@
             grid-column: 1/-1;
             .box1 {
                flex: 5;
-               background: var(--primary800);
+               background: white;
             }
             .box2 {
                // opacity: 0;
@@ -165,12 +165,12 @@
          flex-direction: column;
          .box1 {
             flex: 2;
-            background: var(--primary800);
+            background: white;
          }
 
          .box2 {
             flex: 4;
-            background: var(--primary800);
+            background: white;
          }
       }
 
@@ -180,12 +180,12 @@
          flex-direction: column;
          .box1 {
             flex: 4;
-            background: var(--primary800);
+            background: white;
          }
 
          .box2 {
             flex: 2;
-            background: var(--primary800);
+            background: white;
          }
       }
 
@@ -200,7 +200,7 @@
    
    .semantics {
       // background-color: white;
-      background: var(--primary800);
+      background: white;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
@@ -227,7 +227,7 @@
          flex-direction: column;
          justify-content: space-between;
          .hex {
-            color: var(--neutral900);
+            color: black;
          }
          @media screen and (max-width: $mobileWidth) {
             .hex {
@@ -243,13 +243,13 @@
             justify-content: space-around;
             // line-height: clamp(1rem, 1.5vw, 2em);
             border-top: 1px rgb(235, 235, 235) solid;
-            padding: 0.5rem clamp(0.2rem, 1.2vw, 2em);
+            padding: 0.5rem clamp(0.2rem, .5vw, 2em);
             .color-name {
                font-weight: 500;
                flex: 1.1;
             }
             .rest {
-               flex: 1;
+               flex: 1.5;
                display: flex;
                justify-content: space-between;
             }
@@ -348,7 +348,7 @@
       .nav {
          display: flex;
          justify-content: space-between;
-         background-color: var(--primary300);
+         background-color: white;
          flex: 1;
          // height: 100%;
          padding: 0.5rem;
@@ -366,7 +366,7 @@
             }
          }
          select {
-            background-color: var(--primary800);
+            background-color: white;
             border: none;
             outline: none;
             color: rgb(0, 0, 0);
@@ -381,7 +381,7 @@
             }
          }
          .active {
-            background-color: var(--primary800);
+            background-color: white;
          }
       }
    }

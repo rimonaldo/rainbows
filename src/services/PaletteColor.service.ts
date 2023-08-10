@@ -60,6 +60,8 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
 
    setLock(lock: boolean) {
       this.isLocked = lock
+      console.log('setLock', this.isLocked);
+      
    }
 
    getMiniPaletteColor(): MiniPaletteColorType {

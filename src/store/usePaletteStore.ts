@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { PaletteType } from '../types'
+import { PaletteColorRole, PaletteType } from '../types'
 import { MiniPaletteType, MiniPalette } from '../types/Palette'
 import { paletteService } from '../services/Palette.service'
 import { userService } from '../services/user.service'
@@ -19,7 +19,8 @@ type State = {
    loadPalette: (id: string) => void
    count: number
    increment: () => void
-
+   setColorLock: (palette:PaletteType , role:PaletteColorRole, newLockState:boolean) => void
+   setColor:(palette:PaletteType , role:PaletteColorRole, newHex:string) => void
 }
 
 export const usePaletteStore = create(
@@ -56,7 +57,16 @@ export const usePaletteStore = create(
 
             set({ palette: paletteService.buildFromMiniPalette(miniPalette), savedPaletteId: miniPalette._id })
          },
+         setColorLock: (palette:PaletteType ,role:PaletteColorRole,newLockState:boolean) => {
+            const newPalette = paletteService.setColorLock(palette,role,newLockState)
+            set({ palette: newPalette})
+         },
+         setColor:(palette:PaletteType ,role:PaletteColorRole,newHex:string) => {
+            const newPalette = paletteService.setColor(palette,role,newHex)
+            set({ palette: newPalette})
+         }
       }),
+
       {
          name: 'user-storage', // unique name
          getStorage: () => localStorage, // (optional) by default the 'localStorage' is used

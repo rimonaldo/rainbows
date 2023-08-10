@@ -1,23 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { PaletteType } from '../types'
+import { PaletteColorRole, PaletteType, hex } from '../types'
 import { PaletteColorType } from '../types'
 import Swatch from './Swatch'
 import { guid } from '../services/utils'
 type Props = {
    palette: PaletteType
-   onLock: (color: PaletteColorType) => void
+   onLockToggle: (role: PaletteColorRole, newLockState: boolean) => void
+   onColorChange: (role: PaletteColorRole, hex: hex) => void
 }
 
-const SwatchList = ({ palette, onLock }: Props) => {
+const SwatchList = ({ palette, onLockToggle: onLock , onColorChange}: Props) => {
    const { primary, secondary, tertiary, info, success, warning, danger, neutral } = palette
    const colors = [primary, secondary, tertiary, neutral, neutral]
    const [itemsToShow, setItemsToShow] = useState<number>(5)
    const [isTop, setIsTop] = useState<boolean>(false)
    const [colorStyle, setColorStyle] = React.useState<'neon' | 'pastel' | 'earth' | 'jewel'>('pastel')
-
-   const handleLock = (color: PaletteColorType) => {
-      onLock(color)
-   }
 
    // wiewport height
    const swatchListRef = useRef<HTMLDivElement>(null)
@@ -43,7 +40,7 @@ const SwatchList = ({ palette, onLock }: Props) => {
       if (width < 768) {
          setItemsToShow(3)
       } else {
-         setItemsToShow(5)
+         setItemsToShow(4)
       }
    }, [width])
 
@@ -57,10 +54,17 @@ const SwatchList = ({ palette, onLock }: Props) => {
    }, [position])
 
    return (
-      <div style={{border:'1px white solid'}} ref={swatchListRef} className="swatch-list-container ">
+      <div style={{ border: '1px white solid' }} ref={swatchListRef} className="swatch-list-container ">
          <ul className="swatch-list rounded-2xl">
             {colors.slice(0, itemsToShow).map((color, index) => {
-               return <Swatch key={guid()} color={color} />
+               return (
+                  <Swatch
+                     key={guid()}
+                     color={color}
+                     onLock={(role: PaletteColorRole, newLockState: boolean) => onLock(role, newLockState)}
+                     onColorChange={(role: PaletteColorRole, hex: hex) =>onColorChange(role, hex) }
+                  />
+               )
             })}
          </ul>
          <div className="desc">

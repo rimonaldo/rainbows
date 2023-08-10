@@ -38,7 +38,7 @@ const SemanticsBox = ({ colors,palette }: Props) => {
    }, [elRef, palette]) // Add dependency array to avoid unnecessary re-renders
 
    return (
-      <div ref={elRef} className="box semantics ">
+      <div style={{background:'white'}} ref={elRef} className="box semantics ">
          <div className={` content-wrapper ${isRowShown ? 'shown' : ''}`}>
             <header>
                <h3>Color Semantics</h3>

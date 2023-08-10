@@ -1,4 +1,4 @@
-import { PaletteType, MiniPaletteType, HarmonyTitle, PaletteColorStyle } from '../types'
+import { PaletteType, MiniPaletteType, HarmonyTitle, PaletteColorStyle, PaletteColorRole } from '../types'
 import { PaletteColorType, MiniPaletteColorType } from '../types'
 import { MiniPaletteColor } from './PaletteColor.service'
 import { PaletteColor } from './PaletteColor.service'
@@ -6,6 +6,7 @@ import httpService from '../API/http.service'
 import { ColorType } from '../types'
 import { getRandomAAColor } from 'accessible-colors'
 import { guid } from './utils'
+import { get } from 'lodash'
 
 export class MiniPalette implements MiniPaletteType {
    _id: string
@@ -59,20 +60,20 @@ export class Palette implements PaletteType {
          this.primary = new PaletteColor({ hex: miniPalette.primary.hex, role: 'primary' })
          this.secondary = new PaletteColor({ hex: miniPalette.secondary.hex, role: 'secondary' })
          this.tertiary = new PaletteColor({ hex: miniPalette.tertiary.hex, role: 'tertiary' })
-         this.info = new PaletteColor({ hex: miniPalette.info.hex, role: 'info' })
-         this.success = new PaletteColor({ hex: miniPalette.success.hex, role: 'success' })
-         this.warning = new PaletteColor({ hex: miniPalette.warning.hex, role: 'warning' })
-         this.danger = new PaletteColor({ hex: miniPalette.danger.hex, role: 'danger' })
-         this.neutral = new PaletteColor({ hex: miniPalette.neutral.hex, role: 'neutral' })
+         this.success = this.genSuccessColor()
+         this.info = this.genInfoColor()
+         this.warning = this.genWarningColor()
+         this.danger = this.genDangerColor()
+         this.neutral = new PaletteColor({ hex: '#ffffff', role: 'neutral' })
       } else {
          this._id = guid()
          this.primary = new PaletteColor({ hex: '#000000', role: 'primary' })
          this.secondary = new PaletteColor({ hex: '#000000', role: 'secondary' })
          this.tertiary = new PaletteColor({ hex: '#000000', role: 'tertiary' })
-         this.info = new PaletteColor({ hex: '#000000', role: 'info' })
-         this.success = new PaletteColor({ hex: '#000000', role: 'success' })
-         this.warning = new PaletteColor({ hex: '#000000', role: 'warning' })
-         this.danger = new PaletteColor({ hex: '#000000', role: 'danger' })
+         this.info = this.genInfoColor()
+         this.success = this.genSuccessColor()
+         this.warning = this.genWarningColor()
+         this.danger = this.genDangerColor()
          this.neutral = new PaletteColor({ hex: '#000000', role: 'neutral' })
       }
    }
@@ -104,6 +105,15 @@ export class Palette implements PaletteType {
 
       // Update unlocked colors with new HSL values
       this._updateUnlockedColors(unlockedColors, randStylesList, generatedHues)
+   }
+
+   setColorLock (role:PaletteColorRole, newIsLocked:boolean) {
+     this[role].isLocked = newIsLocked
+     console.log('setColorLock for ',role, this[role].isLocked);
+     
+   }
+   setColor(role: PaletteColorRole, hex: string) {
+      this[role] = new PaletteColor({ hex, role })
    }
 
    private _updateUnlockedColors(unlockedColors: PaletteColorType[], randStylesList: string[], pts: number[]) {
@@ -217,7 +227,55 @@ export class Palette implements PaletteType {
       return 0
    }
    genSemanticColors() {}
-   genNeutralColors() {}
+   genNeutralColors() {
+      this.genSuccessColor()
+      this.genInfoColor()
+      this.genWarningColor()
+   }
+
+   genInfoColor() {
+      const style = 'jewel'
+      const { s, l } = this.success.color.hsl || this._randSatLumByPaletteStyle(style)
+      const h = this.getRandomBlueHue()
+      return new PaletteColor({ hsl: { h, s, l }, role: 'info' })
+   }
+   genSuccessColor() {
+      const style = 'jewel'
+      const { s, l } = this._randSatLumByPaletteStyle(style)
+      
+      const h = this.getRandomGreenHue()
+      return new PaletteColor({ hsl: { h, s:s*1.2, l }, role: 'success' })
+   }
+   genWarningColor() {
+      const style = 'jewel'
+      const { s, l } = this.success.color.hsl || this._randSatLumByPaletteStyle(style)
+      const h = this.getRandomOrangeHue()
+      return new PaletteColor({ hsl: { h, s, l }, role: 'warning' })
+   }
+
+   genDangerColor() {
+      const style = 'jewel'
+      const { s, l } = this.success.color.hsl || this._randSatLumByPaletteStyle(style)
+      const h = this.getRandomRedHue()
+      return new PaletteColor({ hsl: { h, s, l }, role: 'danger' })
+   }
+
+   getRandomGreenHue() {
+      return this.randomInRange(100, 120)
+   }
+   getRandomBlueHue() {
+      return this.randomInRange(220, 240)
+   }
+   getRandomOrangeHue() {
+      return this.randomInRange(37, 40)
+   }
+   getRandomRedHue() {
+      if(this.randomInRange(0, 1) > 0.5){
+         return this.randomInRange(355, 360)
+      }
+      return this.randomInRange(0, 5)
+   }
+
    getMiniPalette(): MiniPaletteType {
       return new MiniPalette({ palette: this })
    }
@@ -406,6 +464,14 @@ export const paletteService = {
    buildFromMiniPalette: (miniPalette: MiniPaletteType): PaletteType => {
       return new Palette(miniPalette)
    },
+   setColorLock:(palette: PaletteType, role:PaletteColorRole ,lock: boolean):PaletteType => {
+      palette.setColorLock(role, lock)
+      return palette
+   },
+   setColor : (palette: PaletteType, role:PaletteColorRole ,hex: string):PaletteType => {
+      palette.setColor(role, hex)
+      return palette
+   }
 }
 
 type ColorStyleRangeType = {
