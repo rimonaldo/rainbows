@@ -1,60 +1,32 @@
 import React, { useEffect, useState } from 'react'
-
-import { PaletteColorType, PaletteType } from '../types'
-import { PaletteColorRole } from '../types'
-import SwatchList from '../components/SwatchList'
+import { PaletteType } from '../types'
 import Waves from '../components/Waves'
-import { PaletteColorStyle } from '../types'
-import { Color } from '../services/color.service'
 import { usePaletteStore } from '../store/usePaletteStore'
-import { setSassPalette, setSassVariable } from '../hooks/useSass'
 import { usePrevious } from '../hooks/usePrev'
 import { Palette } from '../services/Palette.service'
+import { setSassPalette } from '../hooks/useSass'
+import useDebounce from '../hooks/useDebounce'
 
-type Props = {
-   scrollPosition: number
-}
+type Props = {}
 
-function Hero({ scrollPosition }: Props) {
-   const [colorStyle, setColorStyle] = React.useState<PaletteColorStyle>('pastel')
-   const [avg, setAvg] = useState(0)
-   const [pts, setPts] = useState([])
-   // const [tempValue, setValue] = useState(1)
-   // temp value type 1|2|3
+function Hero({}: Props) {
+   const { generatePalette, palette, setPalette } = usePaletteStore()
+   const [prevPalette, setPrevPalette] = useState<PaletteType>(palette)
    const [tempValue, setTempVal]: [1 | 2 | 3, React.Dispatch<React.SetStateAction<1 | 2 | 3>>] = useState<1 | 2 | 3>(1)
    const [fluidity, setFluidityVal]: [1 | 2 | 3, React.Dispatch<React.SetStateAction<1 | 2 | 3>>] = useState<1 | 2 | 3>(
       3
    )
-   const { generatePalette, palette, setPalette } = usePaletteStore()
-   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = parseInt(event.target.value, 10)
-      setTempVal(newValue as 1 | 2 | 3)
-      // console.log('Slider value:', newValue)
-   }
-   const [prevPalette, setPrevPalette] = useState<PaletteType>(palette)
-
-
-   const handleFluidity = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = parseInt(event.target.value, 10)
-      setFluidityVal(newValue as 1 | 2 | 3)
-      // console.log('Slider value:', newValue)
-   }
-
-   useEffect(() => {
-      setPaletteCssVars(palette)
-   }, [palette])
-
-   const randomNum = (min: number, max: number) => {
-      return Math.floor(Math.random() * (max - min + 1) + min) as 1 | 2 | 3
-   }
+   const [num, incNum] = useState(0)
+   const debouncedNum = useDebounce(num, 700)
 
    const handleGenerate = () => {
       generatePalette(tempValue, fluidity, palette)
-      setPalette(new Palette(palette.getMiniPalette()))
-      console.log(palette._id);
-      
-      setSassPalette(palette.getMiniPalette())
+      incNum(num + 1)
    }
+
+   useEffect(() => {
+      setSassPalette(palette.getMiniPalette())
+   }, [debouncedNum])
 
    useEffect(() => {
       function handleKeyDown(event: KeyboardEvent) {
@@ -78,39 +50,17 @@ function Hero({ scrollPosition }: Props) {
       }
    }, [])
 
-   const setPaletteCssVars = (palette: PaletteType) => {
-      const root = document.documentElement
-      const colorRoles = [
-         'primary',
-         'secondary',
-         'tertiary',
-         'neutral',
-         'success',
-         'warning',
-         'info',
-      ] as PaletteColorRole[]
-
-      colorRoles.forEach(role => {
-         for (let i = 100; i <= 900; i += 100) {
-            const variableName = `--${role}${i}`
-            const value = palette[role].shade[i].hex
-            root.style.setProperty(variableName, value)
-            // console.log();
-         }
-      })
-   }
-
    const textColor = ({ r, g, b }: { r: number; g: number; b: number }) => {
       var yiq = (r * 299 + g * 587 + b * 114) / 1000
       return yiq >= 128 ? 'black' : 'white'
    }
 
+   const randNum = (min: number, max: number) => {
+      return Math.floor(Math.random() * (max - min + 1) + min) as 1 | 2 | 3
+   }
+
    return (
       <section className="hero-container ">
-         {/* <div className="scroll " style={{ position: 'sticky', top: '2rem', left: '2rem', color: 'black' }}>
-            {scrollPosition}
-         </div> */}
-
          <div className="hero">
             <header>
                <div className="h-container  ">
@@ -142,12 +92,6 @@ function Hero({ scrollPosition }: Props) {
                      <option value="2">2</option>
                      <option value="3">3</option>
                   </select>
-                  {/* <select onChange={ev => setColorStyle(ev.target.value as PaletteColorStyle)}>
-                     <option value="pastel">Pastel</option>
-                     <option value="jewel">Jewel</option>
-                     <option value="earth">Earthy</option>
-                     <option value="neon">Neon</option>
-                  </select> */}
                </div>
             </header>
 
@@ -156,10 +100,6 @@ function Hero({ scrollPosition }: Props) {
                <Waves />
             </div>
          </div>
-
-         {/* <input type="range" min={1} max={3} value={tempValue} onChange={handleSliderChange} style={{ width: '20%' }} /> */}
-         {/* <input type="range" min={1} max={3} value={fluidity} onChange={handleFluidity} style={{ width: '20%' }} /> */}
-
       </section>
    )
 }

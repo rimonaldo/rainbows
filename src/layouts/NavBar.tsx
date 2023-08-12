@@ -13,7 +13,7 @@ function NavBar({user}: Props) {
             <div className="logo flex-1">
                RAINBOW<span>S</span>
             </div>
-            <Avatar user={user}></Avatar>
+            {/* <Avatar user={user}></Avatar> */}
 
             <div className="right-container ">
                <button className="setting">

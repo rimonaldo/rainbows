@@ -109,7 +109,6 @@ export class Palette implements PaletteType {
 
    setColorLock (role:PaletteColorRole, newIsLocked:boolean) {
      this[role].isLocked = newIsLocked
-     console.log('setColorLock for ',role, this[role].isLocked);
      
    }
    setColor(role: PaletteColorRole, hex: string) {
@@ -457,8 +456,10 @@ export const paletteService = {
          resolve(palette)
       })
    },
-   getEmptyPalette: (): PaletteType => {
-      console.log(new Palette(new MiniPalette({})))
+   getEmptyPalette: (palette?:PaletteType): PaletteType => {
+      if(palette){
+         return new Palette(palette.getMiniPalette())
+      }
       return new Palette(new MiniPalette({}))
    },
    buildFromMiniPalette: (miniPalette: MiniPaletteType): PaletteType => {

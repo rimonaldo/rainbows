@@ -55,13 +55,9 @@ export const useUserStore = create<State>(set => ({
       const loggedInUser = await storageService.getLoggedinUser()
       if(!loggedInUser._id) return
       const user = await userService.getUser(loggedInUser._id)
-      console.log('user', user);
-      
       if (user) {
-         // console.log('user', user);
          if (!user.savedPalettes) user.savedPalettes = []
          user.savedPalettes.push(paletteId)
-         console.log(user.savedPalettes)
          const updatedUser = await userService.updateUser(user._id, user)
          storageService.setUser(updatedUser)
          set({
