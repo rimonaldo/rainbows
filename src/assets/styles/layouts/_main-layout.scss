@@ -1,18 +1,16 @@
 .main-layout {
    @include mainLayoutGrid();
    grid-template-rows: 90px min-content max-content max-content 1fr min-content;
-   .nav-bar{
+   .nav-bar {
       grid-row: 1 / 2;
    }
 
-   .second-page{
+   .second-page {
       grid-column: 1/-1;
    }
 
-
+   flex: 5;
 }
-
-
 
 .flex {
    display: flex;

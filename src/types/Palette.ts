@@ -50,6 +50,7 @@ export interface PaletteType {
    danger: PaletteColorType
    neutral: PaletteColorType
 
+
    genBrandColors: (temp:1|2|3,fluidity:1|2|3) => void
    genSemanticColors: () => void
    genNeutralColors: () => void
@@ -92,3 +93,8 @@ export enum HarmonyTitle {
    Complementary = 'complementary',
    Analogous = 'analogous',
 }
+
+// export enum PaletteStyle {
+//    HighContrast = 'highContrast',
+//    Br
+// }

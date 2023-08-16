@@ -19,10 +19,10 @@ const Waves = (props: Props) => {
                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
             </defs>
             <g className="parallax">
-               <use xlinkHref="#gentle-wave" x="48" y="0" fill={palette.primary.shade[300].hex} />
-               <use xlinkHref="#gentle-wave" x="48" y="3" fill={palette.info.shade[200].hex} />
-               <use xlinkHref="#gentle-wave" x="48" y="5" fill={palette.secondary.shade[300].hex} />
-               <use xlinkHref="#gentle-wave" x="48" y="7" fill={palette.primary.shade[200].hex} />
+               <use xlinkHref="#gentle-wave" x="48" y="0" fill={palette.primary.shade[700].hex} />
+               <use xlinkHref="#gentle-wave" x="48" y="3" fill={palette.info.shade[800].hex} />
+               <use xlinkHref="#gentle-wave" x="48" y="5" fill={palette.secondary.shade[600].hex} />
+               <use xlinkHref="#gentle-wave" x="48" y="7" fill={palette.primary.shade[800].hex} />
             </g>
          </svg>
       </div>

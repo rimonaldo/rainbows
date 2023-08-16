@@ -53,11 +53,11 @@ const SemanticsBox = ({ colors,palette }: Props) => {
                   return (
                      <li key={guid()}>
                         <div className="color-name" style={{ color: color.shade[500].hex }}>
-                           {color.name}
+                           {color.role}
                         </div>
                         <div className="rest">
                            <div className="hex">{color.shade[500].hex}</div>
-                           <div className="role">{color.role}</div>
+                           <div className="role">{color.name}</div>
                         </div>
                      </li>
                   )

@@ -14,7 +14,7 @@ const Models = ({palette}: Props) => {
    
 
    return (
-      <section className="models-container" style={{ background: tertiary.shade[100].hex }}>
+      <section className="models-container" style={{ background: primary.shade[300].hex }}>
          <header className="main-models-header">
             <h2 className="" style={{color:'black'}}>Models</h2>
             <h4>Lorem ipsum dolor sit amet, consectetur!</h4>

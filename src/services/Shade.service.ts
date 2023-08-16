@@ -12,7 +12,7 @@ export class Shader implements PaletteColorShadeType {
 
    genShades = () => {
       this[100] = this.genShade100()
-      this[900] = this.genShade900()
+      this[900] = this.genShade900(0.2,0.3)
 
       this[300] = this.genMidShade(this[100], this[500])
       this[200] = this.genMidShade(this[100], this[300])
@@ -31,10 +31,10 @@ export class Shader implements PaletteColorShadeType {
       return new Color({ hsl: shade100Hsl })
    }
 
-   private genShade900 = () => {
+   private genShade900 = (maxSat?:number , maxLum?:number) => {
       const initialHue = this[500].hsl.h
-      const sat = Math.min(0.9, this[500].hsl.s * 1.25)
-      const lum = Math.max(this[500].hsl.l * 0.25, 0.1)
+      const sat = this._randomNumInRange(0, maxSat || 0.2)
+      const lum = this._randomNumInRange(0, maxLum || 0.2)
       const shade900Hsl = { h: initialHue, s: sat, l: lum }
       return new Color({ hsl: shade900Hsl })
    }
