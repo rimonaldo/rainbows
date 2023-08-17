@@ -11,6 +11,8 @@ export class ColorPrototype implements MiniColorType {
       } else if (rgb) {
          this.hex = this.rgbToHex(rgb)
       } else if (hsl) {
+         
+
          this.hex = this.hslToHex(hsl)
       } else if (hsv) {
          this.hex = this.hsvToHex(hsv)

@@ -52,7 +52,7 @@ function App() {
    }
 
    const isBrightHSL = (hsl: hsl) => {
-      return hsl.l > 0.5
+      return hsl.l > 0.7
    }
 
    return (
@@ -63,8 +63,8 @@ function App() {
             className="App main-layout"
             style={{
                background: isBrightHSL(palette.primary.color.hsl)
-                  ? palette.primary.shade[900].hex
-                  : palette.primary.shade[100].hex,
+                  ? palette.neutralDark.hex
+                  : palette.neutralBright.hex,
             }}
          >
             <NavBar toggleMenu={handleToggleMenu} user={user} />
@@ -93,6 +93,6 @@ export default App
 
 const style = {
    display: 'flex',
-   border: '1px solid red',
+   // border: '1px solid red',
    justifyContent: 'space between',
 }

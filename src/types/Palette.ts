@@ -49,6 +49,9 @@ export interface PaletteType {
    warning: PaletteColorType
    danger: PaletteColorType
    neutral: PaletteColorType
+   neutralBright: PaletteColorType
+   neutralDark: PaletteColorType
+   
 
 
    genBrandColors: (temp:1|2|3,fluidity:1|2|3) => void

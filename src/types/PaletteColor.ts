@@ -1,4 +1,4 @@
-import { MiniColorType, ColorType, MiniPaletteColorShadeType, PaletteColorShadeType } from './'
+import { MiniColorType, ColorType, MiniPaletteColorShadeType, PaletteColorShadeType, hsl } from './'
 
 export interface MiniPaletteColorType extends MiniColorType {
    _id: string
@@ -12,6 +12,7 @@ export interface PaletteColorType extends MiniPaletteColorType {
    shade: PaletteColorShadeType
    isLocked: boolean
    setLock: (lock: boolean) => void
+   genByStyle: (style: PaletteColorStyle) => PaletteColorType
 }
 
 export type PaletteColorStyle = 'neon' | 'pastel' | 'earth' | 'jewel'
@@ -25,3 +26,5 @@ export type PaletteColorRole =
    | 'info'
    | 'danger'
    | 'neutral'
+   | 'neutralBright'
+   | 'neutralDark'

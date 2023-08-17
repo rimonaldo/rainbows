@@ -7,6 +7,7 @@ import { ColorType } from '../types'
 import { getRandomAAColor } from 'accessible-colors'
 import { guid } from './utils'
 import { get } from 'lodash'
+import { utilService } from './util.service'
 
 export class MiniPalette implements MiniPaletteType {
    _id: string
@@ -53,6 +54,8 @@ export class Palette implements PaletteType {
    warning: PaletteColorType
    danger: PaletteColorType
    neutral: PaletteColorType
+   neutralBright: PaletteColorType
+   neutralDark: PaletteColorType
 
    constructor(miniPalette: MiniPaletteType = new MiniPalette({})) {
       if (miniPalette._id) {
@@ -65,6 +68,8 @@ export class Palette implements PaletteType {
          this.warning = this.genWarningColor()
          this.danger = this.genDangerColor()
          this.neutral = new PaletteColor({ hex: '#ffffff', role: 'neutral' })
+         this.neutralBright = this.genNeutral('bright')
+         this.neutralDark = this.genNeutral('dark')
       } else {
          this._id = guid()
          this.primary = new PaletteColor({ hex: '#000000', role: 'primary' })
@@ -75,7 +80,16 @@ export class Palette implements PaletteType {
          this.warning = this.genWarningColor()
          this.danger = this.genDangerColor()
          this.neutral = new PaletteColor({ hex: '#000000', role: 'neutral' })
+         this.neutralBright = this.genNeutral('bright')
+         this.neutralDark = this.genNeutral('dark')
       }
+   }
+
+   genNeutral(type: 'bright' | 'dark') {
+      if (type === 'bright') {
+         return new PaletteColor({ hex: this.primary.shade[100].hex, role: 'neutralBright' })
+      }
+      return new PaletteColor({ hex: this.secondary.shade[900].hex, role: 'neutralDark' })
    }
 
    genBrandColors(temp: 1 | 2 | 3 = 1, fluidity: 1 | 2 | 3 = 1) {
@@ -102,14 +116,15 @@ export class Palette implements PaletteType {
       const distfromAvg = overallDist * fluidity
       let generatedHues = this._separateAvgHue(avgHue, distfromAvg, unlockedColors.length)
       generatedHues = [avgHue, generatedHues[0], generatedHues[1]]
+      const aahex = getRandomAAColor(primary.hex)
+      const aaColor = new PaletteColor({ hex: aahex, role: 'secondary' })
 
       // Update unlocked colors with new HSL values
       this._updateUnlockedColors(unlockedColors, randStylesList, generatedHues)
    }
 
-   setColorLock (role:PaletteColorRole, newIsLocked:boolean) {
-     this[role].isLocked = newIsLocked
-     
+   setColorLock(role: PaletteColorRole, newIsLocked: boolean) {
+      this[role].isLocked = newIsLocked
    }
    setColor(role: PaletteColorRole, hex: string) {
       this[role] = new PaletteColor({ hex, role })
@@ -117,10 +132,14 @@ export class Palette implements PaletteType {
 
    private _updateUnlockedColors(unlockedColors: PaletteColorType[], randStylesList: string[], pts: number[]) {
       unlockedColors.forEach((color, i) => {
+         let colorRole = color.role
          const randStyle = randStylesList[i]
          const hsl = this._calculateHSL(randStyle, pts[i])
-         let colorRole = color.role
-         this[colorRole] = new PaletteColor({ hsl, role: colorRole })
+
+         this[colorRole] = new PaletteColor({ hsl, role: colorRole, style: randStyle as PaletteColorStyle })
+         // console.log('this[colorRole]:', this[colorRole])
+         // console.log('NEW COLOR:', this[colorRole].genByStyle(randStyle as PaletteColorStyle))
+
          // this._updateColors(colorRole, hsl)
       })
 
@@ -136,9 +155,10 @@ export class Palette implements PaletteType {
    }
    private _randSatLumByPaletteStyle = (colorStyleKey: keyof typeof paletteStyle) => {
       const { sat, lum } = paletteStyle[colorStyleKey]
-      const s = +(Math.random() * (sat.max - sat.min) + sat.min).toFixed(2)
-      const l = +(Math.random() * (lum.max - lum.min) + lum.min).toFixed(2)
-      return { s, l }
+      const randSat = +this.randomInRange(sat.min, sat.max)
+      const randLum = this.randomInRange(lum.min, lum.max)
+
+      return { s: randSat, l: randLum }
    }
 
    _separateAvgHue(avgHue: number, distfromAvg: number, length: number) {
@@ -227,9 +247,8 @@ export class Palette implements PaletteType {
    }
    genSemanticColors() {}
    genNeutralColors() {
-      this.genSuccessColor()
-      this.genInfoColor()
-      this.genWarningColor()
+      this.neutralBright = this.genNeutral('bright')
+      this.neutralDark = this.genNeutral('dark')
    }
 
    genInfoColor() {
@@ -241,9 +260,9 @@ export class Palette implements PaletteType {
    genSuccessColor() {
       const style = 'jewel'
       const { s, l } = this._randSatLumByPaletteStyle(style)
-      
+
       const h = this.getRandomGreenHue()
-      return new PaletteColor({ hsl: { h, s:s*1.2, l }, role: 'success' })
+      return new PaletteColor({ hsl: { h, s: s * 1.2, l }, role: 'success' })
    }
    genWarningColor() {
       const style = 'jewel'
@@ -269,7 +288,7 @@ export class Palette implements PaletteType {
       return this.randomInRange(37, 40)
    }
    getRandomRedHue() {
-      if(this.randomInRange(0, 1) > 0.5){
+      if (this.randomInRange(0, 1) > 0.5) {
          return this.randomInRange(355, 360)
       }
       return this.randomInRange(0, 5)
@@ -290,8 +309,9 @@ export class Palette implements PaletteType {
       return (h >= 0 && h <= 60) || (h >= 270 && h <= 360) ? 'cool' : 'warm'
    }
 
-   randomInRange = (min: number, max: number) => {
-      return Math.random() * (max - min) + min
+   randomInRange = (min: number, max: number, toFixed?: number) => {
+      if (toFixed) return +(Math.random() * (max - min) + min).toFixed(toFixed)
+      return +Math.random() * (max - min) + min
    }
 
    // _getAccentHsls = () => {
@@ -453,11 +473,16 @@ export const paletteService = {
    generateBrand: async (palette: PaletteType, temp: 1 | 2 | 3, fludity: 1 | 2 | 3): Promise<PaletteType> => {
       return new Promise((resolve, reject) => {
          palette.genBrandColors(temp, fludity)
+         palette.genNeutralColors()
          resolve(palette)
       })
    },
-   getEmptyPalette: (palette?:PaletteType): PaletteType => {
-      if(palette){
+   generateNeutrals() {},
+   genColorByStyle(palette: PaletteType, role: PaletteColorRole, style: PaletteColorStyle) {
+      return palette[role].genByStyle(style)
+   },
+   getEmptyPalette: (palette?: PaletteType): PaletteType => {
+      if (palette) {
          return new Palette(palette.getMiniPalette())
       }
       return new Palette(new MiniPalette({}))
@@ -465,14 +490,14 @@ export const paletteService = {
    buildFromMiniPalette: (miniPalette: MiniPaletteType): PaletteType => {
       return new Palette(miniPalette)
    },
-   setColorLock:(palette: PaletteType, role:PaletteColorRole ,lock: boolean):PaletteType => {
+   setColorLock: (palette: PaletteType, role: PaletteColorRole, lock: boolean): PaletteType => {
       palette.setColorLock(role, lock)
       return palette
    },
-   setColor : (palette: PaletteType, role:PaletteColorRole ,hex: string):PaletteType => {
+   setColor: (palette: PaletteType, role: PaletteColorRole, hex: string): PaletteType => {
       palette.setColor(role, hex)
       return palette
-   }
+   },
 }
 
 type ColorStyleRangeType = {

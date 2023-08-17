@@ -1,8 +1,7 @@
 import { create } from 'zustand'
-import { PaletteColorRole, PaletteType } from '../types'
+import { PaletteColorRole, PaletteColorStyle, PaletteType } from '../types'
 import { MiniPaletteType, MiniPalette } from '../types/Palette'
 import { paletteService } from '../services/Palette.service'
-
 
 type State = {
    miniPalette: MiniPaletteType | null
@@ -17,6 +16,7 @@ type State = {
    increment: () => void
    setColorLock: (palette: PaletteType, role: PaletteColorRole, newLockState: boolean) => void
    setColor: (palette: PaletteType, role: PaletteColorRole, newHex: string) => void
+   genColorByStyle(palette: PaletteType, role: PaletteColorRole, style: PaletteColorStyle): void
 }
 
 export const usePaletteStore = create<State>(set => ({
@@ -61,6 +61,11 @@ export const usePaletteStore = create<State>(set => ({
    },
    setColor: (palette: PaletteType, role: PaletteColorRole, newHex: string) => {
       const newPalette = paletteService.setColor(palette, role, newHex)
+      set({ palette: newPalette })
+   },
+   genColorByStyle: (palette: PaletteType, role: PaletteColorRole, style: PaletteColorStyle) => {
+      const newPaletteColor = paletteService.genColorByStyle(palette, role, style)
+      const newPalette = paletteService.setColor(palette, role, newPaletteColor.hex)
       set({ palette: newPalette })
    },
 }))
