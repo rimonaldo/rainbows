@@ -1,10 +1,11 @@
 import { PaletteColorType, MiniPaletteColorType, PaletteColorRole, PaletteColorStyle } from '../types/PaletteColor'
 import { Shader } from './Shade.service'
-import { ColorType, MiniPaletteColorShadeType, PaletteColorShadeType } from '../types'
+import { ColorType, MiniPaletteColorShadeType, PaletteColorShadeType, StylerType } from '../types'
 import { hex, rgb, hsl, hsv } from '../types'
 import { Color } from './color.service'
 import { getRandomAAColor } from 'accessible-colors'
 import { utilService } from './util.service'
+import { keys } from 'lodash'
 
 export class MiniPaletteColor implements MiniPaletteColorType {
    _id: string
@@ -20,7 +21,6 @@ export class MiniPaletteColor implements MiniPaletteColorType {
       } else if (rgb) {
          newColor = new Color({ rgb })
       } else if (hsl) {
-
          newColor = new Color({ hsl })
       } else if (hsv) {
          newColor = new Color({ hsv })
@@ -40,6 +40,8 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
    style: PaletteColorStyle
    shade: PaletteColorShadeType
    isLocked: boolean = false
+   styleRange: ColorStyleRangeType
+   customStyles: StylerType
 
    constructor({
       hex,
@@ -58,8 +60,25 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
    }) {
       super({ hex, rgb, hsl, hsv, role })
       this.color = new Color({ hex: this.hex })
-      this.style = style || this.getStyleFromHsl(this.color.hsl)
+      this.style = style || this.getStyleFromHsl(this.color.hsl)  
       this.shade = new Shader(this.color)
+      this.styleRange = paletteStyle[this.style]
+      this.customStyles = { [this.style]: this.styleRange }
+      this.setStyles()
+      console.log('customStyles', this.customStyles)
+   }
+
+   setStyles() {
+      const styleNames = keys(paletteStyle)
+      styleNames.forEach(styleName => {
+         this.customStyles[styleName] = paletteStyle[styleName]
+      })
+   }
+
+   addCustomStyle(style: StylerType) {
+      console.log('addCustomStyle', typeof style)
+
+      this.customStyles[typeof style] = { ...style.style }
    }
 
    private isInRange(num: number, min: number, max: number): boolean {
@@ -111,6 +130,13 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       return new PaletteColor({ role: this.role, hsl: this._calculateHSL(style, this.color.hsl.h), style })
    }
 
+   addStyle(style: StylerType) {
+      const styleName = keys(style)[0]
+      console.log('addStyle', styleName)
+      this.customStyles[styleName] = { ...style[styleName] }
+      console.log('this.customStyles', this.customStyles)
+   }
+
    _calculateHSL(randStyle: string, h: number) {
       const { s, l } = this._randSatLumByPaletteStyle(randStyle)
       return { h, s, l }
@@ -124,7 +150,7 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       const { sat, lum } = paletteStyle[colorStyleKey]
       const randSat = +this.randomInRange(sat.min, sat.max)
       const randLum = this.randomInRange(lum.min, lum.max)
-  
+
       return { s: randSat, l: randLum }
    }
 
@@ -149,9 +175,32 @@ type ColorStyleRangeType = {
    lum: { min: number; max: number }
 }
 
-const paletteStyle: { [key: string]: ColorStyleRangeType } = {
+export type CustomColorStyleType = {
+   [key: string]: ColorStyleRangeType
+}
+
+export class CustomStyle implements CustomColorStyleType {
+   [key: string]: ColorStyleRangeType
+
+   constructor({
+      name,
+      sat,
+      lum,
+   }: {
+      name: string
+      sat: { min: number; max: number }
+      lum: { min: number; max: number }
+   }) {
+      this[name] = { sat, lum }
+   }
+}
+
+export const customStyles = {
+   pastel: new CustomStyle({ name: 'pastel', sat: { min: 0.3, max: 0.45 }, lum: { min: 0.8, max: 0.9 } }),
+}
+
+export const paletteStyle: { [key: string]: ColorStyleRangeType } = {
    pastel: { sat: { min: 0.3, max: 0.45 }, lum: { min: 0.8, max: 0.9 } },
-   // neutral: { sat: { min: 0.05, max: 0.15 }, lum: { min: 0.75, max: 0.9 } },
    neon: { sat: { min: 0.95, max: 1 }, lum: { min: 0.6, max: 0.7 } },
    earth: { sat: { min: 0.2, max: 0.35 }, lum: { min: 0.2, max: 0.4 } },
    jewel: { sat: { min: 0.5, max: 0.65 }, lum: { min: 0.5, max: 0.7 } },

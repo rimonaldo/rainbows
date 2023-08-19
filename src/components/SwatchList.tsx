@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { PaletteColorRole, PaletteColorStyle, PaletteType, hex } from '../types'
+import { PaletteColorRole, PaletteColorStyle, PaletteType, StylerType, hex } from '../types'
 import { PaletteColorType } from '../types'
 import Swatch from './Swatch'
 import { guid } from '../services/utils'
@@ -8,15 +8,16 @@ type Props = {
    palette: PaletteType
    onLockToggle: (role: PaletteColorRole, newLockState: boolean) => void
    onColorChange: (role: PaletteColorRole, hex: hex) => void
+   onStyleAdd: (role: PaletteColorRole, style: StylerType) => void
 }
 
-const SwatchList = ({ palette, onLockToggle: onLock, onColorChange }: Props) => {
+const SwatchList = ({ palette, onLockToggle: onLock, onColorChange , onStyleAdd }: Props) => {
    const { primary, secondary, tertiary, info, success, warning, danger, neutral, neutralBright, neutralDark } = palette
    const colors = [primary, secondary, tertiary, neutralBright, neutralDark]
    const [itemsToShow, setItemsToShow] = useState<number>(5)
    const [isTop, setIsTop] = useState<boolean>(false)
    const [colorStyle, setColorStyle] = React.useState<'neon' | 'pastel' | 'earth' | 'jewel'>('pastel')
-   const { genColorByStyle } = usePaletteStore()
+   const { genColorByStyle ,} = usePaletteStore()
    // wiewport height
    const swatchListRef = useRef<HTMLDivElement>(null)
    const swatchList = swatchListRef.current
@@ -61,6 +62,8 @@ const SwatchList = ({ palette, onLockToggle: onLock, onColorChange }: Props) => 
       // setStyle(ev.target.value as PaletteColorStyle)
    }
 
+   
+
    return (
       <div style={{ border: '1px white solid' }} ref={swatchListRef} className="swatch-list-container ">
          <ul className="swatch-list rounded-2xl">
@@ -74,6 +77,7 @@ const SwatchList = ({ palette, onLockToggle: onLock, onColorChange }: Props) => 
                      }
                      onLock={(role: PaletteColorRole, newLockState: boolean) => onLock(role, newLockState)}
                      onColorChange={(role: PaletteColorRole, hex: hex) => onColorChange(role, hex)}
+                     onStyleAdd={(role: PaletteColorRole, style: StylerType) => onStyleAdd(role, style)}
                   />
                )
             })}

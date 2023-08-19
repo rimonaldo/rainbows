@@ -1,4 +1,4 @@
-import { PaletteType, MiniPaletteType, HarmonyTitle, PaletteColorStyle, PaletteColorRole } from '../types'
+import { PaletteType, MiniPaletteType, HarmonyTitle, PaletteColorStyle, PaletteColorRole, StylerType } from '../types'
 import { PaletteColorType, MiniPaletteColorType } from '../types'
 import { MiniPaletteColor } from './PaletteColor.service'
 import { PaletteColor } from './PaletteColor.service'
@@ -157,6 +157,7 @@ export class Palette implements PaletteType {
       const { sat, lum } = paletteStyle[colorStyleKey]
       const randSat = +this.randomInRange(sat.min, sat.max)
       const randLum = this.randomInRange(lum.min, lum.max)
+      console.log('randLum:', +randLum.toFixed(2), 'min lum:', lum.min, 'max lum:', lum.max)
 
       return { s: randSat, l: randLum }
    }
@@ -498,6 +499,10 @@ export const paletteService = {
       palette.setColor(role, hex)
       return palette
    },
+   addStyle: (palette: PaletteType, role: PaletteColorRole, style: StylerType): PaletteType => {
+      palette[role].addStyle(style)
+      return palette
+   }
 }
 
 type ColorStyleRangeType = {

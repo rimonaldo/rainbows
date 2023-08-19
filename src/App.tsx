@@ -4,7 +4,7 @@ import NavBar from './layouts/NavBar'
 import Models from './layouts/Models'
 import { usePaletteStore } from './store/usePaletteStore'
 import { useUserStore } from './store/useUserStore'
-import { Credentials, PaletteColorRole, hex, hsl } from './types'
+import { Credentials, PaletteColorRole, StylerType, hex, hsl } from './types'
 import { Login } from './components/Login'
 import PaletteList from './components/PaletteList'
 import AdminBox from './layouts/AdminBox'
@@ -24,6 +24,7 @@ function App() {
       getEmptyPalette,
       setPalette,
       savedPaletteId,
+      addStyle,
    } = usePaletteStore()
 
    useEffect(() => {
@@ -51,6 +52,11 @@ function App() {
       setColorLock(palette, role, newLockState)
    }
 
+   const handleStyleAdd = (role: PaletteColorRole, style: StylerType) => {
+      console.log('handleStyleAdd', role, style)
+      addStyle(palette, role, style)
+   }
+
    const isBrightHSL = (hsl: hsl) => {
       return hsl.l > 0.7
    }
@@ -62,9 +68,7 @@ function App() {
          <div
             className="App main-layout"
             style={{
-               background: isBrightHSL(palette.primary.color.hsl)
-                  ? palette.neutralDark.hex
-                  : palette.neutralBright.hex,
+               background: isBrightHSL(palette.primary.color.hsl) ? palette.neutralDark.hex : palette.neutralBright.hex,
             }}
          >
             <NavBar toggleMenu={handleToggleMenu} user={user} />
@@ -80,6 +84,7 @@ function App() {
             <Hero />
             <SwatchList
                palette={palette}
+               onStyleAdd={(role: PaletteColorRole, style: StylerType) => handleStyleAdd(role, style)}
                onColorChange={(role: PaletteColorRole, hex: hex) => handleColorChange(role, hex)}
                onLockToggle={(role: PaletteColorRole, newLockState: boolean) => handleSetLock(role, newLockState)}
             />
