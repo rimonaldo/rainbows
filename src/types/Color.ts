@@ -14,4 +14,5 @@ export interface ColorType extends MiniColorType {
    hsv: hsv
 
    getMiniColor(): MiniColorType
+   setValue({ hex, hsl, hsv, rgb }: { hsl?: hsl; rgb?: rgb; hsv?: hsv; hex?: hex }): void
 }

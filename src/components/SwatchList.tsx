@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { PaletteColorRole, PaletteColorStyle, PaletteType, StylerType, hex } from '../types'
+import { PaletteColorRole, PaletteColorStyle, PaletteType, CustomStyleType, hex } from '../types'
 import { PaletteColorType } from '../types'
 import Swatch from './Swatch'
 import { guid } from '../services/utils'
@@ -8,16 +8,17 @@ type Props = {
    palette: PaletteType
    onLockToggle: (role: PaletteColorRole, newLockState: boolean) => void
    onColorChange: (role: PaletteColorRole, hex: hex) => void
-   onStyleAdd: (role: PaletteColorRole, style: StylerType) => void
+   onStyleAdd: (role: PaletteColorRole, style: CustomStyleType) => void
+   onAddStyle: (role: PaletteColorRole, style: CustomStyleType) => void
 }
 
-const SwatchList = ({ palette, onLockToggle: onLock, onColorChange , onStyleAdd }: Props) => {
+const SwatchList = ({ onAddStyle, palette, onLockToggle: onLock, onColorChange, onStyleAdd }: Props) => {
    const { primary, secondary, tertiary, info, success, warning, danger, neutral, neutralBright, neutralDark } = palette
    const colors = [primary, secondary, tertiary, neutralBright, neutralDark]
    const [itemsToShow, setItemsToShow] = useState<number>(5)
    const [isTop, setIsTop] = useState<boolean>(false)
    const [colorStyle, setColorStyle] = React.useState<'neon' | 'pastel' | 'earth' | 'jewel'>('pastel')
-   const { genColorByStyle ,} = usePaletteStore()
+   const { genColorByStyle } = usePaletteStore()
    // wiewport height
    const swatchListRef = useRef<HTMLDivElement>(null)
    const swatchList = swatchListRef.current
@@ -57,12 +58,15 @@ const SwatchList = ({ palette, onLockToggle: onLock, onColorChange , onStyleAdd 
    //       setIsTop(false)
    //    }
    // }, [position])
-   const onStyleChange = (role: PaletteColorRole, style: PaletteColorStyle) => {
+
+   const onStyleChange = (role: PaletteColorRole, style: CustomStyleType) => {
       genColorByStyle(palette, role, style)
       // setStyle(ev.target.value as PaletteColorStyle)
    }
 
-   
+   const handleStyleAdd = (role: PaletteColorRole, style: CustomStyleType) => {
+      onAddStyle(role, style)
+   }
 
    return (
       <div style={{ border: '1px white solid' }} ref={swatchListRef} className="swatch-list-container ">
@@ -72,12 +76,12 @@ const SwatchList = ({ palette, onLockToggle: onLock, onColorChange , onStyleAdd 
                   <Swatch
                      key={color.role}
                      color={color}
-                     handleStyleChange={(role: PaletteColorRole, style: PaletteColorStyle) =>
+                     handleStyleChange={(role: PaletteColorRole, style: CustomStyleType) =>
                         onStyleChange(role, style)
                      }
                      onLock={(role: PaletteColorRole, newLockState: boolean) => onLock(role, newLockState)}
                      onColorChange={(role: PaletteColorRole, hex: hex) => onColorChange(role, hex)}
-                     onStyleAdd={(role: PaletteColorRole, style: StylerType) => onStyleAdd(role, style)}
+                     onStyleAdd={(role: PaletteColorRole, style: CustomStyleType) => onStyleAdd(role, style)}
                   />
                )
             })}

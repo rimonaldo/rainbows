@@ -1,11 +1,12 @@
-import { PaletteColorType, MiniPaletteColorType, PaletteColorRole, PaletteColorStyle } from '../types/PaletteColor'
+import { PaletteColorType, MiniPaletteColorType, PaletteColorRole, PaletteColorStyle } from '../types'
 import { Shader } from './Shade.service'
-import { ColorType, MiniPaletteColorShadeType, PaletteColorShadeType, StylerType } from '../types'
-import { hex, rgb, hsl, hsv } from '../types'
+import { ColorType, MiniPaletteColorShadeType, PaletteColorShadeType, CustomStyleType } from '../types'
+import { hex, rgb, hsl, hsv, ColorStyleRangeType } from '../types'
 import { Color } from './color.service'
 import { getRandomAAColor } from 'accessible-colors'
 import { utilService } from './util.service'
 import { keys } from 'lodash'
+import { paletteStyle } from './ColorStyle.service'
 
 export class MiniPaletteColor implements MiniPaletteColorType {
    _id: string
@@ -41,7 +42,8 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
    shade: PaletteColorShadeType
    isLocked: boolean = false
    styleRange: ColorStyleRangeType
-   customStyles: StylerType
+   customStyles: CustomStyleType
+   // activeStyle: CustomStyleType
 
    constructor({
       hex,
@@ -50,6 +52,7 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       hsv,
       role,
       style,
+      customStyles,
    }: {
       hex?: hex
       rgb?: rgb
@@ -57,13 +60,14 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       hsv?: hsv
       role: PaletteColorRole
       style?: PaletteColorStyle
+      customStyles?: CustomStyleType
    }) {
       super({ hex, rgb, hsl, hsv, role })
       this.color = new Color({ hex: this.hex })
-      this.style = style || this.getStyleFromHsl(this.color.hsl)  
+      this.style = style || this.getStyleFromHsl(this.color.hsl)
       this.shade = new Shader(this.color)
       this.styleRange = paletteStyle[this.style]
-      this.customStyles = { [this.style]: this.styleRange }
+      this.customStyles = { [this.style]: this.styleRange } || customStyles
       this.setStyles()
       console.log('customStyles', this.customStyles)
    }
@@ -75,7 +79,7 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       })
    }
 
-   addCustomStyle(style: StylerType) {
+   addCustomStyle(style: CustomStyleType) {
       console.log('addCustomStyle', typeof style)
 
       this.customStyles[typeof style] = { ...style.style }
@@ -126,20 +130,35 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       return 'pastel'
    }
 
-   genByStyle(style: PaletteColorStyle) {
-      return new PaletteColor({ role: this.role, hsl: this._calculateHSL(style, this.color.hsl.h), style })
+   genByStyle(newStyle: CustomStyleType) {
+      console.log('genByStyle', newStyle)
+      // this.style = keys(newStyle)[0] as PaletteColorStyle
+      // const { h, s, l } = this.color.hsl
+      // const { sat, lum } = newStyle[this.style]
+      // const newSat = this.randomInRange(sat.min, sat.max)
+      // const newLum = this.randomInRange(lum.min, lum.max)
+      // const newHsl = { h, s: newSat, l: newLum }
+      // this.color = new Color({ hsl: newHsl })
+      // this.hex = this.color.hex
+      // this.shade = new Shader(this.color)
+      // this.styleRange = paletteStyle[this.style]
+      // this.customStyles = { [this[].style]: this.styleRange }
+
+      return this
    }
 
-   addStyle(style: StylerType) {
-      const styleName = keys(style)[0]
+   addStyle(newStyle: CustomStyleType) {
+      const styleName = keys(newStyle)[0]
       console.log('addStyle', styleName)
-      this.customStyles[styleName] = { ...style[styleName] }
+      this.styleRange = newStyle[styleName]
+
+      this.customStyles[styleName] = { ...newStyle[styleName] }
       console.log('this.customStyles', this.customStyles)
    }
 
    _calculateHSL(randStyle: string, h: number) {
       const { s, l } = this._randSatLumByPaletteStyle(randStyle)
-      return { h, s, l }
+      return { h, s: +s.toFixed(2), l: +l.toFixed(2) }
    }
 
    randomInRange = (min: number, max: number, toFixed?: number) => {
@@ -170,38 +189,40 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
    }
 }
 
-type ColorStyleRangeType = {
-   sat: { min: number; max: number }
-   lum: { min: number; max: number }
-}
-
-export type CustomColorStyleType = {
-   [key: string]: ColorStyleRangeType
-}
-
-export class CustomStyle implements CustomColorStyleType {
-   [key: string]: ColorStyleRangeType
-
-   constructor({
-      name,
-      sat,
-      lum,
-   }: {
-      name: string
-      sat: { min: number; max: number }
-      lum: { min: number; max: number }
-   }) {
-      this[name] = { sat, lum }
+export class PaletteColorFactory {
+   static getEmptyPaletteColor(role: PaletteColorRole): PaletteColorType {
+      return new PaletteColor({ role })
    }
-}
 
-export const customStyles = {
-   pastel: new CustomStyle({ name: 'pastel', sat: { min: 0.3, max: 0.45 }, lum: { min: 0.8, max: 0.9 } }),
-}
+   static getPaletteColorFromMiniPaletteColor(miniPaletteColor: MiniPaletteColorType): PaletteColorType {
+      return new PaletteColor({ ...miniPaletteColor })
+   }
 
-export const paletteStyle: { [key: string]: ColorStyleRangeType } = {
-   pastel: { sat: { min: 0.3, max: 0.45 }, lum: { min: 0.8, max: 0.9 } },
-   neon: { sat: { min: 0.95, max: 1 }, lum: { min: 0.6, max: 0.7 } },
-   earth: { sat: { min: 0.2, max: 0.35 }, lum: { min: 0.2, max: 0.4 } },
-   jewel: { sat: { min: 0.5, max: 0.65 }, lum: { min: 0.5, max: 0.7 } },
+   static getPaletteColorFromColor(color: ColorType, role: PaletteColorRole): PaletteColorType {
+      return new PaletteColor({ ...color, role })
+   }
+
+   static getPaletteColorFromHex(hex: hex, role: PaletteColorRole): PaletteColorType {
+      return new PaletteColor({ hex, role })
+   }
+
+   static getPaletteColorFromRgb(rgb: rgb, role: PaletteColorRole): PaletteColorType {
+      return new PaletteColor({ rgb, role })
+   }
+
+   static getPaletteColorFromHsl(hsl: hsl, role: PaletteColorRole): PaletteColorType {
+      return new PaletteColor({ hsl, role })
+   }
+
+   static getPaletteColorFromHsv(hsv: hsv, role: PaletteColorRole): PaletteColorType {
+      return new PaletteColor({ hsv, role })
+   }
+
+   static getPaletteColorFromStyle(style: PaletteColorStyle, role: PaletteColorRole): PaletteColorType {
+      return new PaletteColor({ style, role })
+   }
+
+   static getPaletteColorFromCustomStyle(customStyle: CustomStyleType, role: PaletteColorRole): PaletteColorType {
+      return new PaletteColor({ customStyles: customStyle, role })
+   }
 }

@@ -1,4 +1,5 @@
-import { PaletteType, MiniPaletteType, HarmonyTitle, PaletteColorStyle, PaletteColorRole, StylerType } from '../types'
+import { PaletteColorStyle, PaletteColorRole, CustomStyleType, hex } from '../types'
+import { PaletteType, MiniPaletteType, HarmonyTitle } from '../types'
 import { PaletteColorType, MiniPaletteColorType } from '../types'
 import { MiniPaletteColor } from './PaletteColor.service'
 import { PaletteColor } from './PaletteColor.service'
@@ -8,7 +9,8 @@ import { getRandomAAColor } from 'accessible-colors'
 import { guid } from './utils'
 import { get } from 'lodash'
 import { utilService } from './util.service'
-
+import { ColorStyleRangeType } from '../types'
+import { paletteStyle } from './ColorStyle.service'
 export class MiniPalette implements MiniPaletteType {
    _id: string
    primary: MiniPaletteColorType
@@ -126,8 +128,9 @@ export class Palette implements PaletteType {
    setColorLock(role: PaletteColorRole, newIsLocked: boolean) {
       this[role].isLocked = newIsLocked
    }
-   setColor(role: PaletteColorRole, hex: string) {
-      this[role] = new PaletteColor({ hex, role })
+   setColor(paletteColor: PaletteColorType) {
+      const { role } = paletteColor
+      this[role] = paletteColor
    }
 
    private _updateUnlockedColors(unlockedColors: PaletteColorType[], randStylesList: string[], pts: number[]) {
@@ -262,7 +265,7 @@ export class Palette implements PaletteType {
       const style = 'jewel'
       const { s, l } = this._randSatLumByPaletteStyle(style)
 
-      const h = this.getRandomGreenHue()
+      const h = this.randomInRange(100, 120)
       return new PaletteColor({ hsl: { h, s: s * 1.2, l }, role: 'success' })
    }
    genWarningColor() {
@@ -279,9 +282,6 @@ export class Palette implements PaletteType {
       return new PaletteColor({ hsl: { h, s, l }, role: 'danger' })
    }
 
-   getRandomGreenHue() {
-      return this.randomInRange(100, 120)
-   }
    getRandomBlueHue() {
       return this.randomInRange(220, 240)
    }
@@ -314,151 +314,6 @@ export class Palette implements PaletteType {
       if (toFixed) return +(Math.random() * (max - min) + min).toFixed(toFixed)
       return +Math.random() * (max - min) + min
    }
-
-   // _getAccentHsls = () => {
-   //    const randomHarmony = utils.getRandomHarmonyTitle()
-   //    const angle = utils.getHarmonyAngle(randomHarmony)
-   //    const isRealHarmony = Math.random() > 0.5 ? true : false
-   //    const isOffset = Math.random() > 0.5 ? true : false
-   //    let offset = isOffset ? this.randomInRange(-7.5, 7.5) : 0
-
-   //    let secondaryHsl = this.primary.shade[500].hsl
-   //    let tertiaryHsl = this.primary.shade[500].hsl
-
-   //    if (isRealHarmony) {
-   //       let anglesDiff = Math.abs(angle - this.primary.shade[500].hsl.h)
-   //       if (randomHarmony === 'complementary') {
-   //          let isSplit = Math.random() > 0.5 ? true : false
-   //          if (isSplit) {
-   //             let newAngle = angle - anglesDiff
-   //             secondaryHsl.h += newAngle + offset
-   //             tertiaryHsl.h += this.secondary.shade[500].hsl.h + 30 - offset
-   //          } else {
-   //             const randTertiaryHarmony = utils.getRandomHarmonyTitle()
-   //             secondaryHsl.h += angle - anglesDiff + offset
-   //             tertiaryHsl.h += utils.getHarmonyAngle('analogous' as typeof randomHarmony) - offset
-   //          }
-   //       } else {
-   //          secondaryHsl.h += angle + offset
-   //          tertiaryHsl.h -= angle - offset
-   //       }
-   //    } else {
-   //       tertiaryHsl.h += this.secondary.shade[500].hsl.h + 30 + offset
-   //    }
-
-   //    const sl = utils.getRandomHslByPaletteStyle(this.metaData.paletteStyle)
-   //    // secondaryHsl.s = sl.s
-   //    // secondaryHsl.l = sl.l
-
-   //    tertiaryHsl.s = sl.s
-   //    // tertiaryHsl.l = sl.l
-
-   //    return { secondaryHsl, tertiaryHsl }
-   // }
-
-   // setAccent = (role: 'secondary' | 'tertiary') => {
-   //    const { secondaryHsl, tertiaryHsl } = this._getAccentHsls()
-   //    const secondary = new Color({ hsl: secondaryHsl })
-   //    const tertiary = new Color({ hsl: tertiaryHsl })
-
-   //    const selectedColor = role === 'secondary' ? secondary : tertiary
-   //    return new PaletteColor(new Color({ hex: selectedColor.hex }), role)
-   // }
-
-   // _getAccent = () => {
-   //    let AAhex
-   //    let accentColor = new Color({ hex: AAhex })
-   //    const validHueAngles = [30, -30, 210, 150, 120, -120, 180]
-   //    const maxOffset = 10
-   //    const randAdjacent = Math.floor(Math.random() * 2) === 0 ? -30 : 30
-   //    const primaryHue = this.primary.shade[500].hsl.h
-   //    let inRange = false
-   //    let nonce = 0
-   //    const offset = Math.floor(Math.random() * maxOffset)
-   //    const secondaryHueDirection = Math.floor(Math.random() * 2) === 0 ? -1 : 1
-   //    while (!inRange) {
-   //       nonce++
-   //       AAhex = getRandomAAColor(this.primary.shade[500].hex)
-   //       accentColor = new Color({ hex: AAhex })
-   //       const randomHueRange = Math.floor(Math.random() * validHueAngles.length)
-   //       const hue =
-   //          secondaryHueDirection > 0
-   //             ? primaryHue + validHueAngles[randomHueRange]
-   //             : primaryHue - validHueAngles[randomHueRange]
-   //       if (accentColor.hsl.h > hue - offset && accentColor.hsl.h < hue + offset) {
-   //          inRange = true
-   //       }
-   //       if (nonce === 500) {
-   //          accentColor = new Color({ hsl: { h: this.primary.shade[500].hsl.h + randAdjacent, s: 0.5, l: 0.5 } })
-   //          inRange = true
-   //       }
-   //    }
-
-   //    let secondaryColor = new PaletteColor(new Color({ hex: accentColor.hex }), 'secondary')
-   //    let { h, s } = secondaryColor.shade[500].hsl
-   //    let primaryLum = this.primary.shade[500].hsl.l
-   //    let primarySat = this.primary.shade[500].hsl.s
-   //    let newColor = new Color({ hsl: { h, s: primarySat, l: primaryLum } })
-   //    secondaryColor = new PaletteColor(new Color({ hex: newColor.hex }), 'secondary')
-
-   //    return secondaryColor
-   // }
-
-   // setSemanticColors = () => {
-   //    let primaryHue = this.primary.shade[500].hsl.h
-   //    let colorName = utils.getColorNameByHue(primaryHue)
-   //    let randOffset = this.randomInRange(-10, 10)
-   //    let randSat = +this.randomInRange(0.7, 1).toFixed(2)
-   //    let randLum = +this.randomInRange(0.5, 0.7).toFixed(2)
-   //    let randWarningHue = this.randomInRange(15, 70)
-   //    let randInfoHue = this.randomInRange(200, 270)
-   //    if (colorName === 'green' || colorName == 'green-blue' || colorName == 'yellow-green') {
-   //       this.success = new PaletteColor({
-   //          role: 'success',
-   //          color: new Color({ hsl: { h: primaryHue, s: randSat, l: randLum } }),
-   //       })
-   //    } else {
-   //       let successHsl = { h: (randOffset + 120) % 360, s: randSat, l: randLum }
-   //       this.success = new PaletteColor({
-   //          role: 'success',
-   //          color: new Color({ hsl: successHsl }),
-   //       })
-   //    }
-   //    let warningHsl = { h: randWarningHue, s: randSat, l: randLum }
-   //    let dangerHsl = { h: (randOffset + 0) % 360, s: randSat, l: randLum }
-   //    let infoHsl = { h: randInfoHue, s: randSat, l: randLum }
-   //    this.warning = new PaletteColor({
-   //       role: 'warning',
-   //       color: new Color({ hsl: warningHsl }),
-   //    })
-   //    this.danger = new PaletteColor({
-   //       role: 'danger',
-   //       color: new Color({ hsl: dangerHsl }),
-   //    })
-   //    this.info = new PaletteColor({
-   //       role: 'info',
-   //       color: new Color({ hsl: infoHsl }),
-   //    })
-   // }
-
-   // setNeutral = (theme: 'light' | 'dark' = this.theme) => {
-   //    const neutralHsl = utils.getRandomHslByPaletteStyle(this.metaData.paletteStyle)
-   //    const randomHarmonyTitle = utils.getRandomHarmonyTitle()
-   //    const isOfseet = Math.floor(Math.random() * 2) === 0 ? true : false
-   //    let offset = isOfseet ? this.randomInRange(-10, 10) : 0
-   //    const primaryHue = this.primary.shade[500].hsl.h
-   //    let harmonyAngle = utils.getHarmonyAngle(randomHarmonyTitle)
-   //    neutralHsl.h = (primaryHue + harmonyAngle + offset) % 360
-   //    neutralHsl.l = +this.randomInRange(0.95, 1).toFixed(2)
-   //    if (theme === 'dark') {
-   //       neutralHsl.l = +this.randomInRange(0, 0.15).toFixed(2)
-   //    }
-   //    neutralHsl.s = +this.randomInRange(0, 0.1).toFixed(2)
-   //    return new PaletteColor({
-   //       role: 'neutral',
-   //       color: new Color({ hsl: neutralHsl }),
-   //    })
-   // }
 }
 
 export const paletteService = {
@@ -479,7 +334,7 @@ export const paletteService = {
       })
    },
    generateNeutrals() {},
-   genColorByStyle(palette: PaletteType, role: PaletteColorRole, style: PaletteColorStyle) {
+   genColorByStyle(palette: PaletteType, role: PaletteColorRole, style: CustomStyleType) {
       return palette[role].genByStyle(style)
    },
    getEmptyPalette: (palette?: PaletteType): PaletteType => {
@@ -495,25 +350,12 @@ export const paletteService = {
       palette.setColorLock(role, lock)
       return palette
    },
-   setColor: (palette: PaletteType, role: PaletteColorRole, hex: string): PaletteType => {
-      palette.setColor(role, hex)
+   setColor: (palette: PaletteType, role: PaletteColorRole, hex: hex): PaletteType => {
+      palette[role].color.setValue({ hex })
       return palette
    },
-   addStyle: (palette: PaletteType, role: PaletteColorRole, style: StylerType): PaletteType => {
+   addStyle: (palette: PaletteType, role: PaletteColorRole, style: CustomStyleType): PaletteType => {
       palette[role].addStyle(style)
       return palette
-   }
-}
-
-type ColorStyleRangeType = {
-   sat: { min: number; max: number }
-   lum: { min: number; max: number }
-}
-
-const paletteStyle: { [key: string]: ColorStyleRangeType } = {
-   pastel: { sat: { min: 0.3, max: 0.45 }, lum: { min: 0.8, max: 0.9 } },
-   neutral: { sat: { min: 0.05, max: 0.15 }, lum: { min: 0.75, max: 0.9 } },
-   neon: { sat: { min: 0.95, max: 1 }, lum: { min: 0.6, max: 0.7 } },
-   earth: { sat: { min: 0.2, max: 0.35 }, lum: { min: 0.2, max: 0.4 } },
-   jewel: { sat: { min: 0.5, max: 0.65 }, lum: { min: 0.5, max: 0.7 } },
+   },
 }

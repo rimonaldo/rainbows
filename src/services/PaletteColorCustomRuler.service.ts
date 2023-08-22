@@ -24,3 +24,5 @@ export class PaletteColorRuler implements PaletteColorRulerType {
       return (this.fromHue + this.angle + offset) % 360
    }
 }
+
+

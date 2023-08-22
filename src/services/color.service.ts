@@ -11,8 +11,6 @@ export class ColorPrototype implements MiniColorType {
       } else if (rgb) {
          this.hex = this.rgbToHex(rgb)
       } else if (hsl) {
-         
-
          this.hex = this.hslToHex(hsl)
       } else if (hsv) {
          this.hex = this.hsvToHex(hsv)
@@ -225,6 +223,32 @@ export class Color extends ColorPrototype implements ColorType {
 
    getMiniColor(): MiniColorType {
       return new ColorPrototype({ hex: this.hex })
+   }
+
+   setValue({ hex, hsl, rgb, hsv }: { hsl: hsl; rgb: rgb; hex: hex; hsv: hsv }) {
+      if (hex) {
+         this.hex = hex
+         this.rgb = this.hexToRgb(hex)
+         this.hsl = this.rgbToHsl(this.rgb)
+         this.hsv = this.rgbToHsv(this.rgb)
+      } else if (rgb) {
+         this.rgb = rgb
+         this.hex = this.rgbToHex(rgb)
+         this.hsl = this.rgbToHsl(rgb)
+         this.hsv = this.rgbToHsv(rgb)
+      } else if (hsl) {
+         console.log('old hsl', this.hsl)
+         console.log('new hsl', hsl)
+         this.hsl = hsl
+         this.rgb = this.hslToRgb(hsl)
+         this.hex = this.rgbToHex(this.rgb)
+         this.hsv = this.rgbToHsv(this.rgb)
+      } else if (hsv) {
+         this.hsv = hsv
+         this.rgb = this.hsvToRgb(hsv)
+         this.hex = this.rgbToHex(this.rgb)
+         this.hsl = this.rgbToHsl(this.rgb)
+      }
    }
 }
 

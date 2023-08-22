@@ -58,7 +58,7 @@ export interface PaletteType {
    genSemanticColors: () => void
    genNeutralColors: () => void
    getMiniPalette: () => MiniPaletteType
-   setColor: (role:PaletteColorRole , hex:string) => void
+   setColor: (paletteColor:PaletteColorType) => void
    setColorLock:(role:PaletteColorRole , lock:boolean) => void
 }
 
@@ -97,7 +97,3 @@ export enum HarmonyTitle {
    Analogous = 'analogous',
 }
 
-// export enum PaletteStyle {
-//    HighContrast = 'highContrast',
-//    Br
-// }
