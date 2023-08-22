@@ -7,6 +7,7 @@ import { getRandomAAColor } from 'accessible-colors'
 import { utilService } from './util.service'
 import { keys } from 'lodash'
 import { paletteStyle } from './ColorStyle.service'
+import { ColorStyleType } from '../types/ColorStyle'
 
 export class MiniPaletteColor implements MiniPaletteColorType {
    _id: string
@@ -43,7 +44,7 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
    isLocked: boolean = false
    styleRange: ColorStyleRangeType
    customStyles: CustomStyleType
-   // activeStyle: CustomStyleType
+   activeStyle: ColorStyleType
 
    constructor({
       hex,
@@ -68,6 +69,7 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       this.shade = new Shader(this.color)
       this.styleRange = paletteStyle[this.style]
       this.customStyles = { [this.style]: this.styleRange } || customStyles
+      this.activeStyle = { ...this.customStyles[this.style] }
       this.setStyles()
       console.log('customStyles', this.customStyles)
    }
@@ -75,14 +77,14 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
    setStyles() {
       const styleNames = keys(paletteStyle)
       styleNames.forEach(styleName => {
-         this.customStyles[styleName] = paletteStyle[styleName]
+         this.customStyles[styleName] = this.customStyles[styleName] || paletteStyle[styleName]
       })
    }
 
-   addCustomStyle(style: CustomStyleType) {
+   addCustomStyle(style: ColorStyleType) {
       console.log('addCustomStyle', typeof style)
 
-      this.customStyles[typeof style] = { ...style.style }
+      this.customStyles[typeof style] = style
    }
 
    private isInRange(num: number, min: number, max: number): boolean {
@@ -130,29 +132,27 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       return 'pastel'
    }
 
-   genByStyle(newStyle: CustomStyleType) {
+   genByStyle(newStyle: ColorStyleType) {
       console.log('genByStyle', newStyle)
-      // this.style = keys(newStyle)[0] as PaletteColorStyle
-      // const { h, s, l } = this.color.hsl
-      // const { sat, lum } = newStyle[this.style]
-      // const newSat = this.randomInRange(sat.min, sat.max)
-      // const newLum = this.randomInRange(lum.min, lum.max)
-      // const newHsl = { h, s: newSat, l: newLum }
-      // this.color = new Color({ hsl: newHsl })
-      // this.hex = this.color.hex
-      // this.shade = new Shader(this.color)
-      // this.styleRange = paletteStyle[this.style]
-      // this.customStyles = { [this[].style]: this.styleRange }
+      this.style = typeof newStyle === 'string' ? newStyle : newStyle.name
+      const { h, s, l } = this.color.hsl
+      const { sat, lum } = newStyle
+      const newSat = this.randomInRange(sat.min, sat.max)
+      const newLum = this.randomInRange(lum.min, lum.max)
+      const newHsl = { h, s: newSat, l: newLum }
+      this.color = new Color({ hsl: newHsl })
+      this.hex = this.color.hex
+      this.shade = new Shader(this.color)
+      this.styleRange = paletteStyle[this.style]
+      // this.customStyles = { [this.style]: this.styleRange }
 
       return this
    }
 
-   addStyle(newStyle: CustomStyleType) {
-      const styleName = keys(newStyle)[0]
-      console.log('addStyle', styleName)
-      this.styleRange = newStyle[styleName]
-
-      this.customStyles[styleName] = { ...newStyle[styleName] }
+   addStyle(newStyle: ColorStyleType) {
+      const styleName = newStyle.name
+      this.styleRange = newStyle
+      this.customStyles[styleName] = { ...newStyle }
       console.log('this.customStyles', this.customStyles)
    }
 

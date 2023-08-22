@@ -1,4 +1,4 @@
-import { MiniColorType, ColorType, MiniPaletteColorShadeType, PaletteColorShadeType, hsl } from './'
+import { MiniColorType, ColorType, MiniPaletteColorShadeType, PaletteColorShadeType, hsl, ColorStyleType } from './'
 import { CustomStyleType } from './'
 import { ColorStyleRangeType, PaletteColorStyle } from './'
 export interface MiniPaletteColorType extends MiniColorType {
@@ -14,9 +14,10 @@ export interface PaletteColorType extends MiniPaletteColorType {
    customStyles: CustomStyleType
    isLocked: boolean
    styleRange: ColorStyleRangeType
+   activeStyle: ColorStyleType
    setLock: (lock: boolean) => void
-   genByStyle: (style: CustomStyleType) => PaletteColorType
-   addStyle:(style: CustomStyleType) => void
+   genByStyle: (style: ColorStyleType) => PaletteColorType
+   addStyle:(style: ColorStyleType) => void
 }
 
 export type PaletteColorRole =

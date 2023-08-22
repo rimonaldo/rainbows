@@ -9,4 +9,12 @@ export interface CustomStyleType {
 }
 
 
+
+export type ColorStyleType = {
+   name: string
+   sat: { min: number; max: number }
+   lum: { min: number; max: number }
+}
+
+
 export type PaletteColorStyle = 'neon' | 'pastel' | 'earth' | 'jewel' | string

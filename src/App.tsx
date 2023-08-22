@@ -4,13 +4,17 @@ import NavBar from './layouts/NavBar'
 import Models from './layouts/Models'
 import { usePaletteStore } from './store/usePaletteStore'
 import { useUserStore } from './store/useUserStore'
-import { Credentials, PaletteColorRole, CustomStyleType, hex, hsl } from './types'
+import { Credentials, PaletteColorRole, CustomStyleType, hex, hsl, ColorStyleType } from './types'
 import { Login } from './components/Login'
 import PaletteList from './components/PaletteList'
 import AdminBox from './layouts/AdminBox'
 import SwatchList from './components/SwatchList'
 import SideBar from './layouts/SideBar'
 function App() {
+   // User
+   const { user, logIn, loggedIn, logOut, signup, savePaletteId } = useUserStore()
+   const [{ username, password }, setCredentials] = useState<Credentials>({ username: '', password: '' })
+
    // App state
    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
    const [isColorBright, setIsColorBright] = useState<boolean>(false)
@@ -27,7 +31,7 @@ function App() {
       setColorLock(palette, role, newLockState)
    }
 
-   const handleStyleAdd = (role: PaletteColorRole, style: CustomStyleType) => {
+   const handleStyleAdd = (role: PaletteColorRole, style: ColorStyleType) => {
       console.log('handleStyleAdd', role, style)
       addStyle(palette, role, style)
    }
@@ -35,10 +39,6 @@ function App() {
    const isBrightHSL = (hsl: hsl) => {
       return hsl.l > 0.7
    }
-
-   // User
-   const { user, logIn, loggedIn, logOut, signup, savePaletteId } = useUserStore()
-   const [{ username, password }, setCredentials] = useState<Credentials>({ username: '', password: '' })
 
    // Palette
    const {
@@ -50,7 +50,7 @@ function App() {
       getEmptyPalette,
       setPalette,
       savedPaletteId,
-      addStyle,
+      addCustomStyle: addStyle,
    } = usePaletteStore()
 
    const handleSavePalette = () => {
@@ -62,7 +62,7 @@ function App() {
       loadPalette(paletteId)
    }
 
-   const addCustomStyle = (role: PaletteColorRole, style: CustomStyleType) => {
+   const addCustomStyle = (role: PaletteColorRole, style: ColorStyleType) => {
       addStyle(palette, role, style)
    }
 
@@ -92,8 +92,8 @@ function App() {
             <Hero />
             <SwatchList
                palette={palette}
-               onAddStyle={(role: PaletteColorRole, customStyle: CustomStyleType) => addCustomStyle(role, customStyle)}
-               onStyleAdd={(role: PaletteColorRole, style: CustomStyleType) => handleStyleAdd(role, style)}
+               onAddStyle={(role: PaletteColorRole, customStyle: ColorStyleType) => addCustomStyle(role, customStyle)}
+               onStyleAdd={(role: PaletteColorRole, style: ColorStyleType) => handleStyleAdd(role, style)}
                onColorChange={(role: PaletteColorRole, hex: hex) => handleColorChange(role, hex)}
                onLockToggle={(role: PaletteColorRole, newLockState: boolean) => handleSetLock(role, newLockState)}
             />

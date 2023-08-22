@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { PaletteColorRole, PaletteColorStyle, PaletteColorType, CustomStyleType, hex } from '../types'
+import { PaletteColorRole, PaletteColorStyle, PaletteColorType, CustomStyleType, hex, ColorStyleType } from '../types'
 import { CiUnlock } from 'react-icons/ci'
 import { CiLock } from 'react-icons/ci'
 import { IoColorPaletteOutline } from 'react-icons/io5'
@@ -7,12 +7,14 @@ import useDebounce from '../hooks/useDebounce'
 import { usePaletteStore } from '../store/usePaletteStore'
 import { add } from 'lodash'
 import useCustomStyle from '../hooks/useCustomStyle'
+import CustomStyleForm from './CustomStyleForm'
+
 type Props = {
    color: PaletteColorType
    onLock: (role: PaletteColorRole, newLockState: boolean) => void
    onColorChange: (role: PaletteColorRole, hex: hex) => void
-   onStyleAdd: (role: PaletteColorRole, style: CustomStyleType) => void
-   handleStyleChange: (role: PaletteColorRole, style: CustomStyleType) => void
+   onStyleAdd: (role: PaletteColorRole, style: ColorStyleType) => void
+   handleStyleChange: (role: PaletteColorRole, style: ColorStyleType) => void
 }
 
 const Swatch: React.FC<Props> = React.memo(({ color, onLock, onColorChange, handleStyleChange, onStyleAdd }) => {
@@ -22,6 +24,7 @@ const Swatch: React.FC<Props> = React.memo(({ color, onLock, onColorChange, hand
    const [styleName, setStyleName] = useState(color.style)
    const [customStyles, setCustomStyles] = useState<string[]>([])
    const [isChanged, setIsChanged] = useState(false)
+
    const {
       style,
       setStyleName: setStyleName2,
@@ -62,47 +65,29 @@ const Swatch: React.FC<Props> = React.memo(({ color, onLock, onColorChange, hand
          return
       }
       setIsStyleOptionsOpen(false)
-      let newCustomStyle: CustomStyleType = {
-         [ev.target.value]: {
-            name: ev.target.value,
-            sat: {
-               min: 0,
-               max: 1,
-            },
-            lum: {
-               min: 0,
-               max: 1,
-            },
-         },
-      }
+
+      const newCustomStyle = color.customStyles[ev.target.value as PaletteColorStyle]
+
       handleStyleChange(color.role, newCustomStyle)
       // console.log('ev.target.value', ev.target.value);
    }
 
-   const onAddStyle = () => {
+   const onAddStyle = (newCustomStyle: ColorStyleType) => {
       // console.log('addStyle')
 
       // onStyleChange({ target: { value: styleName } } as any)
-      let newStyler: CustomStyleType = {
-         [styleName]: {
-            name: styleName,
-            sat: {
-               min: 0.5,
-               max: 0.6,
-            },
-            lum: {
-               min: 0.5,
-               max: 0.7,
-            },
-         },
-      }
-      onStyleAdd(color.role, newStyler)
+      onStyleAdd(color.role, newCustomStyle)
       setIsChanged(!isChanged)
 
       // setCustomStyles(Object.keys(color.customStyles))
    }
+
    const handleStyleNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
       setStyleName(ev.target.value as PaletteColorStyle)
+   }
+
+   const handleClose = () => {
+      setIsStyleOptionsOpen(false)
    }
 
    return (
@@ -118,7 +103,15 @@ const Swatch: React.FC<Props> = React.memo(({ color, onLock, onColorChange, hand
                ))}
                <option value="addRule">+ Add Style</option>
             </select>
-            <div className={isStyleOptionsOpen ? 'options' : 'hidden'}>
+
+            <CustomStyleForm
+               onStyleChange={(style: ColorStyleType) => onAddStyle(style)}
+               onClose={handleClose}
+               isOpen={isStyleOptionsOpen}
+               style={color.activeStyle}
+            />
+
+            {/* <div className={isStyleOptionsOpen ? 'options' : 'hidden'}>
                <input type="text" value={styleName} className="style-name" onChange={handleStyleNameChange} />
 
                <div className="style-sat">
@@ -131,13 +124,11 @@ const Swatch: React.FC<Props> = React.memo(({ color, onLock, onColorChange, hand
                   <div className="max"></div>
                </div>
 
-            
-
                <div className="add" onClick={onAddStyle}>
                   +
                </div>
                <div className="remove">-</div>
-            </div>
+            </div> */}
             {/* <select name="" id="">
                <option value="random">random</option>
                <option value="pastel">pastel</option>

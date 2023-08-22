@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { PaletteColorRole, PaletteColorStyle, PaletteType, CustomStyleType, hex } from '../types'
+import { PaletteColorRole, PaletteColorStyle, PaletteType, CustomStyleType, hex, ColorStyleType } from '../types'
 import { PaletteColorType } from '../types'
 import Swatch from './Swatch'
 import { guid } from '../services/utils'
@@ -8,8 +8,8 @@ type Props = {
    palette: PaletteType
    onLockToggle: (role: PaletteColorRole, newLockState: boolean) => void
    onColorChange: (role: PaletteColorRole, hex: hex) => void
-   onStyleAdd: (role: PaletteColorRole, style: CustomStyleType) => void
-   onAddStyle: (role: PaletteColorRole, style: CustomStyleType) => void
+   onStyleAdd: (role: PaletteColorRole, style: ColorStyleType) => void
+   onAddStyle: (role: PaletteColorRole, style: ColorStyleType) => void
 }
 
 const SwatchList = ({ onAddStyle, palette, onLockToggle: onLock, onColorChange, onStyleAdd }: Props) => {
@@ -59,12 +59,12 @@ const SwatchList = ({ onAddStyle, palette, onLockToggle: onLock, onColorChange, 
    //    }
    // }, [position])
 
-   const onStyleChange = (role: PaletteColorRole, style: CustomStyleType) => {
+   const onStyleChange = (role: PaletteColorRole, style: ColorStyleType) => {
       genColorByStyle(palette, role, style)
       // setStyle(ev.target.value as PaletteColorStyle)
    }
 
-   const handleStyleAdd = (role: PaletteColorRole, style: CustomStyleType) => {
+   const handleStyleAdd = (role: PaletteColorRole, style: ColorStyleType) => {
       onAddStyle(role, style)
    }
 
@@ -76,12 +76,12 @@ const SwatchList = ({ onAddStyle, palette, onLockToggle: onLock, onColorChange, 
                   <Swatch
                      key={color.role}
                      color={color}
-                     handleStyleChange={(role: PaletteColorRole, style: CustomStyleType) =>
+                     handleStyleChange={(role: PaletteColorRole, style: ColorStyleType) =>
                         onStyleChange(role, style)
                      }
                      onLock={(role: PaletteColorRole, newLockState: boolean) => onLock(role, newLockState)}
                      onColorChange={(role: PaletteColorRole, hex: hex) => onColorChange(role, hex)}
-                     onStyleAdd={(role: PaletteColorRole, style: CustomStyleType) => onStyleAdd(role, style)}
+                     onStyleAdd={(role: PaletteColorRole, style: ColorStyleType) => onStyleAdd(role, style)}
                   />
                )
             })}

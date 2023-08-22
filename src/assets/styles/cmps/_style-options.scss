@@ -1,0 +1,73 @@
+.options {
+   color: white;
+   background-color: var(--primary500);
+   border: 1px black solid;
+   position: absolute;
+   bottom: -1.2rem;
+   display: flex;
+   flex-direction: column;
+   z-index: 1000;
+   align-items: center;
+   justify-content: space-between;
+   width: 150px;
+   padding: 0.5em;
+   gap: 0.3em;
+   .style-name {
+      color: black;
+      text-align: center;
+      border-radius: 0.3rem;
+
+      input {
+         width: 100%;
+         border: none;
+         text-align: center;
+      }
+
+      &:focus {
+         border-color: #007bff; // Giving a distinct border color for accessibility.
+         outline: none;
+         box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); // Optional: You can add a subtle box-shadow for focus.
+      }
+   }
+
+   .add {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.3rem;
+      width: 2rem;
+      color: var(--success900);
+      background-color: var(--success300);
+      cursor: pointer;
+   }
+
+   &.active {
+      display: flex;
+   }
+   &.hidden {
+      display: none;
+      border: 1px black solid;
+   }
+}
+
+.hidden {
+   display: none;
+}
+
+.add-container {
+   display: flex;
+   width: 100%;
+}
+.style-values {
+   // border: 1px red solid;
+   display: flex;
+   flex-direction: column;
+   gap: 1.5em;
+   width: 100%;
+   margin-bottom: 1em;
+}
+
+// Styling for the hidden class if you ever need it.
+.hidden {
+   display: none;
+}

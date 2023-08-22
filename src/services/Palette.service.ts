@@ -1,4 +1,4 @@
-import { PaletteColorStyle, PaletteColorRole, CustomStyleType, hex } from '../types'
+import { PaletteColorStyle, PaletteColorRole, CustomStyleType, hex, ColorStyleType } from '../types'
 import { PaletteType, MiniPaletteType, HarmonyTitle } from '../types'
 import { PaletteColorType, MiniPaletteColorType } from '../types'
 import { MiniPaletteColor } from './PaletteColor.service'
@@ -334,7 +334,7 @@ export const paletteService = {
       })
    },
    generateNeutrals() {},
-   genColorByStyle(palette: PaletteType, role: PaletteColorRole, style: CustomStyleType) {
+   genColorByStyle(palette: PaletteType, role: PaletteColorRole, style: ColorStyleType) {
       return palette[role].genByStyle(style)
    },
    getEmptyPalette: (palette?: PaletteType): PaletteType => {
@@ -354,7 +354,7 @@ export const paletteService = {
       palette[role].color.setValue({ hex })
       return palette
    },
-   addStyle: (palette: PaletteType, role: PaletteColorRole, style: CustomStyleType): PaletteType => {
+   addStyle: (palette: PaletteType, role: PaletteColorRole, style: ColorStyleType): PaletteType => {
       palette[role].addStyle(style)
       return palette
    },

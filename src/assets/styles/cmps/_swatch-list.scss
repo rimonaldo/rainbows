@@ -112,57 +112,5 @@
 
 .swatch {
    display: relative;
-   .options {
-      color: white;
-      background-color: var(--info500);
-      border: 1px black solid;
-      position: absolute;
-      bottom: -1.2rem;
-      display: flex;
-      padding: 0.3rem;
-      z-index: 1000;
-      // padding-left: 0.5rem;
-      // padding-right: 0.5rem;
-      .style-name {
-         width: 5em;
-         text-align: center;
-         padding: 0.3rem;
-         outline: 1px black solid;
-         color: black;
-      }
-      .style-sat {
-         display: flex;
-         input {
-            background-color: black;
-            outline: 1px black solid;
-            padding: 0.3rem;
-            width: 3rem;
-            text-align: center;
-         }
-      }
-
-      .add {
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         padding: 0.3rem;
-         width: 2rem;
-         color: var(--success900);
-         background-color: var(--success300);
-         cursor: pointer;
-      }
-
-      &.active {
-         display: flex;
-      }
-      &.hidden {
-         display: none;
-         border: 1px black solid;
-         color: red;
-      }
-   }
-
-   .hidden {
-      display: none;
-   }
+   
 }
