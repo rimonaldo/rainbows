@@ -23,6 +23,17 @@ function App() {
       setIsMenuOpen(!isMenuOpen)
    }
 
+   // Palette
+   const {
+      setColor,
+      setColorLock,
+      loadPalette,
+      savePalette: addPalette,
+      palette,
+      savedPaletteId,
+      addCustomStyle: addStyle,
+   } = usePaletteStore()
+
    const handleColorChange = (role: PaletteColorRole, hex: hex) => {
       setColor(palette, role, hex)
    }
@@ -31,27 +42,9 @@ function App() {
       setColorLock(palette, role, newLockState)
    }
 
-   const handleStyleAdd = (role: PaletteColorRole, style: ColorStyleType) => {
-      console.log('handleStyleAdd', role, style)
+   const handleAddStyle = (role: PaletteColorRole, style: ColorStyleType) => {
       addStyle(palette, role, style)
    }
-
-   const isBrightHSL = (hsl: hsl) => {
-      return hsl.l > 0.7
-   }
-
-   // Palette
-   const {
-      setColor,
-      setColorLock,
-      loadPalette,
-      savePalette: addPalette,
-      palette,
-      getEmptyPalette,
-      setPalette,
-      savedPaletteId,
-      addCustomStyle: addStyle,
-   } = usePaletteStore()
 
    const handleSavePalette = () => {
       addPalette(palette)
@@ -62,8 +55,8 @@ function App() {
       loadPalette(paletteId)
    }
 
-   const addCustomStyle = (role: PaletteColorRole, style: ColorStyleType) => {
-      addStyle(palette, role, style)
+   const isBrightHSL = (hsl: hsl) => {
+      return hsl.l > 0.7
    }
 
    // Test
@@ -92,8 +85,8 @@ function App() {
             <Hero />
             <SwatchList
                palette={palette}
-               onAddStyle={(role: PaletteColorRole, customStyle: ColorStyleType) => addCustomStyle(role, customStyle)}
-               onStyleAdd={(role: PaletteColorRole, style: ColorStyleType) => handleStyleAdd(role, style)}
+               // onAddStyle={(role: PaletteColorRole, customStyle: ColorStyleType) => addCustomStyle(role, customStyle)}
+               onStyleAdd={(role: PaletteColorRole, style: ColorStyleType) => handleAddStyle(role, style)}
                onColorChange={(role: PaletteColorRole, hex: hex) => handleColorChange(role, hex)}
                onLockToggle={(role: PaletteColorRole, newLockState: boolean) => handleSetLock(role, newLockState)}
             />

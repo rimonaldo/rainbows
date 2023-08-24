@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { PaletteColorRole, PaletteColorStyle, PaletteColorType, CustomStyleType, hex, ColorStyleType } from '../types'
+import {
+   PaletteColorRole,
+   PaletteColorStyle,
+   PaletteColorType,
+   CustomStyleType,
+   hex,
+   ColorStyleType,
+   hsl,
+} from '../types'
 import { CiUnlock } from 'react-icons/ci'
 import { CiLock } from 'react-icons/ci'
 import { IoColorPaletteOutline } from 'react-icons/io5'
@@ -14,104 +22,102 @@ type Props = {
    onLock: (role: PaletteColorRole, newLockState: boolean) => void
    onColorChange: (role: PaletteColorRole, hex: hex) => void
    onStyleAdd: (role: PaletteColorRole, style: ColorStyleType) => void
-   handleStyleChange: (role: PaletteColorRole, style: ColorStyleType) => void
+   onStyleChange: (role: PaletteColorRole, style: ColorStyleType) => void
 }
 
-const Swatch: React.FC<Props> = React.memo(({ color, onLock, onColorChange, handleStyleChange, onStyleAdd }) => {
-   const [colorHex, setColorHex] = useState(color.hex)
-   const debouncedHex = useDebounce(colorHex, 200)
-   const [isStyleOptionsOpen, setIsStyleOptionsOpen] = useState(false)
-   const [styleName, setStyleName] = useState(color.style)
-   const [customStyles, setCustomStyles] = useState<string[]>([])
-   const [isChanged, setIsChanged] = useState(false)
+const Swatch: React.FC<Props> = React.memo(
+   ({ color, onLock, onColorChange, onStyleChange: handleStyleChange, onStyleAdd }) => {
+      const [colorHex, setColorHex] = useState(color.hex)
+      const debouncedHex = useDebounce(colorHex, 200)
+      const [isStyleOptionsOpen, setIsStyleOptionsOpen] = useState(false)
+      const [styleName, setStyleName] = useState(color.style)
+      const [customStyles, setCustomStyles] = useState<string[]>([])
+      const [isChanged, setIsChanged] = useState(false)
 
-   const {
-      style,
-      setStyleName: setStyleName2,
-      setLumMax,
-      setLumMin,
-      setSatMax,
-      setSatMin,
-   } = useCustomStyle(color.customStyles)
-
-   const handleLock = () => {
-      onLock(color.role, !color.isLocked)
-   }
-
-   const handleColorChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setColorHex(ev.target.value)
-   }
-
-   useEffect(() => {
-      onColorChange(color.role, debouncedHex)
-   }, [debouncedHex])
-
-   useEffect(() => {
-      setCustomStyles(Object.keys(color.customStyles))
-      console.log('added custom style')
-   }, [color.customStyles, isChanged])
-
-   // useEffect(() => {
-   //    console.log('isChanged')
-   // }, [isChanged])
-
-   const onStyleChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
-      console.log(isStyleOptionsOpen)
-
-      if (ev.target.value === 'addRule') {
-         console.log(isStyleOptionsOpen)
-
-         setIsStyleOptionsOpen(true)
-         return
+      const handleLock = () => {
+         onLock(color.role, !color.isLocked)
       }
-      setIsStyleOptionsOpen(false)
 
-      const newCustomStyle = color.customStyles[ev.target.value as PaletteColorStyle]
+      const handleColorChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+         setColorHex(ev.target.value)
+      }
 
-      handleStyleChange(color.role, newCustomStyle)
-      // console.log('ev.target.value', ev.target.value);
-   }
+      useEffect(() => {
+         onColorChange(color.role, debouncedHex)
+      }, [debouncedHex])
 
-   const onAddStyle = (newCustomStyle: ColorStyleType) => {
-      // console.log('addStyle')
+      useEffect(() => {
+         setCustomStyles(Object.keys(color.customStyles))
+      }, [color.customStyles, isChanged])
 
-      // onStyleChange({ target: { value: styleName } } as any)
-      onStyleAdd(color.role, newCustomStyle)
-      setIsChanged(!isChanged)
+      const onStyleChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
+         if (ev.target.value === 'addRule') {
+            setIsStyleOptionsOpen(true)
+            return
+         }
+         setIsStyleOptionsOpen(false)
 
-      // setCustomStyles(Object.keys(color.customStyles))
-   }
+         const newCustomStyle = color.customStyles[ev.target.value as PaletteColorStyle]
+         handleStyleChange(color.role, newCustomStyle)
+      }
 
-   const handleStyleNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-      setStyleName(ev.target.value as PaletteColorStyle)
-   }
+      const onAddStyle = (newCustomStyle: ColorStyleType) => {
+         // console.log('addStyle')
 
-   const handleClose = () => {
-      setIsStyleOptionsOpen(false)
-   }
+         // onStyleChange({ target: { value: styleName } } as any)
+         onStyleAdd(color.role, newCustomStyle)
+         setIsChanged(!isChanged)
 
-   return (
-      <li className="swatch">
-         <div className="color" style={{ background: color.shade[500].hex }}></div>
-         <div className="bottom-line">
-            <select onChange={onStyleChange} value={color.style} name="selectStyle">
-               <option value="random">random</option>
-               {customStyles.map(styleName => (
-                  <option key={styleName} value={styleName}>
-                     {styleName}
-                  </option>
-               ))}
-               <option value="addRule">+ Add Style</option>
-            </select>
+         // setCustomStyles(Object.keys(color.customStyles))
+      }
 
-            <CustomStyleForm
-               onStyleChange={(style: ColorStyleType) => onAddStyle(style)}
-               onClose={handleClose}
-               isOpen={isStyleOptionsOpen}
-               style={color.activeStyle}
-            />
+      const handleStyleNameChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+         setStyleName(ev.target.value as PaletteColorStyle)
+      }
 
-            {/* <div className={isStyleOptionsOpen ? 'options' : 'hidden'}>
+      const handleClose = () => {
+         setIsStyleOptionsOpen(false)
+      }
+
+      const isBrightHSL = (hsl: hsl) => {
+         return hsl.l > 0.5
+      }
+
+      return (
+         <li className="swatch">
+            <div className="color" style={{ background: color.shade[500].hex }}>
+               <div
+                  style={{
+                     color: isBrightHSL(color.color.hsl) ? 'black' : 'white',
+                     background: color.shade[500].hex,
+                     borderRadius: '30%',
+                  }}
+                  onMouseUp={handleLock}
+                  className={`lock ${color.isLocked ? 'locked' : ''}`}
+               >
+                  {color.isLocked ? <CiLock /> : <CiUnlock />}
+               </div>
+               <input value={color.hex} type="color" onChange={handleColorChange} />
+            </div>
+            <div className="bottom-line">
+               <select onChange={onStyleChange} value={color.style} name="selectStyle">
+                  <option value="random">random</option>
+                  {customStyles.map(styleName => (
+                     <option key={styleName} value={styleName}>
+                        {styleName}
+                     </option>
+                  ))}
+                  <option value="addRule">+ Add Style</option>
+               </select>
+
+               <CustomStyleForm
+                  onStyleChange={(style: ColorStyleType) => onAddStyle(style)}
+                  onClose={handleClose}
+                  isOpen={isStyleOptionsOpen}
+                  style={color.activeStyle}
+               />
+
+               {/* <div className={isStyleOptionsOpen ? 'options' : 'hidden'}>
                <input type="text" value={styleName} className="style-name" onChange={handleStyleNameChange} />
 
                <div className="style-sat">
@@ -129,7 +135,7 @@ const Swatch: React.FC<Props> = React.memo(({ color, onLock, onColorChange, hand
                </div>
                <div className="remove">-</div>
             </div> */}
-            {/* <select name="" id="">
+               {/* <select name="" id="">
                <option value="random">random</option>
                <option value="pastel">pastel</option>
                <option value="jewel">jewel</option>
@@ -137,18 +143,15 @@ const Swatch: React.FC<Props> = React.memo(({ color, onLock, onColorChange, hand
                <option value="neon">neon</option>
             </select> */}
 
-            <div className="actions">
-               <div className="color-picker">
-                  <input value={color.hex} type="color" onChange={handleColorChange} />
-                  <IoColorPaletteOutline />
-               </div>
-               <div onMouseUp={handleLock} className="lock">
-                  {color.isLocked ? <CiLock /> : <CiUnlock />}
+               <div className="actions">
+                  <div onMouseUp={handleLock} className="lock">
+                     {color.isLocked ? <CiLock /> : <CiUnlock />}
+                  </div>
                </div>
             </div>
-         </div>
-      </li>
-   )
-})
+         </li>
+      )
+   }
+)
 
 export default Swatch

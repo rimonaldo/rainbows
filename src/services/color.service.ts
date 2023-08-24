@@ -237,8 +237,6 @@ export class Color extends ColorPrototype implements ColorType {
          this.hsl = this.rgbToHsl(rgb)
          this.hsv = this.rgbToHsv(rgb)
       } else if (hsl) {
-         console.log('old hsl', this.hsl)
-         console.log('new hsl', hsl)
          this.hsl = hsl
          this.rgb = this.hslToRgb(hsl)
          this.hex = this.rgbToHex(this.rgb)

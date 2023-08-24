@@ -160,7 +160,7 @@ export class Palette implements PaletteType {
       const { sat, lum } = paletteStyle[colorStyleKey]
       const randSat = +this.randomInRange(sat.min, sat.max)
       const randLum = this.randomInRange(lum.min, lum.max)
-      console.log('randLum:', +randLum.toFixed(2), 'min lum:', lum.min, 'max lum:', lum.max)
+      // console.log('randLum:', +randLum.toFixed(2), 'min lum:', lum.min, 'max lum:', lum.max)
 
       return { s: randSat, l: randLum }
    }

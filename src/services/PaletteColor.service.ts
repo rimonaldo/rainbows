@@ -71,7 +71,7 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       this.customStyles = { [this.style]: this.styleRange } || customStyles
       this.activeStyle = { ...this.customStyles[this.style] }
       this.setStyles()
-      console.log('customStyles', this.customStyles)
+      // console.log('customStyles', this.customStyles)
    }
 
    setStyles() {
@@ -82,7 +82,7 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
    }
 
    addCustomStyle(style: ColorStyleType) {
-      console.log('addCustomStyle', typeof style)
+      // console.log('addCustomStyle', typeof style)
 
       this.customStyles[typeof style] = style
    }
@@ -133,7 +133,7 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
    }
 
    genByStyle(newStyle: ColorStyleType) {
-      console.log('genByStyle', newStyle)
+      // console.log('genByStyle', newStyle)
       this.style = typeof newStyle === 'string' ? newStyle : newStyle.name
       const { h, s, l } = this.color.hsl
       const { sat, lum } = newStyle
@@ -153,7 +153,6 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       const styleName = newStyle.name
       this.styleRange = newStyle
       this.customStyles[styleName] = { ...newStyle }
-      console.log('this.customStyles', this.customStyles)
    }
 
    _calculateHSL(randStyle: string, h: number) {
@@ -175,7 +174,7 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
 
    setLock(lock: boolean) {
       this.isLocked = lock
-      console.log('setLock', this.isLocked)
+      // console.log('setLock', this.isLocked)
    }
 
    getMiniPaletteColor(): MiniPaletteColorType {

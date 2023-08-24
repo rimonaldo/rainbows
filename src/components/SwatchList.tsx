@@ -9,11 +9,10 @@ type Props = {
    onLockToggle: (role: PaletteColorRole, newLockState: boolean) => void
    onColorChange: (role: PaletteColorRole, hex: hex) => void
    onStyleAdd: (role: PaletteColorRole, style: ColorStyleType) => void
-   onAddStyle: (role: PaletteColorRole, style: ColorStyleType) => void
 }
 
-const SwatchList = ({ onAddStyle, palette, onLockToggle: onLock, onColorChange, onStyleAdd }: Props) => {
-   const { primary, secondary, tertiary, info, success, warning, danger, neutral, neutralBright, neutralDark } = palette
+const SwatchList = ({ palette, onLockToggle: onLock, onColorChange, onStyleAdd }: Props) => {
+   const { primary, secondary, tertiary, neutralBright, neutralDark } = palette
    const colors = [primary, secondary, tertiary, neutralBright, neutralDark]
    const [itemsToShow, setItemsToShow] = useState<number>(5)
    const [isTop, setIsTop] = useState<boolean>(false)
@@ -31,7 +30,7 @@ const SwatchList = ({ onAddStyle, palette, onLockToggle: onLock, onColorChange, 
    }
 
    useEffect(() => {
-      console.log('rendered swatch-List')
+      // console.log('rendered swatch-List')
    }, [])
 
    useEffect(() => {
@@ -44,7 +43,7 @@ const SwatchList = ({ onAddStyle, palette, onLockToggle: onLock, onColorChange, 
    // set number of swatches to show based on viewport width
    useEffect(() => {
       if (width < 768) {
-         setItemsToShow(3)
+         setItemsToShow(4)
       } else {
          setItemsToShow(5)
       }
@@ -65,7 +64,7 @@ const SwatchList = ({ onAddStyle, palette, onLockToggle: onLock, onColorChange, 
    }
 
    const handleStyleAdd = (role: PaletteColorRole, style: ColorStyleType) => {
-      onAddStyle(role, style)
+      onStyleAdd(role, style)
    }
 
    return (
@@ -76,9 +75,7 @@ const SwatchList = ({ onAddStyle, palette, onLockToggle: onLock, onColorChange, 
                   <Swatch
                      key={color.role}
                      color={color}
-                     handleStyleChange={(role: PaletteColorRole, style: ColorStyleType) =>
-                        onStyleChange(role, style)
-                     }
+                     onStyleChange={(role: PaletteColorRole, style: ColorStyleType) => onStyleChange(role, style)}
                      onLock={(role: PaletteColorRole, newLockState: boolean) => onLock(role, newLockState)}
                      onColorChange={(role: PaletteColorRole, hex: hex) => onColorChange(role, hex)}
                      onStyleAdd={(role: PaletteColorRole, style: ColorStyleType) => onStyleAdd(role, style)}
@@ -86,7 +83,7 @@ const SwatchList = ({ onAddStyle, palette, onLockToggle: onLock, onColorChange, 
                )
             })}
          </ul>
-         {/* <div className="desc">
+         <div className="desc">
             <button className="generate">Generate</button>
             <select onChange={ev => setColorStyle(ev.target.value as 'neon' | 'pastel' | 'earth' | 'jewel')}>
                <option value="pastel">Pastel</option>
@@ -94,7 +91,7 @@ const SwatchList = ({ onAddStyle, palette, onLockToggle: onLock, onColorChange, 
                <option value="earth">Earthy</option>
                <option value="neon">Neon</option>
             </select>
-         </div> */}
+         </div>
       </div>
    )
 }
