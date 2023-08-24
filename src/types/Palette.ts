@@ -10,7 +10,7 @@ export class MiniPaletteColor implements MiniPaletteColorType {
    _id: string
    constructor(paletteColor: PaletteColorType) {
       this._id = ''
-      this.role = paletteColor.role 
+      this.role = paletteColor.role
       this.hex = paletteColor.color.hex
       this.name = paletteColor.name
       this.shade = {
@@ -51,15 +51,21 @@ export interface PaletteType {
    neutral: PaletteColorType
    neutralBright: PaletteColorType
    neutralDark: PaletteColorType
-   
 
-
-   genBrandColors: (temp:1|2|3,fluidity:1|2|3) => void
+   genBrandColors: (temp: 1 | 2 | 3, fluidity: 1 | 2 | 3) => void
+   setStylesTemplate: (template: TemplateType) => void
    genSemanticColors: () => void
    genNeutralColors: () => void
    getMiniPalette: () => MiniPaletteType
-   setColor: (paletteColor:PaletteColorType) => void
-   setColorLock:(role:PaletteColorRole , lock:boolean) => void
+   setColor: (paletteColor: PaletteColorType) => void
+   setColorLock: (role: PaletteColorRole, lock: boolean) => void
+}
+
+export interface TemplateType {
+   name: string
+   primary: string
+   secondary: string
+   tertiary: string
 }
 
 export type MiniColorType = {
@@ -77,7 +83,7 @@ export class MiniPalette implements MiniPaletteType {
    danger: MiniPaletteColorType
    neutral: MiniPaletteColorType
 
-   constructor(palette: PaletteType ) {
+   constructor(palette: PaletteType) {
       this._id = guid()
       this.primary = new MiniPaletteColor(palette.primary)
       this.secondary = new MiniPaletteColor(palette.secondary)
@@ -96,4 +102,3 @@ export enum HarmonyTitle {
    Complementary = 'complementary',
    Analogous = 'analogous',
 }
-

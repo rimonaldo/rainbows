@@ -71,7 +71,7 @@ function App() {
          <div
             className="App main-layout"
             style={{
-               background: isBrightHSL(palette.primary.color.hsl) ? palette.neutralDark.hex : palette.neutralBright.hex,
+               background: isBrightHSL(palette.primary.color.hsl) ? palette.neutralBright.hex : palette.neutralBright.hex,
             }}
          >
             <NavBar toggleMenu={handleToggleMenu} user={user} />

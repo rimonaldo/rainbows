@@ -1,5 +1,5 @@
 import { PaletteColorStyle, PaletteColorRole, CustomStyleType, hex, ColorStyleType } from '../types'
-import { PaletteType, MiniPaletteType, HarmonyTitle } from '../types'
+import { PaletteType, MiniPaletteType, HarmonyTitle, TemplateType } from '../types'
 import { PaletteColorType, MiniPaletteColorType } from '../types'
 import { MiniPaletteColor } from './PaletteColor.service'
 import { PaletteColor } from './PaletteColor.service'
@@ -58,6 +58,7 @@ export class Palette implements PaletteType {
    neutral: PaletteColorType
    neutralBright: PaletteColorType
    neutralDark: PaletteColorType
+   template: TemplateType
 
    constructor(miniPalette: MiniPaletteType = new MiniPalette({})) {
       if (miniPalette._id) {
@@ -85,6 +86,16 @@ export class Palette implements PaletteType {
          this.neutralBright = this.genNeutral('bright')
          this.neutralDark = this.genNeutral('dark')
       }
+      this.template = {
+         name: 'default',
+         primary: 'earth',
+         secondary: 'jewel',
+         tertiary: 'pastel',
+      }
+   }
+
+   setStylesTemplate(template: TemplateType) {
+      this.template = template
    }
 
    genNeutral(type: 'bright' | 'dark') {
