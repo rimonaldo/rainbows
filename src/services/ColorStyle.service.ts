@@ -17,6 +17,7 @@ export class CustomStyle implements CustomStyleType {
 }
 
 export const paletteStyle: { [key: string]: ColorStyleRangeType } = {
+   random: { name: 'random', sat: { min: 0, max: 1 }, lum: { min: 0, max: 1 } },
    pastel: { name: 'pastel', sat: { min: 0.3, max: 0.45 }, lum: { min: 0.8, max: 0.9 } },
    neutral: { name: 'neutral', sat: { min: 0.05, max: 0.15 }, lum: { min: 0.75, max: 0.9 } },
    neon: { name: 'neon', sat: { min: 0.95, max: 1 }, lum: { min: 0.6, max: 0.7 } },

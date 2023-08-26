@@ -1,7 +1,8 @@
 import { PaletteColorType, PaletteColorRole } from './PaletteColor'
-import { MiniPaletteColorType } from './'
+import { ColorStyleType, MiniPaletteColorType } from './'
 import { PaletteColorShadeType, MiniPaletteColorShadeType } from './Shade'
 import { guid } from '../services/utils'
+
 export class MiniPaletteColor implements MiniPaletteColorType {
    role: PaletteColorRole
    hex: string
@@ -51,14 +52,18 @@ export interface PaletteType {
    neutral: PaletteColorType
    neutralBright: PaletteColorType
    neutralDark: PaletteColorType
+   templates: TemplateType[]
+   template: TemplateType
 
-   genBrandColors: (temp: 1 | 2 | 3, fluidity: 1 | 2 | 3) => void
-   setStylesTemplate: (template: TemplateType) => void
+   genBrandColors: (temp: 1 | 2 | 3, fluidity: 1 | 2 | 3, template?:TemplateType) => void
+   addTemplate: (template: TemplateType) => void
+   setActiveTemplate: (template: TemplateType) => void
    genSemanticColors: () => void
    genNeutralColors: () => void
    getMiniPalette: () => MiniPaletteType
    setColor: (paletteColor: PaletteColorType) => void
    setColorLock: (role: PaletteColorRole, lock: boolean) => void
+   getRandomTemplate: (length:number) => TemplateType
 }
 
 export interface TemplateType {

@@ -1,4 +1,4 @@
-import { PaletteColorStyle, PaletteColorRole, CustomStyleType, hex, ColorStyleType } from '../types'
+import { PaletteColorStyle, PaletteColorRole, hex, ColorStyleType } from '../types'
 import { PaletteType, MiniPaletteType, HarmonyTitle, TemplateType } from '../types'
 import { PaletteColorType, MiniPaletteColorType } from '../types'
 import { MiniPaletteColor } from './PaletteColor.service'
@@ -9,7 +9,6 @@ import { getRandomAAColor } from 'accessible-colors'
 import { guid } from './utils'
 import { get } from 'lodash'
 import { utilService } from './util.service'
-import { ColorStyleRangeType } from '../types'
 import { paletteStyle } from './ColorStyle.service'
 export class MiniPalette implements MiniPaletteType {
    _id: string
@@ -59,6 +58,7 @@ export class Palette implements PaletteType {
    neutralBright: PaletteColorType
    neutralDark: PaletteColorType
    template: TemplateType
+   templates: TemplateType[]
 
    constructor(miniPalette: MiniPaletteType = new MiniPalette({})) {
       if (miniPalette._id) {
@@ -86,12 +86,47 @@ export class Palette implements PaletteType {
          this.neutralBright = this.genNeutral('bright')
          this.neutralDark = this.genNeutral('dark')
       }
-      this.template = {
-         name: 'default',
+
+      const randStyleList = this._generateRandomStylesList(3)
+      const random = {
+         name: 'random',
+         primary: this._generateRandomStylesList(3)[0],
+         secondary: this._generateRandomStylesList(1)[0],
+         tertiary: this._generateRandomStylesList(1)[0],
+      }
+
+      const t2 = {
+         name: 'contrast',
          primary: 'earth',
-         secondary: 'jewel',
+         secondary: 'pastel',
+         tertiary: 'jewel',
+      }
+
+      const t3 = {
+         name: 'bright',
+         primary: 'jewel',
+         secondary: 'earth',
          tertiary: 'pastel',
       }
+
+      this.templates = [random, t2, t3]
+      this.template = random
+   }
+
+   setActiveTemplate(template: TemplateType) {
+      if (this.template.name === 'random') {
+         console.log('random template')
+
+         const randStylesList = this._generateRandomStylesList(3)
+         // const templateStyleList = [template.primary, template.secondary, template.tertiary]
+         const pts = [this.primary.color.hsl.h, this.secondary.color.hsl.h, this.tertiary.color.hsl.h]
+         this._updateUnlockedColors([this.primary, this.secondary, this.tertiary], randStylesList, pts)
+      }
+      this.template = template
+   }
+
+   addTemplate(template: TemplateType) {
+      this.templates.push(template)
    }
 
    setStylesTemplate(template: TemplateType) {
@@ -105,7 +140,7 @@ export class Palette implements PaletteType {
       return new PaletteColor({ hex: this.secondary.shade[900].hex, role: 'neutralDark' })
    }
 
-   genBrandColors(temp: 1 | 2 | 3 = 1, fluidity: 1 | 2 | 3 = 1) {
+   genBrandColors(temp: 1 | 2 | 3 = 1, fluidity: 1 | 2 | 3 = 1, stylesTemplate?: TemplateType) {
       // Extract color properties
       const { primary, secondary, tertiary } = this
       const brandColors = [primary, secondary, tertiary]
@@ -115,12 +150,27 @@ export class Palette implements PaletteType {
       const anchors = brandColors.filter(color => color.isLocked)
 
       // calculate unlocked colors based on anchors:
+
       // 1. if there is only one anchor, generate two colors
       // 2. if there are two anchors, generate one color
       // 3. if there are no anchors, generate three colors
+      let template
+      if (stylesTemplate) {
+         if (stylesTemplate.name !== 'random') {
+            this.setStylesTemplate(stylesTemplate)
+         } else {
+            const randStylesList = this._generateRandomStylesList(unlockedColors.length)
+            template = {
+               name: 'random',
+               primary: randStylesList[0],
+               secondary: randStylesList[1],
+               tertiary: randStylesList[2],
+            }
+            this.setStylesTemplate(template)
+         }
+      }
 
-      // Generate random styles list
-      const randStylesList = this._generateRandomStylesList(unlockedColors.length)
+      const templateStyleList = [this.template.primary, this.template.secondary, this.template.tertiary]
       // console.log(randStylesList)
 
       // Calculate average hue and points
@@ -133,7 +183,7 @@ export class Palette implements PaletteType {
       const aaColor = new PaletteColor({ hex: aahex, role: 'secondary' })
 
       // Update unlocked colors with new HSL values
-      this._updateUnlockedColors(unlockedColors, randStylesList, generatedHues)
+      this._updateUnlockedColors(unlockedColors, templateStyleList, generatedHues)
    }
 
    setColorLock(role: PaletteColorRole, newIsLocked: boolean) {
@@ -179,7 +229,7 @@ export class Palette implements PaletteType {
    _separateAvgHue(avgHue: number, distfromAvg: number, length: number) {
       return this._sepetareAvgToTwoPoints(avgHue, distfromAvg, length)
    }
-   private _sepetareAvgToTwoPoints = (avg: number, distance: number, amount = 2) => {
+   private _sepetareAvgToTwoPoints = (avg: number, distance: number, amount = 3) => {
       let ratio = [1, 1]
 
       if (amount === 3) {
@@ -227,7 +277,7 @@ export class Palette implements PaletteType {
    }
 
    _generateRandomStylesList(length: number) {
-      const styles = ['neon', 'pastel', 'earth', 'jewel', 'jewel', 'jewel']
+      const styles = ['neon', 'pastel', 'earth', 'jewel']
       const randStyles = []
       for (let i = 0; i < length; i++) {
          const randIndex = Math.floor(Math.random() * styles.length)
@@ -260,7 +310,14 @@ export class Palette implements PaletteType {
 
       return 0
    }
-   genSemanticColors() {}
+
+   genSemanticColors() {
+      this.info = this.genInfoColor()
+      this.success = this.genSuccessColor()
+      this.warning = this.genWarningColor()
+      this.danger = this.genDangerColor()
+   }
+
    genNeutralColors() {
       this.neutralBright = this.genNeutral('bright')
       this.neutralDark = this.genNeutral('dark')
@@ -272,6 +329,7 @@ export class Palette implements PaletteType {
       const h = this.getRandomBlueHue()
       return new PaletteColor({ hsl: { h, s, l }, role: 'info' })
    }
+
    genSuccessColor() {
       const style = 'jewel'
       const { s, l } = this._randSatLumByPaletteStyle(style)
@@ -279,6 +337,7 @@ export class Palette implements PaletteType {
       const h = this.randomInRange(100, 120)
       return new PaletteColor({ hsl: { h, s: s * 1.2, l }, role: 'success' })
    }
+
    genWarningColor() {
       const style = 'jewel'
       const { s, l } = this.success.color.hsl || this._randSatLumByPaletteStyle(style)
@@ -296,9 +355,11 @@ export class Palette implements PaletteType {
    getRandomBlueHue() {
       return this.randomInRange(220, 240)
    }
+
    getRandomOrangeHue() {
       return this.randomInRange(37, 40)
    }
+
    getRandomRedHue() {
       if (this.randomInRange(0, 1) > 0.5) {
          return this.randomInRange(355, 360)
@@ -325,6 +386,19 @@ export class Palette implements PaletteType {
       if (toFixed) return +(Math.random() * (max - min) + min).toFixed(toFixed)
       return +Math.random() * (max - min) + min
    }
+
+   getRandomTemplate(length: number) {
+      const randStylesList = this._generateRandomStylesList(length)
+      console.log('randStylesList:', randStylesList)
+
+      const randTemplate = {
+         name: 'random',
+         primary: randStylesList[0],
+         secondary: randStylesList[1],
+         tertiary: randStylesList[2],
+      }
+      return randTemplate
+   }
 }
 
 export const paletteService = {
@@ -337,9 +411,19 @@ export const paletteService = {
    updatePalette: async (id: string, palette: PaletteType): Promise<PaletteType> => {
       return httpService.put(`palettes/${id}`, palette)
    },
-   generateBrand: async (palette: PaletteType, temp: 1 | 2 | 3, fludity: 1 | 2 | 3): Promise<PaletteType> => {
+   generateBrand: async (
+      palette: PaletteType,
+      temp: 1 | 2 | 3,
+      fludity: 1 | 2 | 3,
+      paletteTemplate?: TemplateType
+   ): Promise<PaletteType> => {
       return new Promise((resolve, reject) => {
-         palette.genBrandColors(temp, fludity)
+         if (paletteTemplate) {
+            if (paletteTemplate.name === 'random') {
+            }
+         }
+         palette.genBrandColors(temp, fludity, palette.template)
+         palette.genSemanticColors()
          palette.genNeutralColors()
          resolve(palette)
       })
@@ -367,6 +451,14 @@ export const paletteService = {
    },
    addStyle: (palette: PaletteType, role: PaletteColorRole, style: ColorStyleType): PaletteType => {
       palette[role].addStyle(style)
+      return palette
+   },
+   addTemplate: (palette: PaletteType, template: TemplateType): PaletteType => {
+      palette.addTemplate(template)
+      return palette
+   },
+   setActiveTemplate: (palette: PaletteType, template: TemplateType): PaletteType => {
+      palette.setActiveTemplate(template)
       return palette
    },
 }

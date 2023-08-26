@@ -1,7 +1,7 @@
 import { PaletteColorType, MiniPaletteColorType, PaletteColorRole, PaletteColorStyle } from '../types'
 import { Shader } from './Shade.service'
 import { ColorType, MiniPaletteColorShadeType, PaletteColorShadeType, CustomStyleType } from '../types'
-import { hex, rgb, hsl, hsv, ColorStyleRangeType } from '../types'
+import { hex, rgb, hsl, hsv } from '../types'
 import { Color } from './color.service'
 import { getRandomAAColor } from 'accessible-colors'
 import { utilService } from './util.service'
@@ -42,7 +42,7 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
    style: PaletteColorStyle
    shade: PaletteColorShadeType
    isLocked: boolean = false
-   styleRange: ColorStyleRangeType
+   styleRange: ColorStyleType
    customStyles: CustomStyleType
    activeStyle: ColorStyleType
 
@@ -69,7 +69,7 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       this.shade = new Shader(this.color)
       this.styleRange = paletteStyle[this.style]
       this.customStyles = { [this.style]: this.styleRange } || customStyles
-      this.activeStyle = { ...this.customStyles[this.style] }
+      this.activeStyle = paletteStyle[this.style]
       this.setStyles()
       // console.log('customStyles', this.customStyles)
    }
@@ -133,7 +133,11 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
    }
 
    genByStyle(newStyle: ColorStyleType) {
-      // console.log('genByStyle', newStyle)
+      // if (newStyle.name == 'random') {
+      //    const styleNames = keys(paletteStyle)
+      //    const randStyle = styleNames[Math.floor(Math.random() * styleNames.length)]
+      //    newStyle = paletteStyle[randStyle]
+      // }
       this.style = typeof newStyle === 'string' ? newStyle : newStyle.name
       const { h, s, l } = this.color.hsl
       const { sat, lum } = newStyle
@@ -143,9 +147,7 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       this.color = new Color({ hsl: newHsl })
       this.hex = this.color.hex
       this.shade = new Shader(this.color)
-      this.styleRange = paletteStyle[this.style]
-      // this.customStyles = { [this.style]: this.styleRange }
-
+      this.activeStyle = this.customStyles[this.style]
       return this
    }
 

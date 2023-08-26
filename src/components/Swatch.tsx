@@ -62,9 +62,6 @@ const Swatch: React.FC<Props> = React.memo(
       }
 
       const onAddStyle = (newCustomStyle: ColorStyleType) => {
-         // console.log('addStyle')
-
-         // onStyleChange({ target: { value: styleName } } as any)
          onStyleAdd(color.role, newCustomStyle)
          setIsChanged(!isChanged)
 

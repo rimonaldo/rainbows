@@ -13,11 +13,11 @@ export interface PaletteColorType extends MiniPaletteColorType {
    shade: PaletteColorShadeType
    customStyles: CustomStyleType
    isLocked: boolean
-   styleRange: ColorStyleRangeType
+   // styleRange: ColorStyleRangeType
    activeStyle: ColorStyleType
    setLock: (lock: boolean) => void
    genByStyle: (style: ColorStyleType) => PaletteColorType
-   addStyle:(style: ColorStyleType) => void
+   addStyle: (style: ColorStyleType) => void
 }
 
 export type PaletteColorRole =

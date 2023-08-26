@@ -15,6 +15,14 @@ function CustomStyleForm({ isOpen, style, onClose, onStyleChange }: Props) {
    const [lumMax, setLumMax] = useState(style.lum.max)
    const [styleName, setStyleName] = useState(style.name)
 
+   useEffect(() => {
+      setSatMin(style.sat.min)
+      setSatMax(style.sat.max)
+      setLumMin(style.lum.min)
+      setLumMax(style.lum.max)
+      setStyleName(style.name)
+   }, [style])
+
    const handleFormSubmit = (e: React.FormEvent) => {
       e.preventDefault()
       const newStyle = {

@@ -6,16 +6,18 @@ import { usePrevious } from '../hooks/usePrev'
 import { Palette } from '../services/Palette.service'
 import { setSassPalette } from '../hooks/useSass'
 import useDebounce from '../hooks/useDebounce'
+import { set } from 'lodash'
 
 type Props = {}
 
 function Hero({}: Props) {
-   const { generatePalette, palette, setPalette } = usePaletteStore()
+   const { generatePalette, palette, setPalette, setActiveTemplate } = usePaletteStore()
    const [prevPalette, setPrevPalette] = useState<PaletteType>(palette)
    const [tempValue, setTempVal]: [1 | 2 | 3, React.Dispatch<React.SetStateAction<1 | 2 | 3>>] = useState<1 | 2 | 3>(1)
    const [fluidity, setFluidityVal]: [1 | 2 | 3, React.Dispatch<React.SetStateAction<1 | 2 | 3>>] = useState<1 | 2 | 3>(
       3
    )
+   const [activeTemplate, setStateActiveTemplate] = useState<PaletteType['templates'][0]>(palette.template)
    const [num, incNum] = useState(0)
    const debouncedNum = useDebounce(num, 700)
 
@@ -24,9 +26,20 @@ function Hero({}: Props) {
       incNum(num + 1)
    }
 
+   const handlePaletteTemplateChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
+      const templateIdx = palette.templates.findIndex(template => template.name === ev.target.value)
+      setStateActiveTemplate(palette.templates[templateIdx])
+      setActiveTemplate(palette, templateIdx)
+   }
+
    useEffect(() => {
       setSassPalette(palette.getMiniPalette())
    }, [debouncedNum])
+
+   // useEffect(() => {
+   //    const templateIdx = palette.templates.findIndex(template => template.name === activeTemplate.name)
+   //    setActiveTemplate(palette, templateIdx)
+   // })
 
    useEffect(() => {
       function handleKeyDown(event: KeyboardEvent) {
@@ -82,6 +95,15 @@ function Hero({}: Props) {
                      Generate
                   </button>
 
+                  <select onChange={ev => handlePaletteTemplateChange(ev)}>
+                     {palette.templates.map((template, index) => {
+                        return (
+                           <option key={index} value={template.name}>
+                              {template.name}
+                           </option>
+                        )
+                     })}
+                  </select>
                   <select onChange={ev => setTempVal(+ev.target.value as 1 | 2 | 3)}>
                      <option value="1">1</option>
                      <option value="2">2</option>
