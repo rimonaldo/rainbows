@@ -114,14 +114,6 @@ export class Palette implements PaletteType {
    }
 
    setActiveTemplate(template: TemplateType) {
-      if (this.template.name === 'random') {
-         console.log('random template')
-
-         const randStylesList = this._generateRandomStylesList(3)
-         // const templateStyleList = [template.primary, template.secondary, template.tertiary]
-         const pts = [this.primary.color.hsl.h, this.secondary.color.hsl.h, this.tertiary.color.hsl.h]
-         this._updateUnlockedColors([this.primary, this.secondary, this.tertiary], randStylesList, pts)
-      }
       this.template = template
    }
 
