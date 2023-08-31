@@ -129,7 +129,6 @@ export class Palette implements PaletteType {
          tertiary: 'earth',
       }
 
-
       const sugaryDelight = {
          name: 'sugary delight',
          primary: 'sorbet',
@@ -145,36 +144,35 @@ export class Palette implements PaletteType {
       }
 
       const naturesGlow = {
-         name: 'nature\'s glow',
+         name: "nature's glow",
          primary: 'sunrise',
          secondary: 'earth',
          tertiary: 'jewel',
-      };
-
+      }
 
       const darkElegance = {
          name: 'dark elegance',
          primary: 'midnight',
          secondary: 'jewel',
          tertiary: 'neutral',
-      };
+      }
 
       const tropicalBurst = {
          name: 'tropical burst',
          primary: 'candy',
          secondary: 'neon',
          tertiary: 'sorbet',
-      };
+      }
 
       const historicCharm = {
          name: 'historic charm',
          primary: 'vintage',
          secondary: 'earth',
          tertiary: 'neutral',
-      };
+      }
 
-
-      this.templates = [random,
+      this.templates = [
+         random,
          contrast,
          bright,
          oceanic,
@@ -185,7 +183,8 @@ export class Palette implements PaletteType {
          darkElegance,
          tropicalBurst,
          historicCharm,
-         magicalDusk,]
+         magicalDusk,
+      ]
       this.template = random
    }
 
@@ -263,7 +262,7 @@ export class Palette implements PaletteType {
    }
 
    private _updateUnlockedColors(unlockedColors: PaletteColorType[], randStylesList: string[], pts: number[]) {
-      console.log('unlockedColors:', unlockedColors, 'randStylesList:', randStylesList, 'pts:', pts);
+      console.log('unlockedColors:', unlockedColors, 'randStylesList:', randStylesList, 'pts:', pts)
 
       unlockedColors.forEach((color, i) => {
          if (!color.isLocked) {
@@ -325,10 +324,20 @@ export class Palette implements PaletteType {
    }
 
    private getRandHarmonyTitle() {
-      const harmonyTitles = ['complementary', 'analogous', 'triadic', 'monochromatic', 'split-complementary', 'square', 'tetradic', 'rectangle', 'compound']
+      const harmonyTitles = [
+         'complementary',
+         'analogous',
+         'triadic',
+         'monochromatic',
+         'split-complementary',
+         'square',
+         'tetradic',
+         'rectangle',
+         'compound',
+      ]
       const randIndex = Math.floor(Math.random() * harmonyTitles.length)
       const randomHarmonyTitle = harmonyTitles[randIndex]
-      console.log('randomHarmonyTitle:', randomHarmonyTitle);
+      console.log('randomHarmonyTitle:', randomHarmonyTitle)
 
       return randomHarmonyTitle as HarmonyTitle
    }
@@ -336,27 +345,26 @@ export class Palette implements PaletteType {
    private getAngleFromHarmonyTitle(harmonyTitle: HarmonyTitle) {
       switch (harmonyTitle) {
          case 'complementary':
-            return 180;
+            return 180
          case 'analogous':
-            return 30;
+            return 30
          case 'triadic':
-            return 120;
+            return 120
          case 'monochromatic':
-            return 0;
+            return 0
          case 'split-complementary':
-            return 150;  // or 210
+            return 150 // or 210
          case 'square':
-            return 90;
+            return 90
          case 'tetradic':
-            return 90;
+            return 90
          case 'rectangle':
-            return 60;  // This is just an example, you can adjust based on your design needs
+            return 60 // This is just an example, you can adjust based on your design needs
          case 'compound':
-            return 60;
+            return 60
          default:
-            return 0;
+            return 0
       }
-
    }
 
    _generateRandomStylesList(length: number) {
@@ -511,7 +519,7 @@ export const paletteService = {
          resolve(palette)
       })
    },
-   generateNeutrals() { },
+   generateNeutrals() {},
    genColorByStyle(palette: PaletteType, role: PaletteColorRole, style: ColorStyleType) {
       return palette[role].genByStyle(style)
    },
@@ -529,7 +537,7 @@ export const paletteService = {
       return palette
    },
    setColor: (palette: PaletteType, role: PaletteColorRole, hex: hex): PaletteType => {
-      palette[role].color.setValue({ hex })
+      palette[role].setColor(hex)
       return palette
    },
    addStyle: (palette: PaletteType, role: PaletteColorRole, style: ColorStyleType): PaletteType => {

@@ -227,10 +227,13 @@ export class Color extends ColorPrototype implements ColorType {
 
    setValue({ hex, hsl, rgb, hsv }: { hsl: hsl; rgb: rgb; hex: hex; hsv: hsv }) {
       if (hex) {
+         // console.log('color setValue by HEX:')
+         // console.log('current hex', this.hex)
          this.hex = hex
          this.rgb = this.hexToRgb(hex)
          this.hsl = this.rgbToHsl(this.rgb)
          this.hsv = this.rgbToHsv(this.rgb)
+         // console.log('new hex', this.hex)
       } else if (rgb) {
          this.rgb = rgb
          this.hex = this.rgbToHex(rgb)

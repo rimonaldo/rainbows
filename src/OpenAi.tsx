@@ -1,7 +1,7 @@
 // Filename: OpenAIInput.tsx
 
 import React, { useState } from 'react'
-import { openaiService } from './services/openAi.service' // Adjust the import path as needed
+// import { openaiService } from './services/openAi.service' // Adjust the import path as needed
 import { userService } from './services/user.service'
 import { usePaletteStore } from './store/usePaletteStore'
 const OpenAIInput: React.FC = () => {
@@ -28,9 +28,7 @@ const OpenAIInput: React.FC = () => {
             secondary: apiResponse.content.split(' ')[3],
             tertiary: apiResponse.content.split(' ')[5],
          }
-
-         console.log(colorObj)
-
+         
          setColor(palette, 'primary', colorObj.primary)
          setColor(palette, 'secondary', colorObj.secondary)
          setColor(palette, 'tertiary', colorObj.tertiary)

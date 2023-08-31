@@ -81,6 +81,12 @@ export class PaletteColor extends MiniPaletteColor implements PaletteColorType {
       })
    }
 
+   setColor(val: hsl | rgb | hex | hsv) {
+      this.color.setValue({ hsl: val as hsl, rgb: val as rgb, hex: val as hex, hsv: val as hsv })
+      this.hex = this.color.hex
+      this.shade = new Shader(this.color)
+   }
+
    addCustomStyle(style: ColorStyleType) {
       // console.log('addCustomStyle', typeof style)
 

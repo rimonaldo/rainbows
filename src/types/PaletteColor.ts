@@ -1,4 +1,14 @@
-import { MiniColorType, ColorType, MiniPaletteColorShadeType, PaletteColorShadeType, hsl, ColorStyleType } from './'
+import {
+   MiniColorType,
+   ColorType,
+   MiniPaletteColorShadeType,
+   PaletteColorShadeType,
+   hsl,
+   ColorStyleType,
+   rgb,
+   hex,
+   hsv,
+} from './'
 import { CustomStyleType } from './'
 import { ColorStyleRangeType, PaletteColorStyle } from './'
 export interface MiniPaletteColorType extends MiniColorType {
@@ -18,6 +28,7 @@ export interface PaletteColorType extends MiniPaletteColorType {
    setLock: (lock: boolean) => void
    genByStyle: (style: ColorStyleType) => PaletteColorType
    addStyle: (style: ColorStyleType) => void
+   setColor: (val: hsl | rgb | hex | hsv) => void
 }
 
 export type PaletteColorRole =
