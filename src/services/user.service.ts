@@ -11,7 +11,7 @@ export const userService = {
    getUsers: async (): Promise<User[]> => {
       return (await httpService.get('user')).data
    },
-   getUser: async (id:string): Promise<User> => {
+   getUser: async (id: string): Promise<User> => {
       return (await httpService.get(`user/${id}`)).data
    },
    createUser: async (user: User): Promise<User> => {
@@ -35,5 +35,11 @@ export const userService = {
    addPaletteId: async (user: User, paletteId: string): Promise<User> => {
       user.savedPalettes.push(paletteId)
       return httpService.post(`user/${user._id}/palettes`, { paletteId })
+   },
+   getCompletion: async (data: string): Promise<any> => {
+      const prompt = {
+         prompt: data,
+      }
+      return (await httpService.post('open/', prompt)).data
    },
 }

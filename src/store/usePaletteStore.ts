@@ -64,6 +64,8 @@ export const usePaletteStore = create<State>(set => ({
    },
    setColor: (palette: PaletteType, role: PaletteColorRole, newHex: string) => {
       const newPalette = paletteService.setColor(palette, role, newHex)
+      console.log('new Palette Color', newPalette[role])
+
       set({ palette: newPalette })
    },
    genColorByStyle: (palette: PaletteType, role: PaletteColorRole, style: ColorStyleType) => {
