@@ -16,7 +16,7 @@ function AdminBox({ user }: Props) {
       <div style={style}>
          <Login></Login>
          <input type="checkbox" />
-         <PaletteList loadPalette={loadPalette} paletteIds={user?.savedPalettes || []}></PaletteList>
+         {/* <PaletteList loadPalette={loadPalette} paletteIds={user?.savedPalettes || []}></PaletteList> */}
       </div>
    )
 }

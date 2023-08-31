@@ -106,4 +106,9 @@ export enum HarmonyTitle {
    Triadic = 'triadic',
    Complementary = 'complementary',
    Analogous = 'analogous',
+   SplitComplementary = 'split-complementary',
+   Square = 'square',
+   Tetradic = 'tetradic',
+   Rectangle = 'rectangle',
+   Compound = 'compound'
 }

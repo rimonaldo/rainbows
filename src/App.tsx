@@ -10,6 +10,7 @@ import PaletteList from './components/PaletteList'
 import AdminBox from './layouts/AdminBox'
 import SwatchList from './components/SwatchList'
 import SideBar from './layouts/SideBar'
+import OpenAIInput from './OpenAi'
 function App() {
    // User
    const { user, logIn, loggedIn, logOut, signup, savePaletteId } = useUserStore()
@@ -65,7 +66,7 @@ function App() {
    }, [])
 
    return (
-      <div className="" style={style}>
+      <div className="" >
          <SideBar isOpen={isMenuOpen}></SideBar>
 
          <div
@@ -75,7 +76,7 @@ function App() {
             }}
          >
             <NavBar toggleMenu={handleToggleMenu} user={user} />
-            {/* <AdminBox user={user}></AdminBox> */}
+            <AdminBox user={user}></AdminBox>
             {/* <div>
             <div>
             <button onClick={() => handleSavePalette()}>savePalette</button>
@@ -83,6 +84,7 @@ function App() {
          </div> */}
 
             <Hero />
+            <OpenAIInput />
             <SwatchList
                palette={palette}
                // onAddStyle={(role: PaletteColorRole, customStyle: ColorStyleType) => addCustomStyle(role, customStyle)}
@@ -96,10 +98,6 @@ function App() {
       </div>
    )
 }
+
 export default App
 
-const style = {
-   display: 'flex',
-   // border: '1px solid red',
-   justifyContent: 'space between',
-}

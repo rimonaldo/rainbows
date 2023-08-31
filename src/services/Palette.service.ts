@@ -95,21 +95,97 @@ export class Palette implements PaletteType {
          tertiary: this._generateRandomStylesList(1)[0],
       }
 
-      const t2 = {
+      const contrast = {
          name: 'contrast',
          primary: 'earth',
          secondary: 'pastel',
          tertiary: 'jewel',
       }
 
-      const t3 = {
+      const bright = {
          name: 'bright',
          primary: 'jewel',
          secondary: 'earth',
          tertiary: 'pastel',
       }
 
-      this.templates = [random, t2, t3]
+      const oceanic = {
+         name: 'oceanic',
+         primary: 'pastel',
+         secondary: 'jewel',
+         tertiary: 'earth',
+      }
+      const etherealDream = {
+         name: 'ethereal dream',
+         primary: 'mystical',
+         secondary: 'pastel',
+         tertiary: 'neutral',
+      }
+
+      const retroPop = {
+         name: 'retro pop',
+         primary: 'vintage',
+         secondary: 'neon',
+         tertiary: 'earth',
+      }
+
+
+      const sugaryDelight = {
+         name: 'sugary delight',
+         primary: 'sorbet',
+         secondary: 'candy',
+         tertiary: 'pastel',
+      }
+
+      const magicalDusk = {
+         name: 'magical dusk',
+         primary: 'mystical',
+         secondary: 'midnight',
+         tertiary: 'jewel',
+      }
+
+      const naturesGlow = {
+         name: 'nature\'s glow',
+         primary: 'sunrise',
+         secondary: 'earth',
+         tertiary: 'jewel',
+      };
+
+
+      const darkElegance = {
+         name: 'dark elegance',
+         primary: 'midnight',
+         secondary: 'jewel',
+         tertiary: 'neutral',
+      };
+
+      const tropicalBurst = {
+         name: 'tropical burst',
+         primary: 'candy',
+         secondary: 'neon',
+         tertiary: 'sorbet',
+      };
+
+      const historicCharm = {
+         name: 'historic charm',
+         primary: 'vintage',
+         secondary: 'earth',
+         tertiary: 'neutral',
+      };
+
+
+      this.templates = [random,
+         contrast,
+         bright,
+         oceanic,
+         etherealDream,
+         retroPop,
+         naturesGlow,
+         sugaryDelight,
+         darkElegance,
+         tropicalBurst,
+         historicCharm,
+         magicalDusk,]
       this.template = random
    }
 
@@ -138,14 +214,13 @@ export class Palette implements PaletteType {
       const brandColors = [primary, secondary, tertiary]
 
       // Filter unlocked and locked colors
-      const unlockedColors = brandColors.filter(color => !color.isLocked)
-      const anchors = brandColors.filter(color => color.isLocked)
 
       // calculate unlocked colors based on anchors:
 
       // 1. if there is only one anchor, generate two colors
       // 2. if there are two anchors, generate one color
       // 3. if there are no anchors, generate three colors
+      const unlockedColors = brandColors.filter(color => !color.isLocked)
       let template
       if (stylesTemplate) {
          if (stylesTemplate.name !== 'random') {
@@ -175,7 +250,8 @@ export class Palette implements PaletteType {
       const aaColor = new PaletteColor({ hex: aahex, role: 'secondary' })
 
       // Update unlocked colors with new HSL values
-      this._updateUnlockedColors(unlockedColors, templateStyleList, generatedHues)
+
+      this._updateUnlockedColors([primary, secondary, tertiary], templateStyleList, generatedHues)
    }
 
    setColorLock(role: PaletteColorRole, newIsLocked: boolean) {
@@ -187,16 +263,14 @@ export class Palette implements PaletteType {
    }
 
    private _updateUnlockedColors(unlockedColors: PaletteColorType[], randStylesList: string[], pts: number[]) {
+      console.log('unlockedColors:', unlockedColors, 'randStylesList:', randStylesList, 'pts:', pts);
+
       unlockedColors.forEach((color, i) => {
-         let colorRole = color.role
-         const randStyle = randStylesList[i]
-         const hsl = this._calculateHSL(randStyle, pts[i])
-
-         this[colorRole] = new PaletteColor({ hsl, role: colorRole, style: randStyle as PaletteColorStyle })
-         // console.log('this[colorRole]:', this[colorRole])
-         // console.log('NEW COLOR:', this[colorRole].genByStyle(randStyle as PaletteColorStyle))
-
-         // this._updateColors(colorRole, hsl)
+         if (!color.isLocked) {
+            const randStyle = randStylesList[i]
+            const hsl = this._calculateHSL(randStyle, pts[i])
+            this[color.role] = new PaletteColor({ hsl, role: color.role, style: randStyle as PaletteColorStyle })
+         }
       })
 
       // this.primary = this.colors.primary
@@ -209,6 +283,7 @@ export class Palette implements PaletteType {
       const { s, l } = this._randSatLumByPaletteStyle(randStyle)
       return { h, s, l }
    }
+
    private _randSatLumByPaletteStyle = (colorStyleKey: keyof typeof paletteStyle) => {
       const { sat, lum } = paletteStyle[colorStyleKey]
       const randSat = +this.randomInRange(sat.min, sat.max)
@@ -221,6 +296,7 @@ export class Palette implements PaletteType {
    _separateAvgHue(avgHue: number, distfromAvg: number, length: number) {
       return this._sepetareAvgToTwoPoints(avgHue, distfromAvg, length)
    }
+
    private _sepetareAvgToTwoPoints = (avg: number, distance: number, amount = 3) => {
       let ratio = [1, 1]
 
@@ -247,25 +323,40 @@ export class Palette implements PaletteType {
 
       return [+pt1.toFixed(0), +pt2.toFixed(0)]
    }
+
    private getRandHarmonyTitle() {
-      const harmonyTitles = ['complementary', 'analogous', 'triadic', 'monochromatic']
+      const harmonyTitles = ['complementary', 'analogous', 'triadic', 'monochromatic', 'split-complementary', 'square', 'tetradic', 'rectangle', 'compound']
       const randIndex = Math.floor(Math.random() * harmonyTitles.length)
-      return harmonyTitles[randIndex] as HarmonyTitle
+      const randomHarmonyTitle = harmonyTitles[randIndex]
+      console.log('randomHarmonyTitle:', randomHarmonyTitle);
+
+      return randomHarmonyTitle as HarmonyTitle
    }
 
    private getAngleFromHarmonyTitle(harmonyTitle: HarmonyTitle) {
       switch (harmonyTitle) {
          case 'complementary':
-            return 180
+            return 180;
          case 'analogous':
-            return 30
+            return 30;
          case 'triadic':
-            return 120
+            return 120;
          case 'monochromatic':
-            return 0
+            return 0;
+         case 'split-complementary':
+            return 150;  // or 210
+         case 'square':
+            return 90;
+         case 'tetradic':
+            return 90;
+         case 'rectangle':
+            return 60;  // This is just an example, you can adjust based on your design needs
+         case 'compound':
+            return 60;
          default:
-            return 0
+            return 0;
       }
+
    }
 
    _generateRandomStylesList(length: number) {
@@ -420,7 +511,7 @@ export const paletteService = {
          resolve(palette)
       })
    },
-   generateNeutrals() {},
+   generateNeutrals() { },
    genColorByStyle(palette: PaletteType, role: PaletteColorRole, style: ColorStyleType) {
       return palette[role].genByStyle(style)
    },

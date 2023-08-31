@@ -23,6 +23,13 @@ export const paletteStyle: { [key: string]: ColorStyleRangeType } = {
    neon: { name: 'neon', sat: { min: 0.95, max: 1 }, lum: { min: 0.6, max: 0.7 } },
    earth: { name: 'earth', sat: { min: 0.2, max: 0.35 }, lum: { min: 0.2, max: 0.4 } },
    jewel: { name: 'jewel', sat: { min: 0.5, max: 0.65 }, lum: { min: 0.5, max: 0.7 } },
+   vintage: { name: 'vintage', sat: { min: 0.3, max: 0.5 }, lum: { min: 0.6, max: 0.8 } },
+   mystical: { name: 'mystical', sat: { min: 0.1, max: 0.25 }, lum: { min: 0.4, max: 0.6 } },
+   sorbet: { name: 'sorbet', sat: { min: 0.7, max: 0.9 }, lum: { min: 0.8, max: 0.9 } },
+   midnight: { name: 'midnight', sat: { min: 0.2, max: 0.4 }, lum: { min: 0.1, max: 0.3 } },
+   sunrise: { name: 'sunrise', sat: { min: 0.6, max: 0.8 }, lum: { min: 0.7, max: 0.9 } },
+   candy: { name: 'candy', sat: { min: 0.8, max: 1 }, lum: { min: 0.7, max: 0.85 } },
+
 }
 
 // export class CustomStyle implements StyleType {

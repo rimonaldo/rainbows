@@ -3,9 +3,9 @@ import { useUserStore } from '../store/useUserStore'
 import { usePaletteStore } from '../store/usePaletteStore'
 import { User } from '../types'
 
-interface LoginProps {}
+interface LoginProps { }
 
-export const Login: React.FC<LoginProps> = ({}) => {
+export const Login: React.FC<LoginProps> = ({ }) => {
    const [username, setUsername] = useState<string>('')
    const [password, setPassword] = useState<string>('')
 
