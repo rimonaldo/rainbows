@@ -120,14 +120,15 @@ export class Palette implements PaletteType {
 
       // Filter unlocked and locked colors
       const unlockedColors = brandColors.filter(color => !color.isLocked)
-      const anchors = brandColors.filter(color => color.isLocked)
 
+      // speculative comments
       // calculate unlocked colors based on anchors:
       // 1. if there is only one anchor, generate two colors
       // 2. if there are two anchors, generate one color
       // 3. if there are no anchors, generate three colors
 
       // Generate random styles list
+      
       const randStylesList = this._generateRandomStylesList(unlockedColors.length)
       // console.log(randStylesList)
 
@@ -654,8 +655,8 @@ export class NeutralsShader implements ColorShadeType {
    }
 
    genShades = () => {
-      this[100] = this.genShade100()
-      this[900] = this.genShade900()
+      this[100] = this.genShadeStart()
+      this[900] = this.genShadeEnd()
 
       this[300] = this.genMidShade(this[100], this[500])
       this[200] = this.genMidShade(this[100], this[300])
@@ -666,7 +667,7 @@ export class NeutralsShader implements ColorShadeType {
       this[600] = this.genMidShade(this[500], this[700])
    }
 
-   private genShade100 = () => {
+   private genShadeStart = () => {
       const initialHue = this[500].hsl.h
       const randomSat = this._randomNumInRange(0.1, 0.2)
       const randomLum = this._randomNumInRange(0.95, 0.97)
@@ -674,7 +675,7 @@ export class NeutralsShader implements ColorShadeType {
       return new Color({ hsl: shade100Hsl })
    }
 
-   private genShade900 = () => {
+   private genShadeEnd = () => {
       const initialHue = this[500].hsl.h
       const sat = Math.min(0.9, this[500].hsl.s * 1.25)
       const lum = Math.max(this[500].hsl.l * 0.75, 0.1)
@@ -692,6 +693,7 @@ export class NeutralsShader implements ColorShadeType {
       return new Color({ hsl: newHsl })
    }
 
+   // utils
    private _randomNumInRange = (min: number, max: number) => {
       return Math.random() * (max - min) + min
    }

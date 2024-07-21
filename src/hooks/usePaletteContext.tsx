@@ -5,7 +5,6 @@ import { Palette } from '../services/palette/palette'
 import { PaletteType, PaletteColorRole, PaletteColorType } from '../services/palette/palette'
 import { PaletteColor } from '../services/palette'
 import { paletteUtils as utils } from '../services/palette/paletteUtils'
-import { log } from 'console'
 
 const usePalette = (
    initial: PaletteType = new Palette({
@@ -75,7 +74,7 @@ const usePalette = (
       },
 
       getHslByPaletteStyle: (paletteStyle: string) => {
-         return utils.getRandomHslByPaletteStyle(paletteStyle)
+         // return utils.getRandomHslByPaletteStyle(paletteStyle)
       },
 
       generatePaletteByStyle: (
@@ -83,10 +82,7 @@ const usePalette = (
          fluidity: number = 0,
          paletteStyle: 'neon' | 'pastel' | 'earth' | 'jewel'
       ) => {
-         palette.genBrandColors(temp, fluidity, paletteStyle)
-         const json = { primary : palette.primary , secondary : palette.secondary , tertiary : palette.tertiary , neutral : palette.neutral , success : palette.success , info : palette.info , warning : palette.warning , danger : palette.danger}
-         console.log(JSON.stringify(json))
-         // setPalette(new Palette({ palette }))
+         palette.genBrandColors(temp, fluidity, paletteStyle) 
       },
 
       getPtsObj: () => {

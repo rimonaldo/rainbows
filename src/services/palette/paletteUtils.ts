@@ -21,8 +21,10 @@ const enum harmonyTitle {
 }
 
 const getRandomHarmony = () => {
-   const harmonies: harmonyTitle[] = [harmonyTitle.Triadic, harmonyTitle.Triadic, harmonyTitle.Triadic]
+   const harmonies: harmonyTitle[] = [harmonyTitle.Triadic, harmonyTitle.Complementary, harmonyTitle.Analogous]
    const randomHarmony = harmonies[Math.floor(Math.random() * harmonies.length)]
+   console.log(randomHarmony);
+   
    return randomHarmony as harmonyTitle
 }
 
