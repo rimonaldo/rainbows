@@ -1,38 +1,46 @@
 // import tailwind to sass
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@font-face {
+  font-family: "Vintage";
+  src: url("../fonts/Merriweather-Regular.ttf") format("truetype");
+}
+
+.font-vintage {
+  font-family: "Vintage";
+}
+
 // Base
-@import './base/base';
-@import './base/vars';
+@import "./base/base";
+@import "./base/vars";
 
 // Mixins
-@import './mixins/devices';
-@import './mixins/breakpoints';
+@import "./mixins/devices";
+@import "./mixins/breakpoints";
 
-@import './layouts/main-layout';
+@import "./layouts/main-layout";
 
 // components
-@import './cmps/header';
-@import './cmps/hero';
-@import './cmps/models';
-@import './cmps/buttons';
-@import './cmps/second-page';
-@import './cmps/swatch-list';
-@import './cmps/nav-bar';
-@import './cmps/nav';
-@import './cmps/palette-container';
-@import './cmps/color-box';
-@import './cmps/color-vals';
-@import './cmps/harmony-colors';
-@import './cmps/harmony-tabs';
-@import './cmps/side-bar';
-@import './cmps/style-options';
-@import './cmps/range-slider';
-
+@import "./cmps/header";
+@import "./cmps/hero";
+@import "./cmps/models";
+@import "./cmps/buttons";
+@import "./cmps/second-page";
+@import "./cmps/swatch-list";
+@import "./cmps/nav-bar";
+@import "./cmps/nav";
+@import "./cmps/palette-container";
+@import "./cmps/color-box";
+@import "./cmps/color-vals";
+@import "./cmps/harmony-colors";
+@import "./cmps/harmony-tabs";
+@import "./cmps/side-bar";
+@import "./cmps/style-options";
+@import "./cmps/range-slider";
 
 // Layouts
-@import './layouts/grid';
-@import './layouts/color-container';
-@import './layouts/sticky-example';
-
+@import "./layouts/grid";
+@import "./layouts/color-container";
+@import "./layouts/sticky-example";
